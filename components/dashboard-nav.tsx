@@ -2,81 +2,80 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Dispatch, SetStateAction } from 'react';
 
-import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { NavItem } from '@/types';
-import { Dispatch, SetStateAction } from 'react';
+import { navItems } from '@/constants/data';
+import { Icons } from '@/components/icons';
 import { useSidebar } from '@/hooks/useSidebar';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
 } from './ui/tooltip';
 
 interface DashboardNavProps {
-  items: NavItem[];
-  setOpen?: Dispatch<SetStateAction<boolean>>;
-  isMobileNav?: boolean;
+    setOpen?: Dispatch<SetStateAction<boolean>>;
+    isMobileNav?: boolean;
 }
 
 export function DashboardNav({
-  items,
-  setOpen,
-  isMobileNav = false
+    setOpen,
+    isMobileNav = false
 }: DashboardNavProps) {
-  const path = usePathname();
-  const { isMinimized } = useSidebar();
+    const path = usePathname();
+    const { isMinimized } = useSidebar();
 
-  if (!items?.length) {
-    return null;
-  }
+    if (!navItems?.length) {
+        return null;
+    }
 
-  console.log('isActive', isMobileNav, isMinimized);
+    console.log('isActive', isMobileNav, isMinimized);
 
-  return (
-    <nav className="grid items-start gap-2">
-      <TooltipProvider>
-        {items.map((item, index) => {
-          const Icon = Icons[item.icon || 'arrowRight'];
-          return (
-            item.href && (
-              <Tooltip key={index}>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={item.disabled ? '/' : item.href}
-                    className={cn(
-                      'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
-                      path === item.href ? 'bg-accent' : 'transparent',
-                      item.disabled && 'cursor-not-allowed opacity-80'
-                    )}
-                    onClick={() => {
-                      if (setOpen) setOpen(false);
-                    }}
-                  >
-                    <Icon className={`ml-3 size-5`} />
+    return (
+        <nav className="grid items-start gap-2">
+            <TooltipProvider>
+                {navItems.map((item, index) => {
+                    const Icon = Icons[item.icon || 'arrowRight'];
+                    return (
+                        item.href && (
+                            <Tooltip key={index}>
+                                <TooltipTrigger asChild>
+                                    <Link
+                                        href={item.disabled ? '/' : item.href}
+                                        className={cn(
+                                            'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
+                                            path === item.href ? 'bg-accent' : 'transparent',
+                                            item.disabled && 'cursor-not-allowed opacity-80'
+                                        )}
+                                        onClick={() => {
+                                            if (setOpen) setOpen(false);
+                                        }}
+                                    >
+                                        <Icon className={`ml-3 size-5`} />
 
-                    {isMobileNav || (!isMinimized && !isMobileNav) ? (
-                      <span className="mr-2 truncate">{item.title}</span>
-                    ) : (
-                      ''
-                    )}
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent
-                  align="center"
-                  side="right"
-                  sideOffset={8}
-                  className={!isMinimized ? 'hidden' : 'inline-block'}
-                >
-                  {item.title}
-                </TooltipContent>
-              </Tooltip>
-            )
-          );
-        })}
-      </TooltipProvider>
-    </nav>
-  );
+                                        {isMobileNav || (!isMinimized && !isMobileNav) ? (
+                                            <span className="mr-2 truncate">{item.title}</span>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                    side="right"
+                                    align="center"
+                                    sideOffset={8}
+                                    className={!isMinimized ? 'hidden' : 'inline-block'}
+                                >
+                                    {item.title}
+                                </TooltipContent>
+                            </Tooltip>
+                        )
+                    );
+                })}
+            </TooltipProvider>
+        </nav>
+    );
 }
