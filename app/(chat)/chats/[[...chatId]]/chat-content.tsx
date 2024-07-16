@@ -1,128 +1,63 @@
-"use client";
+'use client';
 
 import remarkGfm from "remark-gfm";
 import Markdown from "react-markdown";
-import { useState, useRef } from "react";
+import { useChat } from 'ai/react';
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus as dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-import ChatInput from "@/components/chat-input";
-import { convertFileToBase64 } from "@/lib/utils";
 
-export default function ChatContent() {
-    const [assistantResponse, setAssistantResponse] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const abortControllerRef = useRef<AbortController | null>(null);
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-    const handleSubmit = async (value: string, file?: File) => {
-        // upload it somewhere like s3
-        // image url
-
-        setIsLoading(true);
-        setAssistantResponse("");
-
-        let body = "";
-        if (file) {
-            const imageUrl = await convertFileToBase64(file);
-            const content = [
-                {
-                    type: "image_url",
-                    image_url: {
-                        url: imageUrl,
-                    },
-                },
-                {
-                    type: "text",
-                    text: value,
-                },
-            ];
-
-            body = JSON.stringify({ content });
-        } else {
-            body = JSON.stringify({ content: value });
-        }
-
-        console.log("submit", value, file, body);
-        try {
-            abortControllerRef.current = new AbortController();
-            const res = await fetch("/api/chat", {
-                method: "POST",
-                body: body,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                signal: abortControllerRef.current.signal,
-            });
-
-            if (!res.ok || !res.body) {
-                alert("Error sending message");
-                return;
-            }
-
-            const reader = res.body.getReader();
-
-            const decoder = new TextDecoder();
-            while (true) {
-                const { value, done } = await reader.read();
-
-                const text = decoder.decode(value);
-                setAssistantResponse((currentValue) => currentValue + text);
-
-                if (done) {
-                    break;
-                }
-            }
-        } catch (error: any) {
-            if (error.name !== "AbortError") {
-                alert("Error sending message");
-            }
-        }
-        abortControllerRef.current = null;
-        setIsLoading(false);
-    };
-
-    const handleStop = () => {
-        if (!abortControllerRef.current) {
-            return;
-        }
-        abortControllerRef.current.abort();
-        abortControllerRef.current = null;
-    };
-
+export default function Chat() {
+    const { messages, input, handleInputChange, handleSubmit, data } = useChat();
+    console.log(data, "data", messages, "messages");
     return (
-        <>
-            <div className="max-w-4xl w-full mx-auto flex-1 px-10 py-5 overflow-x-hidden overflow-y-auto prose dark:prose-invert">
-                <Markdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                        code(props) {
-                            const { children, className, node, ...rest } = props;
-                            const match = /language-(\w+)/.exec(className || "");
-                            return match ? (
-                                <SyntaxHighlighter
-                                    PreTag="div"
-                                    style={dark}
-                                    wrapLines={true}
-                                    language={match[1]}
-                                    wrapLongLines={true}
-                                    children={String(children).replace(/\n$/, "")}
-                                />
-                            ) : (
-                                <code {...rest} className={className}>
-                                    {children}
-                                </code>
-                            );
-                        },
-                    }}
-                >
-                    {assistantResponse}
-                </Markdown>
+        <div className="flex flex-col mx-40 overflow-y-auto">
+            <div className="flex-grow mb-4 overflow-y-auto">
+                {messages.map((m) => (
+                    <div key={m.id} className="mb-4">
+                        <div className="font-bold mb-2">
+                            {m.role === 'user' ? 'User:' : 'AI:'}
+                        </div>
+                        <div className="bg-gray-100 rounded-lg p-3">
+                            <Markdown
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                    code({ node, inline, className, children, ...props }) {
+                                        const match = /language-(\w+)/.exec(className || '');
+                                        return !inline && match ? (
+                                            <SyntaxHighlighter
+                                                style={dark}
+                                                language={match[1]}
+                                                PreTag="div"
+                                                {...props}
+                                            >
+                                                {String(children).replace(/\n$/, '')}
+                                            </SyntaxHighlighter>
+                                        ) : (
+                                            <code className={className} {...props}>
+                                                {children}
+                                            </code>
+                                        );
+                                    },
+                                }}
+                            >
+                                {m.content}
+                            </Markdown>
+                        </div>
+                    </div>
+                ))}
             </div>
-            <ChatInput
-                onStop={handleStop}
-                onSubmit={handleSubmit}
-                isStreaming={isLoading}
-            />
-        </>
+
+            <form onSubmit={handleSubmit}>
+                <input
+                    value={input}
+                    placeholder="Say something..."
+                    onChange={handleInputChange}
+                    className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+                />
+            </form>
+        </div>
     );
 }
