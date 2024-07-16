@@ -1,29 +1,62 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import { Active, DataRef, Over } from '@dnd-kit/core';
-import { ColumnDragData } from '@/components/kanban/board-column';
-import { TaskDragData } from '@/components/kanban/task-card';
+import { twMerge } from "tailwind-merge";
+import { Active, DataRef, Over } from "@dnd-kit/core";
 
+import { TaskDragData } from "@/components/kanban/task-card";
+import { ColumnDragData } from "@/components/kanban/board-column";
+
+import { type ClassValue, clsx } from "clsx";
 type DraggableData = ColumnDragData | TaskDragData;
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+    return twMerge(clsx(inputs));
 }
 
 export function hasDraggableData<T extends Active | Over>(
-  entry: T | null | undefined
+    entry: T | null | undefined
 ): entry is T & {
-  data: DataRef<DraggableData>;
+    data: DataRef<DraggableData>;
 } {
-  if (!entry) {
+    if (!entry) {
+        return false;
+    }
+
+    const data = entry.data.current;
+
+    if (data?.type === "Column" || data?.type === "Task") {
+        return true;
+    }
+
     return false;
-  }
+}
 
-  const data = entry.data.current;
+export const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+};
 
-  if (data?.type === 'Column' || data?.type === 'Task') {
-    return true;
-  }
+export async function* makeStreamAsyncIterator(
+    reader: ReadableStreamDefaultReader<Uint8Array>
+): AsyncGenerator<string, void, undefined> {
+    const textDecoder = new TextDecoder();
+    while (true) {
+        const { done, value } = await reader.read();
+        const chunkAsString = textDecoder.decode(value);
+        if (done) break;
+        yield chunkAsString;
+    }
+}
 
-  return false;
+export function generateRandomString(bytes: number) {
+    if (process.env.NEXT_RUNTIME === "nodejs") {
+        const crypto = require("crypto");
+        return crypto.randomBytes(bytes).toString("hex");
+    }
+
+    const array = new Uint8Array(bytes);
+    crypto.getRandomValues(array);
+    return [...array].map((b) => b.toString(16).padStart(2, "0")).join("");
 }

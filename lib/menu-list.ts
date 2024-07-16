@@ -46,6 +46,24 @@ export function getMenuList(pathname: string): Group[] {
             menus: [
                 {
                     href: "",
+                    label: "Chats",
+                    active: pathname.includes("/chats"),
+                    icon: SquarePen,
+                    submenus: [
+                        {
+                            href: "/chats",
+                            label: "All Chats",
+                            active: pathname === "/chats",
+                        },
+                        // {
+                        //     href: "/posts/new",
+                        //     label: "New Post",
+                        //     active: pathname === "/posts/new",
+                        // },
+                    ],
+                },
+                {
+                    href: "",
                     label: "Posts",
                     active: pathname.includes("/posts"),
                     icon: SquarePen,
