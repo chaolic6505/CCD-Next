@@ -47,13 +47,13 @@ export function getMenuList(pathname: string): Group[] {
                 {
                     href: "",
                     label: "Chats",
-                    active: pathname.includes("/chats"),
+                    active: pathname.includes("/chat"),
                     icon: SquarePen,
                     submenus: [
                         {
-                            href: "/chats",
+                            href: "/chat",
                             label: "All Chats",
-                            active: pathname === "/chats",
+                            active: pathname === "/chat",
                         },
                         // {
                         //     href: "/posts/new",
@@ -63,22 +63,43 @@ export function getMenuList(pathname: string): Group[] {
                     ],
                 },
                 {
-                    href: "",
-                    label: "Posts",
-                    active: pathname.includes("/posts"),
+                    href: "/employees",
+                    label: "Employees",
+                    active: pathname.includes("/employees"),
                     icon: SquarePen,
                     submenus: [
                         {
-                            href: "/posts",
-                            label: "All Posts",
-                            active: pathname === "/posts",
+                            href: "/employees",
+                            label: "All Employees",
+                            active: pathname === "/employees",
                         },
-                        {
-                            href: "/posts/new",
-                            label: "New Post",
-                            active: pathname === "/posts/new",
-                        },
+                        // {
+                        //     href: "/posts/new",
+                        //     label: "New Post",
+                        //     active: pathname === "/posts/new",
+                        // },
                     ],
+                },
+                {
+                    href: "/profile",
+                    label: "Profile",
+                    active: pathname.includes("/profile"),
+                    icon: SquarePen,
+                    submenus: [],
+                },
+                {
+                    href: "/users",
+                    label: "Users",
+                    active: pathname.includes("/users"),
+                    icon: SquarePen,
+                    submenus: [],
+                },
+                {
+                    href: "/kanban",
+                    label: "Kanban",
+                    active: pathname.includes("/kanban"),
+                    icon: SquarePen,
+                    submenus: [],
                 },
                 {
                     href: "/categories",

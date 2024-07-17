@@ -7,9 +7,11 @@ export const maxDuration = 30;
 
 export async function POST(req: Request) {
     const { messages } = await req.json();
-    console.log(messages, "messages");
     const result = await streamText({
-        messages: [{ role: "user", content: messages[0].content }],
+        system: initialProgrammerMessages[0].content,
+        messages: [
+            { role: "user", content: messages[messages.length - 1].content },
+        ],
         model: openai("gpt-4-turbo"),
     });
 
@@ -19,6 +21,6 @@ export async function POST(req: Request) {
             data.close();
         },
     });
-
+console.log("stream", stream);
     return new StreamingTextResponse(stream, {}, data);
 }

@@ -49,7 +49,7 @@ export function CollapseMenuButton({
     isOpen
 }: CollapseMenuButtonProps) {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(active);
-    console.log('CollapseMenuButtonProps', isOpen, isCollapsed, active);
+
     return isOpen ? (
         <Collapsible
             open={isCollapsed}

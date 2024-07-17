@@ -1,39 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useChat } from 'ai/react';
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import ImageSelection from "./image-selection";
 import GrowingTextArea from "./growing-text-area";
 
 export default function ExpandingInput({
-    onSubmit,
     onStop,
     isStreaming,
 }: {
-    onSubmit?: (value: string, file?: File) => void;
+    onSubmit?: () => void;
     onStop?: () => void;
     isStreaming?: boolean;
 }) {
-    const [content, setContent] = useState("");
+    const { messages, input, handleInputChange, handleSubmit } = useChat();
     const [selectedImage, setSelectedImage] = useState<File | undefined>(
         undefined
     );
 
-    const submit = (value: string) => {
-        onSubmit?.(value, selectedImage);
-        setContent("");
-        setSelectedImage(undefined);
-    };
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        submit(content);
-    };
-
-    const buttonDisabled = content.length === 0 || isStreaming;
+    const buttonDisabled = input.length === 0 || isStreaming;
 
     return (
-        <div className="w-full my-20">
+        <div className="fixed bottom-5 w-full max-w-md p-2 mb-18">
             <form
                 onSubmit={handleSubmit}
                 className="w-full flex flex-col gap-y-4 px-4 relative max-w-5xl mx-auto"
@@ -43,8 +33,8 @@ export default function ExpandingInput({
                     setSelectedImage={setSelectedImage}
                 />
                 <GrowingTextArea
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                    value={input}
+                    onChange={handleInputChange}
                     className="w-full bg-transparent border border-gray-500 rounded-2xl outline-none resize-none pl-12 pr-14 py-4 scrollbar-content overflow-y-auto overflow-x-clip overscroll-contain"
                 />
                 {isStreaming ? (

@@ -23,7 +23,7 @@ interface MenuProps {
 export function Menu({ isOpen }: MenuProps) {
     const pathname = usePathname();
     const menuList = getMenuList(pathname);
-    console.log('MenuProps', isOpen, menuList);
+
     return (
         <ScrollArea className="[&>div>div[style]]:!block">
             <nav className="mt-0 h-full w-75">
@@ -58,8 +58,8 @@ export function Menu({ isOpen }: MenuProps) {
                                                 <Tooltip delayDuration={100}>
                                                     <TooltipTrigger asChild>
                                                         <Button
-                                                            variant={active ? "secondary" : "ghost"}
                                                             asChild
+                                                            variant={active ? "secondary" : "ghost"}
                                                             className="w-full justify-start h-10 mb-1"
                                                         >
                                                             <Link href={href}>

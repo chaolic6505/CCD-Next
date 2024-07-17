@@ -36,11 +36,11 @@ export default function Sidebar({ className }: SidebarProps) {
                     isMinimized && 'rotate-180'
                 )}
             />
-            <div className="space-y-4 py-4">
+            {/* <div className="space-y-4 py-4">
                 <div className="mt-3 space-y-1">
                     <Menu isOpen={!isMinimized} />
                 </div>
-            </div>
+            </div> */}
         </nav>
     );
 }

@@ -7,7 +7,7 @@ import { navItems } from '@/constants/data';
 
 import { useSidebar } from '@/hooks/useSidebar';
 import Menu from '@/components/new-dashboard-nav';
-import { DashboardNav } from '@/components/dashboard-nav';
+// import { DashboardNav } from '@/components/dashboard-nav';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 // import { Playlist } from "../data/playlists";
 

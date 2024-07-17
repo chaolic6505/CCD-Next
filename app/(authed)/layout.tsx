@@ -1,5 +1,5 @@
-import Header from '@/components/layout/header';
 import type { Metadata } from 'next';
+import Header from '@/components/layout/header';
 
 export const metadata: Metadata = {
     title: 'Chao Chao Dog',
@@ -14,7 +14,7 @@ export default function DashboardLayout({
     return (
         <>
             <Header />
-            <div className="flex h-screen overflow-y-auto mb-40">
+            <div className="flex h-screen overflow-hidden">
                 <main className="flex-1 overflow-hidden pt-16">{children}</main>
             </div>
         </>
