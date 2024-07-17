@@ -1,9 +1,7 @@
-'use client';
-
+import { AI } from '../actions';
 import Header from '@/components/layout/header';
 import { RouteChangeHandler } from '@/components/RouteChangeHandler';
-
-export default function DashboardLayout({
+export default function Page({
     children
 }: {
     children: React.ReactNode;
@@ -14,8 +12,10 @@ export default function DashboardLayout({
             <Header />
             <RouteChangeHandler />
             <div className="flex h-screen overflow-hidden">
-                <main className="flex-1 overflow-hidden pt-16">{children}</main>
-            </div>
+                <main className="flex-1 overflow-hidden pt-16">
+                    <AI>{children}</AI>
+                </main>
+            </div >
         </>
     );
 }
