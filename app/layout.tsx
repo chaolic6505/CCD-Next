@@ -1,16 +1,16 @@
-import Providers from '@/components/layout/providers';
-import { Toaster } from '@/components/ui/toaster';
+import './globals.css';
 import '@uploadthing/react/styles.css';
 import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
+import Providers from '@/components/layout/providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Next Shadcn',
-    description: 'Basic dashboard with Next.js and Shadcn'
+    title: 'Chao Chao Dog',
+    description: 'AI personal assistant for your daily tasks',
 };
 
 export default async function RootLayout({

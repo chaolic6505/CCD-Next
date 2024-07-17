@@ -24,8 +24,8 @@ type paramsProps = {
 
 export default async function page({ searchParams }: paramsProps) {
     const page = Number(searchParams.page) || 1;
-    const pageLimit = Number(searchParams.limit) || 10;
     const country = searchParams.search || null;
+    const pageLimit = Number(searchParams.limit) || 10;
     const offset = (page - 1) * pageLimit;
 
     const res = await fetch(

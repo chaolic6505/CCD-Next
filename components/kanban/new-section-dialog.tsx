@@ -1,4 +1,5 @@
 'use client';
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -57,7 +58,7 @@ export default function NewSectionDialog() {
                 </form>
                 <DialogFooter>
                     <DialogTrigger asChild>
-                        <Button type="submit" size="sm" form="todo-form">
+                        <Button type="submit" form="todo-form">
                             Add Section
                         </Button>
                     </DialogTrigger>

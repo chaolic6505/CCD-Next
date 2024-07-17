@@ -1,7 +1,7 @@
+import { Heading } from '@/components/ui/heading';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { KanbanBoard } from '@/components/kanban/kanban-board';
 import NewTaskDialog from '@/components/kanban/new-task-dialog';
-import { Heading } from '@/components/ui/heading';
 
 const breadcrumbItems = [
     { title: 'Dashboard', link: '/dashboard' },
