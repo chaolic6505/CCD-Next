@@ -57,14 +57,19 @@ export function getMenuList(pathname: string): Group[] {
                         },
                         {
                             href: "/chat2",
-                            label: "Chat (Server Component)",
-                            active: pathname === "/chat",
+                            label: "AI tool",
+                            active: pathname === "/chat2",
                         },
-                        // {
-                        //     href: "/posts/new",
-                        //     label: "New Post",
-                        //     active: pathname === "/posts/new",
-                        // },
+                        {
+                            href: "/chat3",
+                            label: "JSON Streaming",
+                            active: pathname === "/chat3",
+                        },
+                        {
+                            href: "/chat4",
+                            label: "Server Component",
+                            active: pathname === "/chat4",
+                        },
                     ],
                 },
                 {

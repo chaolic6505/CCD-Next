@@ -40,7 +40,7 @@ export default function Home() {
                         ]);
 
                         const message = await continueConversation(input);
-console.log(message, 'message');
+
                         setConversation((currentConversation: ClientMessage[]) => [
                             ...currentConversation,
                             message,
