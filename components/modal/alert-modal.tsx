@@ -1,7 +1,7 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
+"use client";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Modal } from "@/components/ui/modal";
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  loading
+  loading,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
