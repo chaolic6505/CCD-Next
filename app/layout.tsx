@@ -10,24 +10,24 @@ import Providers from "@/components/layout/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Chao Chao Dog",
-  description: "AI personal assistant for your daily tasks",
+    title: "Chao Chao Dog",
+    description: "AI personal assistant for your daily tasks",
 };
 
 export default async function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} overflow-y-auto`}>
-        {/* <NextTopLoader showSpinner={false} /> */}
-        <Providers>
-          <Toaster />
-          <Transition>{children}</Transition>
-        </Providers>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en" suppressHydrationWarning>
+            <body className={`${inter.className} overflow-y-auto`}>
+                {/* <NextTopLoader showSpinner={false} /> */}
+                <Providers>
+                    <Toaster />
+                    <Transition>{children}</Transition>
+                </Providers>
+            </body>
+        </html>
+    );
 }
