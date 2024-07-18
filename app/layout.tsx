@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
+import Transition from '@/components/Transition';
 import Providers from '@/components/layout/providers';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -24,7 +25,7 @@ export default async function RootLayout({
                 {/* <NextTopLoader showSpinner={false} /> */}
                 <Providers>
                     <Toaster />
-                    {children}
+                    <Transition>{children}</Transition>
                 </Providers>
             </body>
         </html>

@@ -4,6 +4,7 @@ import * as z from 'zod';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import { Suspense } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -90,7 +91,9 @@ export default function UserAuthForm() {
                     </span>
                 </div>
             </div>
-            <GoogleSignInButton />
+            <Suspense>
+                <GoogleSignInButton />
+            </Suspense>
         </>
     );
 }

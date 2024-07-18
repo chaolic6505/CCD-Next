@@ -1,4 +1,4 @@
-export async function Flight({ flightNumber }: { flightNumber: string }) {
+export async function Flight({ flightNumber }: { flightNumber: string; }) {
     const data = await fetch(`https://api.example.com/flight/${flightNumber}`);
 
     return (

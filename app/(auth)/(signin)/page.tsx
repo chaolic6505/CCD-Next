@@ -1,13 +1,11 @@
-import { Metadata } from 'next';
 import Link from 'next/link';
-import UserAuthForm from '@/components/forms/user-auth-form';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-    title: 'Authentication',
-    description: 'Authentication forms built using the components.'
-};
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import UserAuthForm from '@/components/forms/user-auth-form';
+
+
 
 export default function AuthenticationPage() {
     return (
@@ -59,7 +57,9 @@ export default function AuthenticationPage() {
                             Enter your email below to create your account
                         </p>
                     </div>
-                    <UserAuthForm />
+                    <Suspense>
+                        <UserAuthForm />
+                    </Suspense>
                     <p className="px-8 text-center text-sm text-muted-foreground">
                         By clicking continue, you agree to our{' '}
                         <Link
