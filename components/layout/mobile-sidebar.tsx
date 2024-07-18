@@ -1,42 +1,42 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { MenuIcon } from 'lucide-react';
+import { useState } from "react";
+import { MenuIcon } from "lucide-react";
 
-import { navItems } from '@/constants/data';
+import { navItems } from "@/constants/data";
 
-import { useSidebar } from '@/hooks/useSidebar';
-import Menu from '@/components/new-dashboard-nav';
+import { useSidebar } from "@/hooks/useSidebar";
+import Menu from "@/components/new-dashboard-nav";
 // import { DashboardNav } from '@/components/dashboard-nav';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 // import { Playlist } from "../data/playlists";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-    // playlists: Playlist[];
+  // playlists: Playlist[];
 }
 
 export function MobileSidebar({ className }: SidebarProps) {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    return (
-        <>
-            <Sheet open={open} onOpenChange={setOpen}>
-                <SheetTrigger asChild>
-                    <MenuIcon />
-                </SheetTrigger>
-                <SheetContent side="left" className="!px-0">
-                    <div className="space-y-4 py-4">
-                        <div className="px-3 py-2">
-                            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-                                Overview
-                            </h2>
-                            <div className="space-y-1">
-                                <Menu isOpen={open} />
-                            </div>
-                        </div>
-                    </div>
-                </SheetContent>
-            </Sheet>
-        </>
-    );
+  return (
+    <>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <MenuIcon />
+        </SheetTrigger>
+        <SheetContent side="left" className="!px-0">
+          <div className="space-y-4 py-4">
+            <div className="px-3 py-2">
+              <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+                Overview
+              </h2>
+              <div className="space-y-1">
+                <Menu isOpen={open} />
+              </div>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
 }

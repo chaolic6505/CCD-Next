@@ -7,7 +7,6 @@
 // import { useToast } from './ui/use-toast';
 // import { IMG_MAX_LIMIT } from './forms/product-form';
 
-
 // export type UploadFileResponse = {
 //     name: string;
 //     size: number;

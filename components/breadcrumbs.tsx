@@ -1,20 +1,20 @@
-import { Fragment } from 'react';
-import { Slash } from 'lucide-react';
+import { Fragment } from "react";
+import { Slash } from "lucide-react";
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
-    BreadcrumbSeparator
-} from '@/components/ui/breadcrumb';
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 type BreadcrumbItemProps = {
     link: string;
     title: string;
 };
 
-export function Breadcrumbs({ items }: { items: BreadcrumbItemProps[]; }) {
+export function Breadcrumbs({ items }: { items: BreadcrumbItemProps[] }) {
     return (
         <Breadcrumb>
             <BreadcrumbList>
@@ -22,7 +22,9 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItemProps[]; }) {
                     <Fragment key={item.title}>
                         {index !== items.length - 1 && (
                             <BreadcrumbItem>
-                                <BreadcrumbLink href={item.link}>{item.title}</BreadcrumbLink>
+                                <BreadcrumbLink href={item.link}>
+                                    {item.title}
+                                </BreadcrumbLink>
                             </BreadcrumbItem>
                         )}
                         {index < items.length - 1 && (
