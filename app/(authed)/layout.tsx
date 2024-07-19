@@ -4,7 +4,7 @@ import Transition from "@/components/Transition";
 import { RouteChangeHandler } from "@/components/RouteChangeHandler";
 export default function Page({ children }: { children: React.ReactNode }) {
     return (
-        <>
+        <Transition>
             <Header />
             <RouteChangeHandler />
             <div className="flex h-screen overflow-hidden">
@@ -12,6 +12,6 @@ export default function Page({ children }: { children: React.ReactNode }) {
                     <AI>{children}</AI>
                 </main>
             </div>
-        </>
+        </Transition>
     );
 }
