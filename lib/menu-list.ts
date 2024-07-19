@@ -73,7 +73,14 @@ export function getMenuList(pathname: string): Group[] {
                     ],
                 },
                 {
-                    href: "",
+                    href: "/gallery",
+                    label: "Gallery",
+                    active: pathname.includes("/pdfchat"),
+                    icon: SquarePen,
+                    submenus: [],
+                },
+                {
+                    href: "/pdfchat",
                     label: "PDF Chat",
                     active: pathname.includes("/pdfchat"),
                     icon: SquarePen,
