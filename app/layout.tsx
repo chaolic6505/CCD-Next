@@ -1,8 +1,10 @@
 import "./globals.css";
 import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
-import NextTopLoader from "nextjs-toploader";
 import { Inter } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
+import { Analytics } from "@vercel/analytics/react";
+
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/components/layout/providers";
 
@@ -25,6 +27,7 @@ export default async function RootLayout({
                 <Providers>
                     <Toaster />
                     {children}
+                    <Analytics />
                 </Providers>
             </body>
         </html>
