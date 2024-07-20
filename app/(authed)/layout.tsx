@@ -8,7 +8,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
             <Header />
             <RouteChangeHandler />
             <div className="flex h-screen overflow-hidden">
-                <main className="flex-1 overflow-hidden pt-16">
+                <main className="flex-1 overflow-hidden">
                     <AI>{children}</AI>
                 </main>
             </div>
