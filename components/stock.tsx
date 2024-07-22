@@ -6,12 +6,16 @@ export async function Stock({
     numOfMonths: number;
 }) {
     const data = await fetch(
-        `https://api.example.com/stock/${symbol}/${numOfMonths}`
+        `https://api.example.com/stock/${symbol}/${numOfMonths}`,
+
     );
 
     return (
         <div>
             <div>{symbol}</div>
+
+
+
 
             {/* <div>
                 {data.timeline.map(data => (
