@@ -27,7 +27,7 @@ export function UserNav() {
     const router = useRouter();
     const { user } = useUser();
     const { signOut } = useClerk();
-    console.log(user, "user");
+
     if (user) {
         return (
             <DropdownMenu>
