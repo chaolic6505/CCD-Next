@@ -5,19 +5,19 @@ import { Button } from "@/components/ui/button";
 import { streamComponent } from "../../../actions";
 
 export default function Page() {
-  const [component, setComponent] = useState<React.ReactNode>();
-  console.log("streaming", component);
-  return (
-    <div>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setComponent(await streamComponent());
-        }}
-      >
-        <Button>Stream Component</Button>
-      </form>
-      <div>{component}</div>
-    </div>
-  );
+    const [component, setComponent] = useState<React.ReactNode>();
+    console.log("streaming", component);
+    return (
+        <div>
+            <form
+                onSubmit={async (e) => {
+                    e.preventDefault();
+                    setComponent(await streamComponent());
+                }}
+            >
+                <Button>Stream Component</Button>
+            </form>
+            <div>{component}</div>
+        </div>
+    );
 }

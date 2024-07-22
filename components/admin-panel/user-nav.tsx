@@ -37,7 +37,7 @@ export function UserNav() {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="outline"
-                                    onClick={() => router.push('/profile')}
+                                    onClick={() => router.push("/profile")}
                                     className="relative h-8 w-8 rounded-full"
                                 >
                                     <Avatar className="h-8 w-8">
