@@ -2,7 +2,8 @@
 
 import * as z from "zod";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { SignInButton } from "@clerk/nextjs";
+
 import { useForm } from "react-hook-form";
 import { Suspense } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,12 +52,12 @@ export default function UserAuthForm() {
 
     return (
         <>
-            <Form {...form}>
+            {/* <Form {...form}>
                 <form
                     className="w-full space-y-2"
                     onSubmit={form.handleSubmit(onSubmit)}
                 >
-                    {/* <FormField
+                    <FormField
                         name="email"
                         control={form.control}
                         render={({ field }) => (
@@ -73,7 +74,7 @@ export default function UserAuthForm() {
                                 <FormMessage />
                             </FormItem>
                         )}
-                    /> */}
+                    />
 
                     <Button
                         type="submit"
@@ -83,8 +84,9 @@ export default function UserAuthForm() {
                         Continue With Email
                     </Button>
                 </form>
-            </Form>
-            <div className="relative">
+            </Form> */}
+
+            {/* <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
                 </div>
@@ -93,10 +95,15 @@ export default function UserAuthForm() {
                         Or continue with
                     </span>
                 </div>
-            </div>
-            <Suspense>
+            </div> */}
+            <SignInButton>
+                <Button className="rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Continue with Google
+                </Button>
+            </SignInButton>
+            {/* <Suspense>
                 <GoogleSignInButton />
-            </Suspense>
+            </Suspense> */}
         </>
     );
 }

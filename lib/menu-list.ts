@@ -6,6 +6,11 @@ import {
     SquarePen,
     LayoutGrid,
     LucideIcon,
+    CircuitBoard,
+    SquareKanban,
+    UserPen,
+    Images,
+    Brain,
 } from "lucide-react";
 
 type Submenu = {
@@ -43,12 +48,20 @@ export function getMenuList(pathname: string): Group[] {
         },
         {
             groupLabel: "Contents",
+
             menus: [
+                {
+                    href: "/users",
+                    label: "Users",
+                    active: pathname.includes("/users"),
+                    icon: Users,
+                    submenus: [],
+                },
                 {
                     href: "",
                     label: "Chats",
                     active: pathname.includes("/chat"),
-                    icon: SquarePen,
+                    icon: Brain,
                     submenus: [
                         {
                             href: "/chat",
@@ -76,29 +89,29 @@ export function getMenuList(pathname: string): Group[] {
                     href: "/gallery",
                     label: "Gallery",
                     active: pathname.includes("/pdfchat"),
-                    icon: SquarePen,
+                    icon: Images,
                     submenus: [],
                 },
-                {
-                    href: "/pdfchat",
-                    label: "PDF Chat",
-                    active: pathname.includes("/pdfchat"),
-                    icon: SquarePen,
-                    submenus: [],
-                },
-                {
-                    href: "",
-                    label: "Notes",
-                    active: pathname.includes("/notes"),
-                    icon: SquarePen,
-                    submenus: [
-                        {
-                            href: "/notes",
-                            label: "All Notes",
-                            active: pathname === "/notes",
-                        },
-                    ],
-                },
+                // {
+                //     href: "/pdfchat",
+                //     label: "PDF Chat",
+                //     active: pathname.includes("/pdfchat"),
+                //     icon: SquarePen,
+                //     submenus: [],
+                // },
+                // {
+                //     href: "",
+                //     label: "Notes",
+                //     active: pathname.includes("/notes"),
+                //     icon: SquarePen,
+                //     submenus: [
+                //         {
+                //             href: "/notes",
+                //             label: "All Notes",
+                //             active: pathname === "/notes",
+                //         },
+                //     ],
+                // },
                 {
                     href: "/employees",
                     label: "Employees",
@@ -112,18 +125,12 @@ export function getMenuList(pathname: string): Group[] {
                         },
                     ],
                 },
-                {
-                    href: "/profile",
-                    label: "Profile",
-                    active: pathname.includes("/profile"),
-                    icon: SquarePen,
-                    submenus: [],
-                },
+
                 {
                     href: "/kanban",
                     label: "Kanban",
                     active: pathname.includes("/kanban"),
-                    icon: SquarePen,
+                    icon: SquareKanban,
                     submenus: [],
                 },
                 {
@@ -146,10 +153,10 @@ export function getMenuList(pathname: string): Group[] {
             groupLabel: "Settings",
             menus: [
                 {
-                    href: "/users",
-                    label: "Users",
-                    active: pathname.includes("/users"),
-                    icon: Users,
+                    href: "/profile",
+                    label: "Profile",
+                    active: pathname.includes("/profile"),
+                    icon: UserPen,
                     submenus: [],
                 },
                 {

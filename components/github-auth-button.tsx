@@ -3,10 +3,10 @@
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function GoogleSignInButton() {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get("callbackUrl");
 
@@ -15,12 +15,10 @@ export default function GoogleSignInButton() {
             type="button"
             variant="outline"
             className="w-full"
-            onClick={() =>
-                signIn("github", { callbackUrl: callbackUrl ?? "/dashboard" })
-            }
+            onClick={() => router.push("/")}
         >
-            <Icons.gitHub className="mr-2 h-4 w-4" />
-            Continue with Github
+            <Icons.google className="mr-2 h-4 w-4" />
+            Continue with Google
         </Button>
     );
 }
