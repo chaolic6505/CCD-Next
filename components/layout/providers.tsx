@@ -17,7 +17,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             attribute="class"
             defaultTheme="system"
             disableTransitionOnChange
-            themes={["light", "dark", "redLight", "redDark"]}
+            themes={[
+                "light",
+                "dark",
+                "slateLight",
+                "slateDark",
+                "redLight",
+                "redDark",
+            ]}
         >
             <ClerkProvider
                 publishableKey={

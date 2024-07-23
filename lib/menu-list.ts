@@ -11,6 +11,7 @@ import {
     UserPen,
     Images,
     Brain,
+    Notebook,
 } from "lucide-react";
 
 type Submenu = {
@@ -50,6 +51,13 @@ export function getMenuList(pathname: string): Group[] {
             groupLabel: "Contents",
 
             menus: [
+                {
+                    href: "/documents",
+                    label: "Documents",
+                    active: pathname.includes("/documents"),
+                    icon: Notebook,
+                    submenus: [],
+                },
                 {
                     href: "/users",
                     label: "Users",
