@@ -28,6 +28,12 @@ export default function ThemeToggle({}: CompProps) {
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                     Dark
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("slateLight")}>
+                    Slate (Light)
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("slateDark")}>
+                    Slate (Dark)
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("redLight")}>
                     Red (Light)
                 </DropdownMenuItem>
