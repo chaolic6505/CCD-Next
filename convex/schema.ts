@@ -14,14 +14,13 @@ export default defineSchema({
         embedding: v.optional(v.array(v.float64())),
         files: v.optional(v.array(v.id("_storage"))),
         fileId: v.optional(v.id("_storage")),
-    })
-        .index("by_tokenIdentifier", ["tokenIdentifier"])
-        .index("by_orgId", ["orgId"])
-        .vectorIndex("by_embedding", {
-            vectorField: "embedding",
-            dimensions: 1536,
-            filterFields: ["tokenIdentifier", "orgId"],
-        }),
+    }).index("by_tokenIdentifier", ["tokenIdentifier"]),
+    // .index("by_orgId", ["orgId"])
+    // .vectorIndex("by_embedding", {
+    //     vectorField: "embedding",
+    //     dimensions: 1536,
+    //     filterFields: ["tokenIdentifier", "orgId"],
+    // }),
     notes: defineTable({
         text: v.string(),
         orgId: v.optional(v.string()),

@@ -49,7 +49,13 @@ interface DashboardCardProps {
     change: string;
 }
 
-const DashboardCard = ({ title, icon, value, change, index }: DashboardCardProps) => {
+const DashboardCard = ({
+    title,
+    icon,
+    value,
+    change,
+    index,
+}: DashboardCardProps) => {
     return (
         <Card
             key={index}
