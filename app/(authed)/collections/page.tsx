@@ -1,10 +1,11 @@
 "use client";
 
 import { Suspense } from "react";
+import { useState } from "react";
 import { Plus } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useState } from "react";
+import { usePaginatedQuery } from "convex/react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -44,10 +45,29 @@ const cards = [
     },
 ];
 
+export function SkeletonCard() {
+    return (
+        <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+            <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+            </div>
+        </div>
+    );
+}
+
 export default function CollectionsPage() {
     const [isAddingNew, setIsAddingNew] = useState(false);
-    const documents = useQuery(api.document.getDocuments, {});
-console.log(documents);
+
+    const { results, status, loadMore } = usePaginatedQuery(
+        api.document.getPaginatedDocuments,
+        {},
+        {
+            initialNumItems: 1,
+        }
+    );
+    //console.log(results);
     const handleAddNew = () => {
         setIsAddingNew(true);
         // Logic to add new user
@@ -56,8 +76,8 @@ console.log(documents);
         // setIsAddingNew(false);
     };
 
-    if (documents === undefined) {
-        return <Skeleton />;
+    if (results === undefined) {
+        return <SkeletonCard />;
     }
 
     return (
@@ -65,16 +85,16 @@ console.log(documents);
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
                 <div className="flex items-start justify-between">
                     <Heading
-                        title={`Collections (${documents?.length ?? 0})`}
+                        title={`Collections (${results?.length ?? 0})`}
                         description="Manage your collections"
                     />
                     <Button
-                        onClick={handleAddNew}
-                        disabled={isAddingNew}
+                        // onClick={() => loadMore(1)}
                         className="text-xs md:text-sm"
+                        disabled={status !== "CanLoadMore"}
                     >
                         {isAddingNew ? (
-                            <Skeleton size="sm" />
+                            <SkeletonCard />
                         ) : (
                             <Plus className="mr-2 h-4 w-4" />
                         )}
@@ -90,18 +110,10 @@ console.log(documents);
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="overview" className="space-y-4">
-                        {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                            {cards.map((card, index) => (
-                                <CollectionCard
-                                    key={index}
-                                    {...card}
-                                    index={index}
-                                />
-                            ))}
-                        </div> */}
-                        {documents && documents.length > 0 ? (
+
+                        {results && results.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                {documents.map((doc) => (
+                                {results.map((doc) => (
                                     <Card key={doc._id}>
                                         {/* Display document information here */}
                                         <h3>{doc.title}</h3>

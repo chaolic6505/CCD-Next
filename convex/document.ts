@@ -1,8 +1,18 @@
-import { description } from "./../components/charts/bar-graph";
-import { GenericQueryCtx } from "convex/server";
 import { Id } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { ConvexError, GenericId, v } from "convex/values";
+import { GenericQueryCtx, paginationOptsValidator } from "convex/server";
+
+export const getPaginatedDocuments = query({
+    args: { paginationOpts: paginationOptsValidator },
+    handler: async (ctx, args) => {
+        const documents = await ctx.db
+            .query("documents")
+            .order("desc")
+            .paginate(args.paginationOpts);
+        return documents;
+    },
+});
 
 export const getDocuments = query({
     args: {
@@ -13,12 +23,12 @@ export const getDocuments = query({
         if (!userId) {
             return [];
         }
-        return await ctx.db
+
+        return ctx.db
             .query("documents")
             .withIndex("by_tokenIdentifier", (q) =>
                 q.eq("tokenIdentifier", userId)
-            )
-            .collect();
+            ).collect;
 
         if (args.orgId) {
             // const isMember = await hasOrgAccess(ctx, args.orgId);
@@ -155,8 +165,6 @@ export const updateAllDocumentsTokenIdentifier = mutation({
         if (!userId) {
             return { success: false, message: "Not authenticated" };
         }
-
-        console.log("userId", userId);
         try {
             // Query all documents belonging to the user
             const userDocuments = await ctx.db

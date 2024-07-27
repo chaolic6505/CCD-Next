@@ -6,7 +6,6 @@ import { streamComponent } from "../../../actions";
 
 export default function Page() {
     const [component, setComponent] = useState<React.ReactNode>();
-    console.log("streaming", component);
     return (
         <div>
             <form
