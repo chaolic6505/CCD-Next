@@ -1,3 +1,5 @@
+"user client";
+
 import { AI } from "../actions";
 import Header from "@/components/layout/header";
 import Transition from "@/components/Transition";

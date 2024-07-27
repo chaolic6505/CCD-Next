@@ -12,7 +12,6 @@ export function RouteChangeHandler() {
     const sidebar = useStore(useSidebarToggle, (state) => state);
 
     useEffect(() => {
-        console.log("RouteChangeHandler", pathname);
         if (sidebar?.isOpen) closeSidebar();
     }, [pathname, closeSidebar]);
 
