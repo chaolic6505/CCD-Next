@@ -45,7 +45,7 @@ const cards = [
     },
 ];
 
-export function SkeletonCard() {
+const SkeletonCard = () => {
     return (
         <div className="flex flex-col space-y-3">
             <Skeleton className="h-[125px] w-[250px] rounded-xl" />
@@ -55,7 +55,7 @@ export function SkeletonCard() {
             </div>
         </div>
     );
-}
+};
 
 export default function CollectionsPage() {
     const [isAddingNew, setIsAddingNew] = useState(false);
@@ -110,12 +110,34 @@ export default function CollectionsPage() {
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="overview" className="space-y-4">
-
-                        {results && results.length > 0 ? (
+                        <div className="grid grid-cols-3 gap-8">
+                            {new Array(6).fill("").map((_, i) => (
+                                <Card
+                                    key={i}
+                                    className="h-[200px] p-6 flex flex-col justify-between"
+                                >
+                                    <Skeleton className="h-[20px] rounded" />
+                                    <Skeleton className="h-[20px] rounded" />
+                                    <Skeleton className="h-[20px] rounded" />
+                                    <Skeleton className="w-[80px] h-[40px] rounded" />
+                                </Card>
+                            ))}
+                        </div>
+                        {/* {results.map((doc, index) => (
+                            <Card
+                                key={index}
+                                className="h-[200px] p-6 flex flex-col justify-between"
+                            >
+                                <SkeletonCard />
+                                <SkeletonCard />
+                                <SkeletonCard />
+                            </Card>
+                        ))} */}
+                        {/* {results && results.length > 0 ? (
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 {results.map((doc) => (
                                     <Card key={doc._id}>
-                                        {/* Display document information here */}
+
                                         <h3>{doc.title}</h3>
                                         <p>{doc.description}</p>
                                     </Card>
@@ -125,7 +147,7 @@ export default function CollectionsPage() {
                             <p>
                                 No collections found. Add some to get started!
                             </p>
-                        )}
+                        )} */}
                     </TabsContent>
                 </Tabs>
             </div>
