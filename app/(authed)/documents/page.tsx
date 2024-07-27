@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useQuery } from "convex/react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
@@ -16,8 +15,8 @@ const breadcrumbItems = [
     { title: "Notes", link: "/notes" },
 ];
 export default function page() {
-const documents = useQuery(api.document.getDocuments, {});
-console.log(documents);
+    const documents = useQuery(api.document.getDocuments, {});
+    console.log(documents);
     return (
         <ScrollArea className="h-full">
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">

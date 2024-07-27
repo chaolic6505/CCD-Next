@@ -1,12 +1,14 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
-import { User } from "@/constants/data";
+
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 import { columns } from "./columns";
+import { User } from "@/constants/data";
+import { Button } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { DataTable } from "@/components/ui/data-table";
 
 interface ProductsClientProps {
     data: User[];
@@ -14,6 +16,7 @@ interface ProductsClientProps {
 
 export const UserClient: React.FC<ProductsClientProps> = ({ data }) => {
     const router = useRouter();
+
 
     return (
         <>
@@ -24,7 +27,10 @@ export const UserClient: React.FC<ProductsClientProps> = ({ data }) => {
                 />
                 <Button
                     className="text-xs md:text-sm"
-                    onClick={() => router.push(`/dashboard/user/new`)}
+                    onClick={() => {
+
+                        console.log("Add new user");
+                    }}
                 >
                     <Plus className="mr-2 h-4 w-4" /> Add New
                 </Button>

@@ -13,15 +13,13 @@ export const getDocuments = query({
         if (!userId) {
             return [];
         }
-        const res = await ctx.db
+        return await ctx.db
             .query("documents")
             .withIndex("by_tokenIdentifier", (q) =>
                 q.eq("tokenIdentifier", userId)
             )
             .collect();
-            console.log("server identity", userId ,res);
 
-        return res;
         if (args.orgId) {
             // const isMember = await hasOrgAccess(ctx, args.orgId);
             // if (!isMember) {
@@ -153,13 +151,12 @@ export const createDocument = mutation({
 export const updateAllDocumentsTokenIdentifier = mutation({
     args: {},
     handler: async (ctx) => {
-        const userIdentity = await ctx.auth.getUserIdentity();
-        const userId = userIdentity?.tokenIdentifier;
+        const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+        if (!userId) {
+            return { success: false, message: "Not authenticated" };
+        }
 
-        // if (!userId) {
-        //     return { success: false, message: "Not authenticated" };
-        // }
-
+        console.log("userId", userId);
         try {
             // Query all documents belonging to the user
             const userDocuments = await ctx.db
@@ -177,8 +174,7 @@ export const updateAllDocumentsTokenIdentifier = mutation({
             // Update all documents with the new tokenIdentifier
             const updatePromises = userDocuments.map((doc) =>
                 ctx.db.patch(doc._id, {
-                    tokenIdentifier:
-                        "https://thorough-chipmunk-63.clerk.accounts.dev|user_2gfs8voqQwlIuXC4cuu5ugMtfr",
+                    tokenIdentifier: userId,
                 })
             );
 
@@ -186,7 +182,7 @@ export const updateAllDocumentsTokenIdentifier = mutation({
 
             return {
                 success: true,
-                message: `Successfully updated tokenIdentifier for ${userDocuments.length} documents`,
+                message: `${userId} + ${userDocuments.length} documents`,
                 updatedCount: userDocuments.length,
             };
         } catch (error) {
