@@ -49,57 +49,56 @@ export function getMenuList(pathname: string): Group[] {
         },
         {
             groupLabel: "Contents",
-
             menus: [
                 {
-                    href: "/documents",
-                    label: "Documents",
-                    active: pathname.includes("/documents"),
+                    href: "/collections",
+                    label: "Collections",
+                    active: pathname.includes("/collections"),
                     icon: Notebook,
                     submenus: [],
                 },
-                {
-                    href: "/users",
-                    label: "Users",
-                    active: pathname.includes("/users"),
-                    icon: Users,
-                    submenus: [],
-                },
-                {
-                    href: "",
-                    label: "Chats",
-                    active: pathname.includes("/chat"),
-                    icon: Brain,
-                    submenus: [
-                        {
-                            href: "/chat",
-                            label: "All Chats",
-                            active: pathname === "/chat",
-                        },
-                        {
-                            href: "/chat2",
-                            label: "AI tool",
-                            active: pathname === "/chat2",
-                        },
-                        {
-                            href: "/chat3",
-                            label: "JSON Streaming",
-                            active: pathname === "/chat3",
-                        },
-                        {
-                            href: "/chat4",
-                            label: "Server Component",
-                            active: pathname === "/chat4",
-                        },
-                    ],
-                },
-                {
-                    href: "/gallery",
-                    label: "Gallery",
-                    active: pathname.includes("/pdfchat"),
-                    icon: Images,
-                    submenus: [],
-                },
+                // {
+                //     href: "/users",
+                //     label: "Users",
+                //     active: pathname.includes("/users"),
+                //     icon: Users,
+                //     submenus: [],
+                // },
+                // {
+                //     href: "",
+                //     label: "Chats",
+                //     active: pathname.includes("/chat"),
+                //     icon: Brain,
+                //     submenus: [
+                //         {
+                //             href: "/chat",
+                //             label: "All Chats",
+                //             active: pathname === "/chat",
+                //         },
+                //         {
+                //             href: "/chat2",
+                //             label: "AI tool",
+                //             active: pathname === "/chat2",
+                //         },
+                //         {
+                //             href: "/chat3",
+                //             label: "JSON Streaming",
+                //             active: pathname === "/chat3",
+                //         },
+                //         {
+                //             href: "/chat4",
+                //             label: "Server Component",
+                //             active: pathname === "/chat4",
+                //         },
+                //     ],
+                // },
+                // {
+                //     href: "/gallery",
+                //     label: "Gallery",
+                //     active: pathname.includes("/pdfchat"),
+                //     icon: Images,
+                //     submenus: [],
+                // },
                 // {
                 //     href: "/pdfchat",
                 //     label: "PDF Chat",
@@ -120,60 +119,60 @@ export function getMenuList(pathname: string): Group[] {
                 //         },
                 //     ],
                 // },
-                {
-                    href: "/employees",
-                    label: "Employees",
-                    active: pathname.includes("/employees"),
-                    icon: SquarePen,
-                    submenus: [
-                        {
-                            href: "/employees",
-                            label: "All Employees",
-                            active: pathname === "/employees",
-                        },
-                    ],
-                },
+                // {
+                //     href: "/employees",
+                //     label: "Employees",
+                //     active: pathname.includes("/employees"),
+                //     icon: SquarePen,
+                //     submenus: [
+                //         {
+                //             href: "/employees",
+                //             label: "All Employees",
+                //             active: pathname === "/employees",
+                //         },
+                //     ],
+                // },
 
-                {
-                    href: "/kanban",
-                    label: "Kanban",
-                    active: pathname.includes("/kanban"),
-                    icon: SquareKanban,
-                    submenus: [],
-                },
-                {
-                    href: "/categories",
-                    label: "Categories",
-                    active: pathname.includes("/categories"),
-                    icon: Bookmark,
-                    submenus: [],
-                },
-                {
-                    href: "/tags",
-                    label: "Tags",
-                    active: pathname.includes("/tags"),
-                    icon: Tag,
-                    submenus: [],
-                },
+                // {
+                //     href: "/kanban",
+                //     label: "Kanban",
+                //     active: pathname.includes("/kanban"),
+                //     icon: SquareKanban,
+                //     submenus: [],
+                // },
+                // {
+                //     href: "/categories",
+                //     label: "Categories",
+                //     active: pathname.includes("/categories"),
+                //     icon: Bookmark,
+                //     submenus: [],
+                // },
+                // {
+                //     href: "/tags",
+                //     label: "Tags",
+                //     active: pathname.includes("/tags"),
+                //     icon: Tag,
+                //     submenus: [],
+                // },
             ],
         },
         {
             groupLabel: "Settings",
             menus: [
-                {
-                    href: "/profile",
-                    label: "Profile",
-                    active: pathname.includes("/profile"),
-                    icon: UserPen,
-                    submenus: [],
-                },
-                {
-                    href: "/account",
-                    label: "Account",
-                    active: pathname.includes("/account"),
-                    icon: Settings,
-                    submenus: [],
-                },
+                // {
+                //     href: "/profile",
+                //     label: "Profile",
+                //     active: pathname.includes("/profile"),
+                //     icon: UserPen,
+                //     submenus: [],
+                // },
+                // {
+                //     href: "/account",
+                //     label: "Account",
+                //     active: pathname.includes("/account"),
+                //     icon: Settings,
+                //     submenus: [],
+                // },
             ],
         },
     ];
