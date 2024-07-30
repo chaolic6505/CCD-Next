@@ -10,11 +10,12 @@ import { usePaginatedQuery } from "convex/react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
+import { Skeleton } from "@/components/ui/skeleton"; // Assume this component exists
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton"; // Assume this component exists
 
+import NewCollectionDialog from "./add-collection-dialog";
 import CollectionCard from "./collection-card";
 import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
 
@@ -57,6 +58,7 @@ const SkeletonCard = () => {
     );
 };
 
+
 export default function CollectionsPage() {
     const [isAddingNew, setIsAddingNew] = useState(false);
 
@@ -88,7 +90,7 @@ export default function CollectionsPage() {
                         title={`Collections (${results?.length ?? 0})`}
                         description="Manage your collections"
                     />
-                    <Button
+                    {/* <Button
                         // onClick={() => loadMore(1)}
                         className="text-xs md:text-sm"
                         disabled={status !== "CanLoadMore"}
@@ -99,19 +101,18 @@ export default function CollectionsPage() {
                             <Plus className="mr-2 h-4 w-4" />
                         )}
                         Add New
-                    </Button>
+                    </Button> */}
                 </div>
                 <Separator />
-                <Tabs defaultValue="overview" className="space-y-4">
+                <Tabs defaultValue="gallery" className="space-y-4">
                     <TabsList>
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="analytics" disabled>
-                            Analytics
-                        </TabsTrigger>
+                        <TabsTrigger value="gallery">Gallery</TabsTrigger>
+                        <TabsTrigger value="table">Table</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="overview" className="space-y-4">
-                        <div className="grid grid-cols-3 gap-8">
-                            {new Array(6).fill("").map((_, i) => (
+
+                    <TabsContent value="gallery" className="space-y-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
+                            {new Array(116).fill("").map((_, i) => (
                                 <Card
                                     key={i}
                                     className="h-[200px] p-6 flex flex-col justify-between"
@@ -119,37 +120,14 @@ export default function CollectionsPage() {
                                     <Skeleton className="h-[20px] rounded" />
                                     <Skeleton className="h-[20px] rounded" />
                                     <Skeleton className="h-[20px] rounded" />
-                                    <Skeleton className="w-[80px] h-[40px] rounded" />
+                                    <Skeleton className="h-[20px] rounded" />
                                 </Card>
                             ))}
-                        </div>
-                        {/* {results.map((doc, index) => (
-                            <Card
-                                key={index}
-                                className="h-[200px] p-6 flex flex-col justify-between"
-                            >
-                                <SkeletonCard />
-                                <SkeletonCard />
-                                <SkeletonCard />
-                            </Card>
-                        ))} */}
-                        {/* {results && results.length > 0 ? (
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                {results.map((doc) => (
-                                    <Card key={doc._id}>
 
-                                        <h3>{doc.title}</h3>
-                                        <p>{doc.description}</p>
-                                    </Card>
-                                ))}
-                            </div>
-                        ) : (
-                            <p>
-                                No collections found. Add some to get started!
-                            </p>
-                        )} */}
+                        </div>
                     </TabsContent>
                 </Tabs>
+                <NewCollectionDialog />
             </div>
         </ScrollArea>
     );
