@@ -1,15 +1,14 @@
 {
     "printWidth": 300,
+    "formatOnSave": true,
     "arrowParens": "always",
     "bracketSpacing": true,
-    "semi": true,
+    "semi": false,
     "useTabs": true,
     "trailingComma": "all",
     "singleQuote": true,
     "tabWidth": 4,
-    "endOfLine": "lf",
     "plugins": [
         "prettier-plugin-tailwindcss"
-    ],
-    "formatOnSave": true
+    ]
 }

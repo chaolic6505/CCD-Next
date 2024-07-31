@@ -23,10 +23,11 @@ export default function NewCollectionDialog() {
 
         const form = e.currentTarget;
         const formData = new FormData(form);
-        const { title } = Object.fromEntries(formData);
+        const { name } = Object.fromEntries(formData);
 
-        if (typeof title !== "string") return;
-        addCol(title);
+        if (typeof name !== "string") return;
+
+        console.log(name, 'name');
     };
 
     return (
@@ -50,22 +51,22 @@ export default function NewCollectionDialog() {
                     </DialogHeader>
                     <form
                         id="todo-form"
-                        className="grid gap-4 py-4"
                         onSubmit={handleSubmit}
+                        className="grid gap-4 py-4"
                     >
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Input
                                 id="title"
                                 name="title"
-                                placeholder="Section title..."
                                 className="col-span-4"
+                                placeholder="Collection Name..."
                             />
                         </div>
                     </form>
                     <DialogFooter>
                         <DialogTrigger asChild>
                             <Button type="submit" form="todo-form">
-                                Add Section
+                                Add
                             </Button>
                         </DialogTrigger>
                     </DialogFooter>

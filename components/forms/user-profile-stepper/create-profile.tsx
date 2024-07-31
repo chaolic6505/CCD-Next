@@ -1,9 +1,15 @@
 "use client";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useRouter } from "next/navigation";
+import { AlertTriangleIcon, Trash, Trash2Icon } from "lucide-react";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+
 import {
     Accordion,
-    AccordionContent,
     AccordionItem,
     AccordionTrigger,
+    AccordionContent,
 } from "@/components/ui/accordion";
 import {
     Form,
@@ -23,14 +29,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { profileSchema, type ProfileFormValues } from "@/lib/form-schema";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { AlertTriangleIcon, Trash, Trash2Icon } from "lucide-react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 
 interface ProfileFormType {
     initialData: any | null;
