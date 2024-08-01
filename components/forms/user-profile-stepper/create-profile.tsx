@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { profileSchema, type ProfileFormValues } from "@/lib/form-schema";
+import { profileSchema, type ProfileFormValues } from "@/lib/profile-schema";
 
 interface ProfileFormType {
     initialData: any | null;
@@ -165,7 +165,7 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
             shouldFocus: true,
         });
 
-        if (!output) return;
+        //if (!output) return;
 
         if (currentStep < steps.length - 1) {
             if (currentStep === steps.length - 2) {

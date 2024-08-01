@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import NewCollectionDialog from "./add-collection-dialog";
+import CollectionDialog from "./add-collection-dialog";
 import CollectionCard from "./collection-card";
 import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
 
@@ -57,7 +57,6 @@ const SkeletonCard = () => {
         </div>
     );
 };
-
 
 export default function CollectionsPage() {
     const [isAddingNew, setIsAddingNew] = useState(false);
@@ -105,10 +104,13 @@ export default function CollectionsPage() {
                 </div>
                 <Separator />
                 <Tabs defaultValue="gallery" className="space-y-4">
-                    <TabsList>
-                        <TabsTrigger value="gallery">Gallery</TabsTrigger>
-                        <TabsTrigger value="table">Table</TabsTrigger>
-                    </TabsList>
+                    <div className="flex items-start justify-between">
+                        <TabsList>
+                            <TabsTrigger value="gallery">Gallery</TabsTrigger>
+                            <TabsTrigger value="table">Table</TabsTrigger>
+                        </TabsList>
+                        <CollectionDialog />
+                    </div>
 
                     <TabsContent value="gallery" className="space-y-4">
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
@@ -123,11 +125,9 @@ export default function CollectionsPage() {
                                     <Skeleton className="h-[20px] rounded" />
                                 </Card>
                             ))} */}
-
                         </div>
                     </TabsContent>
                 </Tabs>
-                <NewCollectionDialog />
             </div>
         </ScrollArea>
     );
