@@ -168,14 +168,14 @@ importers:
         specifier: 3.6.0
         version: 3.6.0
       drizzle-kit:
-        specifier: 0.23.0
-        version: 0.23.0
+        specifier: 0.22.8
+        version: 0.22.8
       drizzle-orm:
-        specifier: 0.32.1
-        version: 0.32.1(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522)
+        specifier: 0.31.4
+        version: 0.31.4(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522)
       drizzle-zod:
         specifier: 0.5.1
-        version: 0.5.1(drizzle-orm@0.32.1(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522))(zod@3.23.8)
+        version: 0.5.1(drizzle-orm@0.31.4(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522))(zod@3.23.8)
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -2966,12 +2966,12 @@ packages:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.23.0:
-    resolution: {integrity: sha512-w9jE97z193dd4jzAyj4Uv2SOh8Ydue70Ki6W0awy4bGM1aPXan6zD6Yv+nNTA6oGgNTDl2MJFxutjHG4fden5g==}
+  drizzle-kit@0.22.8:
+    resolution: {integrity: sha512-VjI4wsJjk3hSqHSa3TwBf+uvH6M6pRHyxyoVbt935GUzP9tUR/BRZ+MhEJNgryqbzN2Za1KP0eJMTgKEPsalYQ==}
     hasBin: true
 
-  drizzle-orm@0.32.1:
-    resolution: {integrity: sha512-Wq1J+lL8PzwR5K3a1FfoWsbs8powjr3pGA4+5+2ueN1VTLDNFYEolUyUWFtqy8DVRvYbL2n7sXZkgVmK9dQkng==}
+  drizzle-orm@0.31.4:
+    resolution: {integrity: sha512-VGD9SH9aStF2z4QOTnVlVX/WghV/EnuEzTmsH3fSVp2E4fFgc8jl3viQrS/XUJx1ekW4rVVLJMH42SfGQdjX3Q==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -8081,11 +8081,11 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.3
+      tslib: 2.4.1
 
   dotenv@16.4.5: {}
 
-  drizzle-kit@0.23.0:
+  drizzle-kit@0.22.8:
     dependencies:
       '@esbuild-kit/esm-loader': 2.6.5
       esbuild: 0.19.12
@@ -8093,7 +8093,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.32.1(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522):
+  drizzle-orm@0.31.4(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522):
     optionalDependencies:
       '@neondatabase/serverless': 0.9.4
       '@opentelemetry/api': 1.9.0
@@ -8102,9 +8102,9 @@ snapshots:
       '@vercel/postgres': 0.9.0
       react: 19.0.0-rc-f994737d14-20240522
 
-  drizzle-zod@0.5.1(drizzle-orm@0.32.1(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522))(zod@3.23.8):
+  drizzle-zod@0.5.1(drizzle-orm@0.31.4(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522))(zod@3.23.8):
     dependencies:
-      drizzle-orm: 0.32.1(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522)
+      drizzle-orm: 0.31.4(@neondatabase/serverless@0.9.4)(@opentelemetry/api@1.9.0)(@types/pg@8.11.6)(@types/react@18.2.21)(@vercel/postgres@0.9.0)(react@19.0.0-rc-f994737d14-20240522)
       zod: 3.23.8
 
   duplexer@0.1.2: {}
@@ -9245,7 +9245,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.4.1
 
   lowlight@1.20.0:
     dependencies:
@@ -9786,7 +9786,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.6.3
+      tslib: 2.4.1
 
   node-fetch@2.7.0:
     dependencies:
@@ -10592,7 +10592,7 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.3
+      tslib: 2.4.1
 
   snakecase-keys@5.4.4:
     dependencies:
