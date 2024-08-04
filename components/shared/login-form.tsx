@@ -55,13 +55,13 @@ export default function LoginForm() {
                         </div>
                     </div>
                 </div>
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <Button type="submit" aria-disabled={isPending}>
                         Log in <ArrowRightIcon className="ml-auto h-5 w-5  " />
                     </Button>
-                </div>
+                </div> */}
 
-                <div
+                {/* <div
                     className="flex h-8 items-end space-x-1"
                     aria-live="polite"
                     aria-atomic="true"
@@ -74,7 +74,7 @@ export default function LoginForm() {
                             </p>
                         </>
                     )}
-                </div>
+                </div> */}
             </div>
     );
 }
