@@ -65,16 +65,7 @@ export default function CollectionDialog() {
     };
 
     const defaultValues = {
-        jobs: [
-            {
-                jobtitle: "",
-                employer: "",
-                startdate: "",
-                enddate: "",
-                jobcountry: "",
-                jobcity: "",
-            },
-        ],
+
     };
 
     const processForm: SubmitHandler<CollectionFormValues> = (data) => {
