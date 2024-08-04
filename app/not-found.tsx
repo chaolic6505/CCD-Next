@@ -28,9 +28,9 @@ export default function NotFound() {
                     Go back
                 </Button>
                 <Button
-                    onClick={() => router.push("/collections")}
-                    variant="ghost"
                     size="lg"
+                    variant="ghost"
+                    onClick={() => router.push("/dashboard")}
                 >
                     Back to Home
                 </Button>

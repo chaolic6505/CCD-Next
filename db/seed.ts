@@ -1,6 +1,6 @@
 import { exit } from "process";
 
-import db  from "./drizzle";
+import db from "./drizzle";
 import * as schema from "./schema";
 
 import "@/db/env-config";

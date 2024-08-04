@@ -231,8 +231,8 @@ importers:
         specifier: 9.13.0
         version: 9.13.0(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)
       react-is:
-        specifier: 19.0.0-rc-85acf2d195-20240711
-        version: 19.0.0-rc-85acf2d195-20240711
+        specifier: 19.0.0-rc-8269d55d-20240802
+        version: 19.0.0-rc-8269d55d-20240802
       react-linkify-it:
         specifier: 1.0.8
         version: 1.0.8(react@19.0.0-rc-f994737d14-20240522)
@@ -4789,8 +4789,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react-is@19.0.0-rc-85acf2d195-20240711:
-    resolution: {integrity: sha512-duegyz7D94X0mxuhRXHzraZlSrTzsBDqX0hHNjbyXVZczoxcL9u72dLuLPYGBTrE/Fakkj4qdHCEXy2u97cdOw==}
+  react-is@19.0.0-rc-8269d55d-20240802:
+    resolution: {integrity: sha512-mhGiC8+9i7g9W6/v59wEwg0DqbNXu+5PJE8r4TRlxATr7BnwkjaPwxeZVYExHV4KmYKmTNaPxwTZltnx0wrEHA==}
 
   react-linkify-it@1.0.8:
     resolution: {integrity: sha512-QjwhIaCXmJ2CiFIl4mIOYN+Z+OhwRLHNMKmWG9SSAzKgpltOnOQjzvj8ruhnvOhgKRc6yqjW0vH0J6LEbTm50Q==}
@@ -10229,7 +10229,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-is@19.0.0-rc-85acf2d195-20240711: {}
+  react-is@19.0.0-rc-8269d55d-20240802: {}
 
   react-linkify-it@1.0.8(react@19.0.0-rc-f994737d14-20240522):
     dependencies:

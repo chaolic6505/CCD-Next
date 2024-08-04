@@ -10,7 +10,7 @@ export default clerkMiddleware((auth, request, response) => {
     if (userId) {
         // If the user is authenticated and trying to access a public route, redirect to /collections
         if (isPublicRoute(request)) {
-            return NextResponse.redirect(new URL("/collections", request.url));
+            return NextResponse.redirect(new URL("/dashboard", request.url));
         }
     } else {
         // If the user is not authenticated and trying to access a protected route, protect it
