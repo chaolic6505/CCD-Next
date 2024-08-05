@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { lusitana } from "@/components/shared/fonts";
+
 import { cn } from "@/lib/utils";
+import { lusitana } from "@/components/shared/fonts";
 
 interface Breadcrumb {
     label: string;

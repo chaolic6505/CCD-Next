@@ -1,10 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useRouter } from "next/navigation";
-import { AlertTriangleIcon, Trash, Trash2Icon } from "lucide-react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import {
     Dialog,
@@ -17,12 +14,6 @@ import {
 } from "@/components/ui/dialog";
 
 import {
-    Accordion,
-    AccordionItem,
-    AccordionTrigger,
-    AccordionContent,
-} from "@/components/ui/accordion";
-import {
     Form,
     FormControl,
     FormField,
@@ -30,27 +21,24 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
+
 import {
     Select,
     SelectItem,
+    SelectValue,
     SelectContent,
     SelectTrigger,
-    SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import {
-    collectionSchema,
-    type CollectionFormValues,
-} from "@/lib/collection-schema";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-import { useTaskStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
+import { collectionSchema, type CollectionFormValues } from "@/lib/collection-schema";
+
+
 
 export default function CollectionDialog() {
-    const addCol = useTaskStore((state) => state.addCol);
+
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
