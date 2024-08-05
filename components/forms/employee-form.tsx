@@ -1,15 +1,21 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
+import * as z from "zod";
+import { useState } from "react";
+import { Trash } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useRouter } from "next/navigation";
+
 import {
     Form,
-    FormControl,
-    FormField,
     FormItem,
+    FormField,
     FormLabel,
+    FormControl,
     FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
-import { Input } from "@/components/ui/input";
+
 import {
     Select,
     SelectContent,
@@ -17,24 +23,24 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-// import FileUpload from '../file-upload';
+
 import { useToast } from "../ui/use-toast";
+// import FileUpload from '../file-upload';
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+
 const ImgSchema = z.object({
-    fileName: z.string(),
     name: z.string(),
-    fileSize: z.number(),
-    size: z.number(),
-    fileKey: z.string(),
     key: z.string(),
-    fileUrl: z.string(),
     url: z.string(),
+    fileUrl: z.string(),
+    fileKey: z.string(),
+    fileName: z.string(),
+    size: z.number(),
+    fileSize: z.number(),
 });
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
@@ -45,11 +51,9 @@ const formSchema = z.object({
         .array(ImgSchema)
         .max(IMG_MAX_LIMIT, { message: "You can only add up to 3 images" })
         .min(1, { message: "At least one image must be added." }),
-    description: z
-        .string()
-        .min(3, {
-            message: "Product description must be at least 3 characters",
-        }),
+    description: z.string().min(3, {
+        message: "Product description must be at least 3 characters",
+    }),
     price: z.coerce.number(),
     category: z.string().min(1, { message: "Please select a category" }),
 });

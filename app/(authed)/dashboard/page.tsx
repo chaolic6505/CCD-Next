@@ -1,47 +1,18 @@
+import { Suspense } from "react";
+
 import {
-    Card,
-    CardTitle,
-    CardHeader,
-    CardContent,
-    CardDescription,
-} from "@/components/ui/card";
+    CardsSkeleton,
+    RevenueChartSkeleton,
+    LatestInvoicesSkeleton,
+} from "@/components/shared/skeletons"
+import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { RecentSales } from "@/components/recent-sales";
-import { BarGraph } from "@/components/charts/bar-graph";
-import { PieGraph } from "@/components/charts/pie-graph";
-import { AreaGraph } from "@/components/charts/area-graph";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import DashboardCard from "./dashboard-card";
+import DashboardCardsWrapper from "./(shared)/dashboard-card-wrapper";
+import LatestInvoicesWrapper from './(shared)/latest-invoices-wrapper';
 
-const cards = [
-    {
-        title: "Total Revenue",
-        icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
-        value: "$45,231.89",
-        change: "+20.1% from last month",
-    },
-    {
-        title: "Subscriptions",
-        icon: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
-        value: "+2350",
-        change: "+180.1% from last month",
-    },
-    {
-        title: "Sales",
-        icon: "M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5z M2 10h20",
-        value: "+12,234",
-        change: "+19% from last month",
-    },
-    {
-        title: "Active Now",
-        icon: "M22 12h-4l-3 9L9 3l-3 9H2",
-        value: "+573",
-        change: "+201 since last hour",
-    },
-];
 
 export default function page() {
     return (
@@ -65,31 +36,27 @@ export default function page() {
                     </TabsList>
                     <TabsContent value="overview" className="space-y-4">
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                            {cards.map((card, index) =>
-                                DashboardCard({ ...card, index })
-                            )}
+                            <Suspense fallback={<CardsSkeleton />}>
+                                <DashboardCardsWrapper />
+                            </Suspense>
                         </div>
+
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-                            <div className="col-span-4">
-                                <BarGraph />
-                            </div>
-                            <Card className="col-span-4 md:col-span-3">
-                                <CardHeader>
-                                    <CardTitle>Recent Sales</CardTitle>
-                                    <CardDescription>
-                                        You made 265 sales this month.
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <RecentSales />
-                                </CardContent>
-                            </Card>
-                            <div className="col-span-4">
+
+
+                            <Suspense fallback={<LatestInvoicesSkeleton />}>
+                                <LatestInvoicesWrapper />
+                            </Suspense>
+
+                            <Suspense fallback={<RevenueChartSkeleton />}>
+                                <RevenueChartSkeleton />
+                            </Suspense>
+                            {/* <div className="col-span-4">
                                 <AreaGraph />
                             </div>
                             <div className="col-span-4 md:col-span-3">
                                 <PieGraph />
-                            </div>
+                            </div> */}
                         </div>
                     </TabsContent>
                 </Tabs>

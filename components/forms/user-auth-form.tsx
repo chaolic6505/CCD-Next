@@ -1,11 +1,10 @@
 "use client";
 
 import * as z from "zod";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { SignInButton } from "@clerk/nextjs";
 
 import { useForm } from "react-hook-form";
-import { Suspense } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 

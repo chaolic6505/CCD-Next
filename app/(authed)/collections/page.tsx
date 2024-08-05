@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import NewCollectionDialog from "./add-collection-dialog";
+import CollectionDialog from "./add-collection-dialog";
 import CollectionCard from "./collection-card";
 import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
 
@@ -58,7 +58,6 @@ const SkeletonCard = () => {
     );
 };
 
-
 export default function CollectionsPage() {
     const [isAddingNew, setIsAddingNew] = useState(false);
 
@@ -87,8 +86,8 @@ export default function CollectionsPage() {
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
                 <div className="flex items-start justify-between">
                     <Heading
-                        title={`Collections (${results?.length ?? 0})`}
                         description="Manage your collections"
+                        title={`Collections (${results?.length ?? 0})`}
                     />
                     {/* <Button
                         // onClick={() => loadMore(1)}
@@ -105,14 +104,17 @@ export default function CollectionsPage() {
                 </div>
                 <Separator />
                 <Tabs defaultValue="gallery" className="space-y-4">
-                    <TabsList>
-                        <TabsTrigger value="gallery">Gallery</TabsTrigger>
-                        <TabsTrigger value="table">Table</TabsTrigger>
-                    </TabsList>
+                    <div className="flex items-start justify-between">
+                        <TabsList>
+                            <TabsTrigger value="gallery">Gallery</TabsTrigger>
+                            <TabsTrigger value="table">Table</TabsTrigger>
+                        </TabsList>
+                        <CollectionDialog />
+                    </div>
 
                     <TabsContent value="gallery" className="space-y-4">
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                            {new Array(116).fill("").map((_, i) => (
+                            {/* {new Array(116).fill("").map((_, i) => (
                                 <Card
                                     key={i}
                                     className="h-[200px] p-6 flex flex-col justify-between"
@@ -122,12 +124,10 @@ export default function CollectionsPage() {
                                     <Skeleton className="h-[20px] rounded" />
                                     <Skeleton className="h-[20px] rounded" />
                                 </Card>
-                            ))}
-
+                            ))} */}
                         </div>
                     </TabsContent>
                 </Tabs>
-                <NewCollectionDialog />
             </div>
         </ScrollArea>
     );

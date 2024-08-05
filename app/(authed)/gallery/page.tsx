@@ -2,18 +2,11 @@ import Image from "next/image";
 
 import {
     Card,
-    CardTitle,
-    CardHeader,
-    CardContent,
-    CardDescription,
+
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { RecentSales } from "@/components/recent-sales";
-import { BarGraph } from "@/components/charts/bar-graph";
-import { PieGraph } from "@/components/charts/pie-graph";
-import { AreaGraph } from "@/components/charts/area-graph";
-import { CalendarDateRangePicker } from "@/components/date-range-picker";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -81,25 +74,7 @@ const ImageCard = ({
 }: ImageCardProps) => {
     return (
         <Card key={index} className="group rounded-lg border px-1 py-1">
-            {/* <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{title}</CardTitle>
-                <svg
-                    fill="none"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-muted-foreground"
-                >
-                    <path d={icon} />
-                </svg>
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">{value}</div>
-                <p className="text-xs text-muted-foreground">{change}</p>
-            </CardContent> */}
+
             <div className="overflow-hidden rounded-md">
                 <Image
                     height="0"
