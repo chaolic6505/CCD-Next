@@ -32,14 +32,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import {
+    collectionSchema,
+    type CollectionFormValues,
+} from "@/lib/collection-schema";
 import { cn } from "@/lib/utils";
-import { collectionSchema, type CollectionFormValues } from "@/lib/collection-schema";
-
-
 
 export default function CollectionDialog() {
-
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -52,9 +51,7 @@ export default function CollectionDialog() {
         console.log(name, "name");
     };
 
-    const defaultValues = {
-
-    };
+    const defaultValues = {};
 
     const processForm: SubmitHandler<CollectionFormValues> = (data) => {
         console.log("data ==>", data);

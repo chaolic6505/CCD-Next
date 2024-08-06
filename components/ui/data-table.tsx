@@ -1,41 +1,55 @@
 "use client";
 
+import * as React from "react";
 import {
     ColumnDef,
     flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
+    SortingState,
     useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import {
     Table,
+    TableRow,
     TableBody,
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
 } from "@/components/ui/table";
 import { Input } from "./input";
 import { Button } from "./button";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
     data: TData[];
     searchKey: string;
+    hideSearchBar?: boolean;
+    hidePagination?: boolean;
+    columns: ColumnDef<TData, TValue>[];
 }
 
 export function DataTable<TData, TValue>({
-    columns,
     data,
+    columns,
     searchKey,
+    hideSearchBar,
+    hidePagination,
 }: DataTableProps<TData, TValue>) {
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
+        state: {
+            sorting,
+        },
     });
 
     /* this can be used to get the selected rows
@@ -43,20 +57,24 @@ export function DataTable<TData, TValue>({
 
     return (
         <>
-            <Input
-                placeholder={`Search ${searchKey}...`}
-                value={
-                    (table.getColumn(searchKey)?.getFilterValue() as string) ??
-                    ""
-                }
-                onChange={(event) =>
-                    table
-                        .getColumn(searchKey)
-                        ?.setFilterValue(event.target.value)
-                }
-                className="w-full md:max-w-sm"
-            />
-            <ScrollArea className="h-[calc(80vh-220px)] rounded-md border">
+            {!hideSearchBar ? (
+                <Input
+                    className="w-full md:max-w-sm"
+                    placeholder={`Search ${searchKey}...`}
+                    value={
+                        (table
+                            .getColumn(searchKey)
+                            ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn(searchKey)
+                            ?.setFilterValue(event.target.value)
+                    }
+                />
+            ) : null}
+
+            <ScrollArea className="h-[calc(80vh-200px)] rounded-md border">
                 <Table className="relative">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -115,24 +133,27 @@ export function DataTable<TData, TValue>({
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
-                <div className="space-x-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Next
-                    </Button>
-                </div>
+
+                {!hidePagination ? (
+                    <div className="space-x-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => table.previousPage()}
+                            disabled={!table.getCanPreviousPage()}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => table.nextPage()}
+                            disabled={!table.getCanNextPage()}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                ) : null}
             </div>
         </>
     );

@@ -1,14 +1,15 @@
 "use server";
 
+import { z } from "zod";
 import db from "@/db/drizzle";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { customers, invoices, revenue } from "@/db/schema";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
-import { formatCurrency } from "../utils";
-import { revalidatePath } from "next/cache";
-import { ITEMS_PER_PAGE } from "../constants";
-import { z } from "zod";
-import { redirect } from "next/navigation";
+
 import { InvoiceForm } from "@/types";
+import { formatCurrency } from "../utils";
+import { ITEMS_PER_PAGE } from "../constants";
 
 export async function fetchCardData() {
     try {
@@ -103,12 +104,12 @@ export async function fetchFilteredInvoices(
         const data = await db
             .select({
                 id: invoices.id,
-                amount: invoices.amount,
+                date: invoices.date,
                 name: customers.name,
                 email: customers.email,
-                image_url: customers.image_url,
+                amount: invoices.amount,
                 status: invoices.status,
-                date: invoices.date,
+                image_url: customers.image_url,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
@@ -146,6 +147,7 @@ export async function fetchInvoicesPages(query: string) {
                 )
             );
         const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
+        console.log("Total Pages:", totalPages);
         return totalPages;
     } catch (error) {
         console.error("Database Error:", error);

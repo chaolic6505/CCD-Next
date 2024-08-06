@@ -56,6 +56,32 @@ export type todoType = {
     userId: number;
 };
 
+export type User = {
+    id: number;
+    name: string;
+    company: string;
+    role: string;
+    verified: boolean;
+    status: string;
+};
+
+export type Invoice = {
+    id: string;
+    date: string;
+    name: string;
+    email: string;
+    amount: number;
+    status: string;
+    image_url?: string;
+};
+
+export type ColumnSort = {
+    id: string;
+    desc: boolean;
+};
+
+export type SortingState = ColumnSort[];
+
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;

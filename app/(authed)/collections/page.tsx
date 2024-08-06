@@ -15,8 +15,8 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import CollectionDialog from "./add-collection-dialog";
-import CollectionCard from "./collection-card";
+import CollectionDialog from "./(shared)/add-collection-dialog";
+import CollectionCard from "./(shared)/collection-card";
 import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
 
 const cards = [

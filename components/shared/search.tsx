@@ -1,43 +1,45 @@
-'use client'
+"use client";
 
-import { SearchIcon } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useDebouncedCallback } from 'use-debounce'
+import { SearchIcon } from "lucide-react";
+import { useDebouncedCallback } from "use-debounce";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
 
 export default function Search({ placeholder }: { placeholder: string }) {
-  const searchParams = useSearchParams()
-  const { replace } = useRouter()
-  const pathname = usePathname()
+    const { replace } = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
 
-  const handleSearch = useDebouncedCallback((term: string) => {
-    console.log(`Searching... ${term}`)
+    const handleSearch = useDebouncedCallback((term: string) => {
+        console.log(`Searching... ${term}`);
 
-    const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams);
 
-    params.set('page', '1')
+        params.set("page", "1");
 
-    if (term) {
-      params.set('query', term)
-    } else {
-      params.delete('query')
-    }
-    replace(`${pathname}?${params.toString()}`)
-  }, 300)
+        if (term) {
+            params.set("query", term);
+        } else {
+            params.delete("query");
+        }
+        replace(`${pathname}?${params.toString()}`);
+    }, 300);
 
-  return (
-    <div className="relative flex flex-1 flex-shrink-0">
-      <label htmlFor="search" className="sr-only">
-        Search
-      </label>
-      <input
-        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-        placeholder={placeholder}
-        onChange={(e) => {
-          handleSearch(e.target.value)
-        }}
-        defaultValue={searchParams.get('query')?.toString()}
-      />
-      <SearchIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-    </div>
-  )
+    return (
+        <div className="relative flex flex-1 flex-shrink-0">
+            <SearchIcon className="absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            <label htmlFor="search" className="sr-only">
+                Search
+            </label>
+            <input
+                placeholder={placeholder}
+                onChange={(e) => handleSearch(e.target.value)}
+                defaultValue={searchParams.get("query")?.toString()}
+                className={cn(
+                    "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                )}
+            />
+        </div>
+    );
 }

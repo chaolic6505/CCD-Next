@@ -134,7 +134,7 @@ export default function EditInvoiceForm({
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <Button variant="ghost">
-                    <Link href="/dashboard/invoices">Cancel</Link>
+                    <Link href="/invoices">Cancel</Link>
                 </Button>
 
                 <Button type="submit">Edit Invoice</Button>

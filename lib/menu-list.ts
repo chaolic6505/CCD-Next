@@ -1,3 +1,4 @@
+import { Invoice } from './definitions';
 import {
     Tag,
     Users,
@@ -12,6 +13,8 @@ import {
     Images,
     Brain,
     Notebook,
+    Receipt,
+    PersonStanding,
 } from "lucide-react";
 
 type Submenu = {
@@ -51,19 +54,33 @@ export function getMenuList(pathname: string): Group[] {
             groupLabel: "Contents",
             menus: [
                 {
+                    href: "/invoices",
+                    label: "Invoices",
+                    active: pathname.includes("/invoices"),
+                    icon: Receipt,
+                    submenus: [],
+                },
+                {
+                    href: "/customers",
+                    label: "Customers",
+                    active: pathname.includes("/customers"),
+                    icon: PersonStanding,
+                    submenus: [],
+                },
+                {
                     href: "/collections",
                     label: "Collections",
                     active: pathname.includes("/collections"),
                     icon: Notebook,
                     submenus: [],
                 },
-                // {
-                //     href: "/users",
-                //     label: "Users",
-                //     active: pathname.includes("/users"),
-                //     icon: Users,
-                //     submenus: [],
-                // },
+                {
+                    href: "/users",
+                    label: "Users",
+                    active: pathname.includes("/users"),
+                    icon: Users,
+                    submenus: [],
+                },
                 // {
                 //     href: "",
                 //     label: "Chats",
