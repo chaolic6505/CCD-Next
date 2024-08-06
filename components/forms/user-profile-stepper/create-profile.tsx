@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { profileSchema, type ProfileFormValues } from "@/lib/profile-schema";
+import { profileSchema, type ProfileFormValues } from "@/lib/schemas/profile";
 
 interface ProfileFormType {
     initialData: any | null;
@@ -185,7 +185,7 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
 
     const countries = [{ id: "wow", name: "india" }];
     const cities = [{ id: "2", name: "kerala" }];
-
+console.log("fields", errors)
     return (
         <>
             <div className="flex items-center justify-between">

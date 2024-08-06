@@ -20,7 +20,6 @@ const main = async () => {
             await tx.insert(schema.revenue).values(revenue);
         });
 
-        console.log("Database seeded successfully");
         exit(0);
     } catch (error) {
         console.error(error);

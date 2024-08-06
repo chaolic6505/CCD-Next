@@ -28,6 +28,7 @@ interface DataTableProps<TData, TValue> {
     searchKey?: string;
     hideSearchBar?: boolean;
     hidePagination?: boolean;
+    defaultSorting?: SortingState;
     columns: ColumnDef<TData, TValue>[];
 }
 
@@ -37,8 +38,9 @@ export function DataTable<TData, TValue>({
     searchKey,
     hideSearchBar,
     hidePagination,
+    defaultSorting,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [sorting, setSorting] = React.useState<SortingState>(defaultSorting ?? []);
 
     const table = useReactTable({
         data,

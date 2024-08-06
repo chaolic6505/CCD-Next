@@ -12,11 +12,10 @@ import {
     DialogTrigger,
     DialogDescription,
 } from "@/components/ui/dialog";
-
 import {
     Form,
-    FormControl,
     FormField,
+    FormControl,
     FormItem,
     FormLabel,
     FormMessage,
@@ -32,43 +31,48 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import {
-    collectionSchema,
-    type CollectionFormValues,
-} from "@/lib/collection-schema";
 import { cn } from "@/lib/utils";
+import { CustomerField } from "@/types";
+import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
-export default function CollectionDialog() {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+export default function InvoiceDialog({
+    customers,
+}: {
+    customers: CustomerField[];
+}) {
+    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
 
-        const form = e.currentTarget;
-        const formData = new FormData(form);
-        const { name } = Object.fromEntries(formData);
+    //     const form = e.currentTarget;
+    //     const formData = new FormData(form);
+    //     const { customer, amount, status } = Object.fromEntries(formData);
 
-        if (typeof name !== "string") return;
+    //     console.log( customer, amount, status, " customer, amount, status");
+    // };
 
-        console.log(name, "name");
+    const defaultValues = {
+        name: "",
+        amount: "0",
+        customer: "",
+        status: "",
     };
 
-    const defaultValues = {};
-
-    const processForm: SubmitHandler<CollectionFormValues> = (data) => {
+    const submitForm: SubmitHandler<InvoiceFormValues> = (data) => {
         console.log("data ==>", data);
-        //setData(data);
-        // api call and reset
-        // form.reset();
     };
 
-    const form = useForm<CollectionFormValues>({
-        resolver: zodResolver(collectionSchema),
+    const form = useForm<InvoiceFormValues>({
         defaultValues,
         mode: "onChange",
+        resolver: zodResolver(invoiceSchema),
     });
+    const {
+        control,
+        register,
+        formState: { errors },
+    } = form;
 
-    const countries = [{ id: "wow", name: "india" }];
-    const cities = [{ id: "2", name: "kerala" }];
-
+    console.log("errors ==>", errors);
     return (
         <div className="z-50">
             <Dialog>
@@ -80,17 +84,18 @@ export default function CollectionDialog() {
                         ＋
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="w-[50%] h-[90vh] max-w-none">
+                <DialogContent className="w-[50%] max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Add New Collection</DialogTitle>
+                        <DialogTitle>Add New Invoice</DialogTitle>
                         <DialogDescription>
-                            Elevate your style and confidence
+                            Revolutionize your invoicing
                         </DialogDescription>
                     </DialogHeader>
                     <Form {...form}>
                         <form
+                            id="invoice-form"
                             className="w-full space-y-8"
-                            onSubmit={form.handleSubmit(processForm)}
+                            onSubmit={form.handleSubmit(submitForm)}
                         >
                             <div className={cn("gap-8 md:grid md:grid-cols-3")}>
                                 <>
@@ -99,10 +104,9 @@ export default function CollectionDialog() {
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Name</FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        placeholder="John"
+                                                        placeholder="Name"
                                                         {...field}
                                                     />
                                                 </FormControl>
@@ -110,44 +114,42 @@ export default function CollectionDialog() {
                                             </FormItem>
                                         )}
                                     />
-
                                     <FormField
-                                        name="country"
+                                        name="customer"
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Country</FormLabel>
                                                 <Select
+                                                    value={field.value}
+                                                    defaultValue={field.value}
                                                     onValueChange={
                                                         field.onChange
                                                     }
-                                                    value={field.value}
-                                                    defaultValue={field.value}
                                                 >
                                                     <FormControl>
                                                         <SelectTrigger>
                                                             <SelectValue
+                                                                placeholder="Choose a customer"
                                                                 defaultValue={
                                                                     field.value
                                                                 }
-                                                                placeholder="Select a country"
                                                             />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
                                                         {/* @ts-ignore  */}
-                                                        {countries.map(
-                                                            (country) => (
+                                                        {customers.map(
+                                                            (customer) => (
                                                                 <SelectItem
                                                                     key={
-                                                                        country.id
+                                                                        customer.id
                                                                     }
                                                                     value={
-                                                                        country.id
+                                                                        customer.id
                                                                     }
                                                                 >
                                                                     {
-                                                                        country.name
+                                                                        customer.name
                                                                     }
                                                                 </SelectItem>
                                                             )
@@ -159,38 +161,60 @@ export default function CollectionDialog() {
                                         )}
                                     />
                                     <FormField
+                                        name="amount"
                                         control={form.control}
-                                        name="city"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>City</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="number"
+                                                        placeholder="Enter amount"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        name="status"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <FormItem>
                                                 <Select
+                                                    value={field.value}
+                                                    defaultValue={field.value}
                                                     onValueChange={
                                                         field.onChange
                                                     }
-                                                    value={field.value}
-                                                    defaultValue={field.value}
                                                 >
                                                     <FormControl>
                                                         <SelectTrigger>
                                                             <SelectValue
+                                                                placeholder="Choose a status"
                                                                 defaultValue={
                                                                     field.value
                                                                 }
-                                                                placeholder="Select a city"
                                                             />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
                                                         {/* @ts-ignore  */}
-                                                        {cities.map((city) => (
-                                                            <SelectItem
-                                                                key={city.id}
-                                                                value={city.id}
-                                                            >
-                                                                {city.name}
-                                                            </SelectItem>
-                                                        ))}
+                                                        {[
+                                                            "pending",
+                                                            "paid",
+                                                        ].map(
+                                                            (status, index) => (
+                                                                <SelectItem
+                                                                    key={index}
+                                                                    value={
+                                                                        status
+                                                                    }
+                                                                >
+                                                                    {status}
+                                                                </SelectItem>
+                                                            )
+                                                        )}
                                                     </SelectContent>
                                                 </Select>
                                                 <FormMessage />
@@ -199,15 +223,13 @@ export default function CollectionDialog() {
                                     />
                                 </>
                             </div>
+                            <DialogFooter>
+                                <Button type="submit" form="invoice-form">
+                                    Add
+                                </Button>
+                            </DialogFooter>
                         </form>
                     </Form>
-                    <DialogFooter>
-                        <DialogTrigger asChild>
-                            <Button type="submit" form="collection-form">
-                                Add
-                            </Button>
-                        </DialogTrigger>
-                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </div>

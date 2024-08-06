@@ -68,7 +68,6 @@ export default function CollectionsPage() {
             initialNumItems: 1,
         }
     );
-    //console.log(results);
     const handleAddNew = () => {
         setIsAddingNew(true);
         // Logic to add new user

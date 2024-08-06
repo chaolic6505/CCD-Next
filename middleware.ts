@@ -5,7 +5,6 @@ const isPublicRoute = createRouteMatcher(["/signin(.*)", "/signup(.*)", "/"]);
 
 export default clerkMiddleware((auth, request, response) => {
     const { userId } = auth();
-console.log('userId', userId)
     if (userId) {
         // If the user is authenticated and trying to access a public route, redirect to /collections
         if (isPublicRoute(request) &&  userId === 'user_2gfs8voqQwlIuXC4cuu5ugMtfrj') {

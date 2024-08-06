@@ -35,7 +35,7 @@ import { Button } from "@/components/ui/button";
 import {
     collectionSchema,
     type CollectionFormValues,
-} from "@/lib/collection-schema";
+} from "@/lib/schemas/collection";
 import { cn } from "@/lib/utils";
 
 export default function CollectionDialog() {
