@@ -1,20 +1,23 @@
 "use client";
-import { AlertModal } from "@/components/modal/alert-modal";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
+import { AlertModal } from "@/components/modal/alert-modal";
 import {
     DropdownMenu,
-    DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
+    DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { Employee } from "@/constants/data";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+
+import { Invoice } from "@/types";
 
 interface CellActionProps {
-    data: Employee;
+    data: Invoice;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -28,9 +31,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <>
             <AlertModal
                 isOpen={open}
-                onClose={() => setOpen(false)}
-                onConfirm={onConfirm}
                 loading={loading}
+                onConfirm={onConfirm}
+                onClose={() => setOpen(false)}
             />
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
@@ -43,9 +46,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                     <DropdownMenuItem
-                        onClick={() =>
-                            router.push(`/employees/${data.id}`)
-                        }
+                        onClick={() => router.push(`/invoices/${data.id}/edit`)}
                     >
                         <Edit className="mr-2 h-4 w-4" /> Update
                     </DropdownMenuItem>

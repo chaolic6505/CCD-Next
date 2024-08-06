@@ -4,4 +4,4 @@ export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "NextAdmin";
 export const APP_DESCRIPTION =
     process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
     "Chao Chao Dog";
-export const ITEMS_PER_PAGE = Number(process.env.ITEMS_PER_PAGE) || 5;
+export const ITEMS_PER_PAGE = Number(process.env.ITEMS_PER_PAGE) || 10;

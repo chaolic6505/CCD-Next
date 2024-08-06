@@ -23,8 +23,7 @@ export const columns: ColumnDef<Employee>[] = [
                 aria-label="Select row"
             />
         ),
-        enableSorting: false,
-        enableHiding: false,
+        enableSorting: true,
     },
     {
         accessorKey: "first_name",

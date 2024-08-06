@@ -32,14 +32,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import {
+    collectionSchema,
+    type CollectionFormValues,
+} from "@/lib/schemas/collection";
 import { cn } from "@/lib/utils";
-import { collectionSchema, type CollectionFormValues } from "@/lib/collection-schema";
-
-
 
 export default function CollectionDialog() {
-
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -52,9 +51,7 @@ export default function CollectionDialog() {
         console.log(name, "name");
     };
 
-    const defaultValues = {
-
-    };
+    const defaultValues = {};
 
     const processForm: SubmitHandler<CollectionFormValues> = (data) => {
         console.log("data ==>", data);
@@ -83,7 +80,7 @@ export default function CollectionDialog() {
                         ＋
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="w-[50%] h-[90vh] max-w-none">
+                <DialogContent className="w-[50%] max-w-2xl">
                     <DialogHeader>
                         <DialogTitle>Add New Collection</DialogTitle>
                         <DialogDescription>
