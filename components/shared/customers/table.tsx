@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import Search from "../search";
+import Search from "../../search-bar";
 import { lusitana } from "../fonts";
 import { FormattedCustomersTable } from "@/types";
 

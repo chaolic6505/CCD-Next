@@ -3,10 +3,10 @@
 import { SearchIcon } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Input } from "../ui/input";
+import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export default function SearchBar({ placeholder }: { placeholder: string }) {
     const { replace } = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -22,6 +22,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
             params.set("query", term);
         } else {
             params.delete("query");
+            params.delete("page");
         }
         replace(`${pathname}?${params.toString()}`);
     }, 300);

@@ -1,6 +1,10 @@
 "use client";
-import { AlertModal } from "@/components/modal/alert-modal";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Edit, MoreHorizontal, Trash } from "lucide-react";
+
+
+import { User } from "@/types";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,10 +12,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@/constants/data";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { AlertModal } from "@/components/modal/alert-modal";
+
 
 interface CellActionProps {
     data: User;
@@ -44,7 +47,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
                     <DropdownMenuItem
                         onClick={() =>
-                            router.push(`/dashboard/user/${data.id}`)
+                            router.push(`/user/${data.id}`)
                         }
                     >
                         <Edit className="mr-2 h-4 w-4" /> Update

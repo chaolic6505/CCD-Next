@@ -25,7 +25,7 @@ import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface DataTableProps<TData, TValue> {
     data: TData[];
-    searchKey: string;
+    searchKey?: string;
     hideSearchBar?: boolean;
     hidePagination?: boolean;
     columns: ColumnDef<TData, TValue>[];
@@ -57,7 +57,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <>
-            {!hideSearchBar ? (
+            {!hideSearchBar && searchKey ? (
                 <Input
                     className="w-full md:max-w-sm"
                     placeholder={`Search ${searchKey}...`}

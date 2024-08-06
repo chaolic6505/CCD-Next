@@ -15,7 +15,6 @@ export default async function InvoicesTable({
     return (
         <DataTable
             data={invoices}
-            searchKey="name"
             columns={columns}
             hideSearchBar={true}
             hidePagination={true}

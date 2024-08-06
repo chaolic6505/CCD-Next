@@ -146,9 +146,11 @@ export async function fetchInvoicesPages(query: string) {
                     ilike(invoices.status, sql`${`%${query}%`}`)
                 )
             );
+        console.log("Data:", data);
+        const total = data[0].count;
         const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
         console.log("Total Pages:", totalPages);
-        return totalPages;
+        return { totalPages, total };
     } catch (error) {
         console.error("Database Error:", error);
         throw new Error("Failed to fetch total number of invoices.");

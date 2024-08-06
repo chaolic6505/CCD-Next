@@ -6,6 +6,7 @@ import {
     pgTable,
     varchar,
     integer,
+    timestamp,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 
@@ -59,4 +60,5 @@ export const invoices = pgTable("invoices", {
     amount: integer("amount").notNull(),
     status: varchar("status", { length: 255 }).notNull(),
     date: date("date").notNull(),
+    createdAt: timestamp("created_at"),
 });

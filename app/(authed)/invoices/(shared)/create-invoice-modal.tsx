@@ -80,7 +80,7 @@ export default function CollectionDialog() {
                         ＋
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="w-[50%] max-w-2xl">
+                <DialogContent className="w-[50%] h-[90vh] max-w-none">
                     <DialogHeader>
                         <DialogTitle>Add New Collection</DialogTitle>
                         <DialogDescription>

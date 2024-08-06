@@ -114,7 +114,7 @@ export default function CollectionsPage() {
 
                     <TabsContent value="gallery" className="space-y-4">
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                            {/* {new Array(116).fill("").map((_, i) => (
+                            {new Array(116).fill("").map((_, i) => (
                                 <Card
                                     key={i}
                                     className="h-[200px] p-6 flex flex-col justify-between"
@@ -124,7 +124,7 @@ export default function CollectionsPage() {
                                     <Skeleton className="h-[20px] rounded" />
                                     <Skeleton className="h-[20px] rounded" />
                                 </Card>
-                            ))} */}
+                            ))}
                         </div>
                     </TabsContent>
                 </Tabs>
