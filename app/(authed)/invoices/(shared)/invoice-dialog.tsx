@@ -14,11 +14,12 @@ import {
 } from "@/components/ui/dialog";
 import {
     Form,
-    FormField,
-    FormControl,
     FormItem,
     FormLabel,
+    FormField,
+    FormControl,
     FormMessage,
+    FormDescription,
 } from "@/components/ui/form";
 
 import {
@@ -33,6 +34,7 @@ import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
 import { CustomerField } from "@/types";
+import { CURRENCY } from "@/lib/constants/currency";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
 export default function InvoiceDialog({
@@ -52,9 +54,10 @@ export default function InvoiceDialog({
 
     const defaultValues = {
         name: "",
-        amount: "0",
-        customer: "",
         status: "",
+        amount: "",
+        customer: "",
+        currency: "",
     };
 
     const submitForm: SubmitHandler<InvoiceFormValues> = (data) => {
@@ -68,11 +71,15 @@ export default function InvoiceDialog({
     });
     const {
         control,
-        register,
+        trigger,
+        getValues,
+        getFieldState,
         formState: { errors },
     } = form;
 
     console.log("errors ==>", errors);
+    console.log("CURRENCY ==>", CURRENCY["north_america"]);
+    console.log("formState ==>", form);
     return (
         <div className="z-50">
             <Dialog>
@@ -104,6 +111,9 @@ export default function InvoiceDialog({
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
+                                                <FormLabel>
+                                                    Invoice Name
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Name"
@@ -119,6 +129,9 @@ export default function InvoiceDialog({
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
+                                                <FormLabel>
+                                                    Customer Name
+                                                </FormLabel>
                                                 <Select
                                                     value={field.value}
                                                     defaultValue={field.value}
@@ -160,27 +173,15 @@ export default function InvoiceDialog({
                                             </FormItem>
                                         )}
                                     />
-                                    <FormField
-                                        name="amount"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        type="number"
-                                                        placeholder="Enter amount"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+
                                     <FormField
                                         name="status"
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
+                                                <FormLabel>
+                                                    Invoice Status
+                                                </FormLabel>
                                                 <Select
                                                     value={field.value}
                                                     defaultValue={field.value}
@@ -222,6 +223,80 @@ export default function InvoiceDialog({
                                         )}
                                     />
                                 </>
+                                <FormField
+                                    name="amount"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Invoice Amount
+                                            </FormLabel>
+                                            <FormControl>
+                                                <div>
+                                                    <Input
+                                                        type="number"
+                                                        placeholder="Enter amount"
+                                                        {...field}
+                                                        className="pr-10" // Add padding to the right to accommodate the symbol
+                                                    />
+                                                    <FormDescription>
+                                                        {getValues(
+                                                            "currency"
+                                                        ) ?? null}
+                                                    </FormDescription>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    name="currency"
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Invoice Currency
+                                            </FormLabel>
+                                            <Select
+                                                value={field.value}
+                                                defaultValue={field.value}
+                                                onValueChange={(value) => {
+                                                    field.onChange(value);
+                                                    if (value)
+                                                        trigger(["amount"]);
+                                                }}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue
+                                                            placeholder="Choose a currency"
+                                                            defaultValue={
+                                                                field.value
+                                                            }
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {/* @ts-ignore  */}
+                                                    {CURRENCY[
+                                                        "north_america"
+                                                    ].map((country, index) => (
+                                                        <SelectItem
+                                                            key={index}
+                                                            value={
+                                                                country.symbol
+                                                            }
+                                                        >
+                                                            {country.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                             <DialogFooter>
                                 <Button type="submit" form="invoice-form">

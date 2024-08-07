@@ -1,4 +1,4 @@
-import { Invoice } from './definitions';
+import { Invoice } from '../definitions';
 import {
     Tag,
     Users,

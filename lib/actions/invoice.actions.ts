@@ -9,7 +9,7 @@ import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
 import { InvoiceForm } from "@/types";
 import { formatCurrency } from "../utils";
-import { ITEMS_PER_PAGE } from "../constants";
+import { ITEMS_PER_PAGE } from "../constants/systems";
 
 export async function fetchCardData() {
     try {

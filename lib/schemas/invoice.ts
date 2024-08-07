@@ -4,11 +4,10 @@ const STATUS_ENUM = ["pending", "paid"] as const;
 export const invoiceSchema = z.object({
     name: z
         .string()
-        .min(3, { message: "Invoice Name must has least 1 character" }),
-    amount: z.string(),
-    status: z
-        .string()
-        .min(1, { message: "Status must be has least 1 character" }),
+        .min(3, { message: "Invoice Name must have least 1 character" }),
+    amount: z.string().min(1, { message: "Please enter an amount" }),
+    currency: z.string().min(1, { message: "Please select a currency" }),
+    status: z.string().min(1, { message: "Please select a status" }),
     customer: z.string().min(1, { message: "Please select a customer" }),
     // name: z.string(),
     // brand: z.string(),

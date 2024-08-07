@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { lusitana } from "./fonts";
 import Image from "next/image";
-import { APP_NAME } from "@/lib/constants";
+
+import { lusitana } from "./fonts";
+import { APP_NAME } from "@/lib/constants/systems";
 
 export default function AppLogo() {
     return (
@@ -10,11 +11,11 @@ export default function AppLogo() {
                 className={`${lusitana.className} flex flex-row items-end space-x-2`}
             >
                 <Image
-                    src="/logo.png"
+                    priority
                     width={32}
                     height={32}
+                    src="/logo.png"
                     alt={`${APP_NAME} logo`}
-                    priority
                 />
                 <span className="text-xl">{APP_NAME}</span>
             </div>
