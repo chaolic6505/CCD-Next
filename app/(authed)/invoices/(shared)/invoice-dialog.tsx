@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -36,22 +35,14 @@ import { cn } from "@/lib/utils";
 import { CustomerField } from "@/types";
 import { CURRENCY } from "@/lib/constants/currency";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
+import { createInvoice } from "@/lib/actions/invoice.actions";
+import { LoaderButton } from "@/components/loader-button";
 
 export default function InvoiceDialog({
     customers,
 }: {
     customers: CustomerField[];
 }) {
-    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-
-    //     const form = e.currentTarget;
-    //     const formData = new FormData(form);
-    //     const { customer, amount, status } = Object.fromEntries(formData);
-
-    //     console.log( customer, amount, status, " customer, amount, status");
-    // };
-
     const defaultValues = {
         name: "",
         status: "",
@@ -62,6 +53,8 @@ export default function InvoiceDialog({
 
     const submitForm: SubmitHandler<InvoiceFormValues> = (data) => {
         console.log("data ==>", data);
+        const { amount, currency, ...rest } = data;
+        createInvoice(data);
     };
 
     const form = useForm<InvoiceFormValues>({
@@ -70,16 +63,11 @@ export default function InvoiceDialog({
         resolver: zodResolver(invoiceSchema),
     });
     const {
-        control,
         trigger,
         getValues,
-        getFieldState,
-        formState: { errors },
+        formState: { isSubmitting },
     } = form;
-
-    console.log("errors ==>", errors);
-    console.log("CURRENCY ==>", CURRENCY["north_america"]);
-    console.log("formState ==>", form);
+    console.log("isSubmitting isSubmitting ==>", isSubmitting);
     return (
         <div className="z-50">
             <Dialog>
@@ -93,7 +81,7 @@ export default function InvoiceDialog({
                 </DialogTrigger>
                 <DialogContent className="w-[50%] max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle>Add New Invoice</DialogTitle>
+                        <DialogTitle>Create New Invoice</DialogTitle>
                         <DialogDescription>
                             Revolutionize your invoicing
                         </DialogDescription>
@@ -299,9 +287,12 @@ export default function InvoiceDialog({
                                 />
                             </div>
                             <DialogFooter>
-                                <Button type="submit" form="invoice-form">
+                                <LoaderButton
+                                    form="invoice-form"
+                                    isLoading={isSubmitting}
+                                >
                                     Add
-                                </Button>
+                                </LoaderButton>
                             </DialogFooter>
                         </form>
                     </Form>

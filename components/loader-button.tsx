@@ -11,13 +11,16 @@ export function LoaderButton({
 }: ButtonProps & { isLoading: boolean }) {
     return (
         <Button
-            disabled={isLoading}
-            type="submit"
             {...props}
+            type="submit"
+            disabled={isLoading}
             className={cn("flex justify-center gap-2 px-3", className)}
         >
-            {isLoading && <Loader2Icon className="h-4 w-4 animate-spin" />}
-            {children}
+            {isLoading ? (
+                <Loader2Icon className="h-4 w-4 animate-spin" />
+            ) : (
+                children
+            )}
         </Button>
     );
 }
