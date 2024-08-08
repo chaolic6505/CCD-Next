@@ -71,12 +71,12 @@ export async function fetchLatestInvoices() {
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
-            .orderBy(desc(invoices.date))
+            .orderBy(desc(invoices.invoice_date))
             .limit(5);
 
         const latestInvoices = data.map((invoice) => ({
             ...invoice,
-            amount: formatCurrency(invoice.amount),
+            amount: invoice.amount ? formatCurrency(invoice.amount) : 0,
         }));
 
         return latestInvoices;
@@ -105,7 +105,7 @@ export async function fetchFilteredInvoices(
         const data = await db
             .select({
                 id: invoices.id,
-                date: invoices.date,
+                invoice_date: invoices.invoice_date,
                 name: customers.name,
                 email: customers.email,
                 amount: invoices.amount,
@@ -121,7 +121,7 @@ export async function fetchFilteredInvoices(
                     ilike(invoices.status, sql`${`%${query}%`}`)
                 )
             )
-            .orderBy(desc(invoices.date))
+            .orderBy(desc(invoices.invoice_date))
             .limit(ITEMS_PER_PAGE)
             .offset(offset);
 
@@ -185,34 +185,40 @@ export type State = {
 export async function createInvoice(formData: InvoiceFormValues) {
     // Validate form fields using Zod
     const validatedFields = invoiceSchema.safeParse(formData);
-    console.log(validatedFields, "validatedFields");
-    // // If form validation fails, return errors early. Otherwise, continue.
-    // if (!validatedFields.success) {
-    //     return {
-    //         errors: validatedFields.error.flatten().fieldErrors,
-    //         message: "Missing Fields. Failed to Create Invoice.",
-    //     };
-    // }
+    console.log(
+        validatedFields,
+        "validatedFields",
+        Math.round(+new Date() / 1000)
+    );
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Missing Fields. Failed to Create Invoice.",
+        };
+    }
 
-    // // Prepare data for insertion into the database
-    // const { customerId, amount, status } = validatedFields.data;
-    // const amountInCents = amount * 100;
-    // const date = new Date().toISOString().split("T")[0];
+    // Prepare data for insertion into the database
+    const { customer_id, amount, status, invoice_date, currency, name } =
+        validatedFields.data;
 
-    // // Insert data into the database
-    // try {
-    //     await db.insert(invoices).values({
-    //         customer_id: customerId,
-    //         amount: amountInCents,
-    //         status,
-    //         date,
-    //     });
-    // } catch (error) {
-    //     // If a database error occurs, return a more specific error.
-    //     return {
-    //         message: "Database Error: Failed to Create Invoice.",
-    //     };
-    // }
+    // Insert data into the database
+    try {
+        await db.insert(invoices).values({
+            name,
+            status,
+            currency,
+            customer_id,
+            invoice_date,
+            created_at: new Date(),
+            amount: parseInt(amount),
+        });
+    } catch (error) {
+        // If a database error occurs, return a more specific error.
+        return {
+            message: "Database Error: Failed to Create Invoice.",
+        };
+    }
     // Revalidate the cache for the invoices page and redirect the user.
     revalidatePath("/invoices");
     redirect("/invoices");
@@ -263,7 +269,7 @@ export async function fetchInvoiceById(id: string) {
                 customer_id: invoices.customer_id,
                 amount: invoices.amount,
                 status: invoices.status,
-                date: invoices.date,
+                invoice_date: invoices.invoice_date,
             })
             .from(invoices)
             .where(eq(invoices.id, id));
@@ -272,7 +278,7 @@ export async function fetchInvoiceById(id: string) {
             ...invoice,
             // Convert amount from cents to dollars
             status: invoice.status === "paid" ? "paid" : "pending",
-            amount: invoice.amount / 100,
+            amount: invoice.amount ? invoice.amount / 100 : null,
         }));
 
         return invoice[0] as InvoiceForm;

@@ -33,7 +33,7 @@ export const columns: ColumnDef<Invoice>[] = [
         enableSorting: true,
     },
     {
-        accessorKey: "date",
+        accessorKey: "invoice_date",
         header: ({ column }) => {
             return (
                 <Button
@@ -42,7 +42,7 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Date
+                    Invoice Date
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );

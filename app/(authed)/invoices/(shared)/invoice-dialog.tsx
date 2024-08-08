@@ -47,8 +47,9 @@ export default function InvoiceDialog({
         name: "",
         status: "",
         amount: "",
-        customer: "",
         currency: "",
+        customerId: "",
+        invoice_date: "",
     };
 
     const submitForm: SubmitHandler<InvoiceFormValues> = (data) => {
@@ -113,7 +114,7 @@ export default function InvoiceDialog({
                                         )}
                                     />
                                     <FormField
-                                        name="customer"
+                                        name="customer_id"
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
@@ -227,11 +228,6 @@ export default function InvoiceDialog({
                                                         {...field}
                                                         className="pr-10" // Add padding to the right to accommodate the symbol
                                                     />
-                                                    <FormDescription>
-                                                        {getValues(
-                                                            "currency"
-                                                        ) ?? null}
-                                                    </FormDescription>
                                                 </div>
                                             </FormControl>
                                             <FormMessage />
@@ -251,8 +247,7 @@ export default function InvoiceDialog({
                                                 defaultValue={field.value}
                                                 onValueChange={(value) => {
                                                     field.onChange(value);
-                                                    if (value)
-                                                        trigger(["amount"]);
+
                                                 }}
                                             >
                                                 <FormControl>
@@ -273,7 +268,7 @@ export default function InvoiceDialog({
                                                         <SelectItem
                                                             key={index}
                                                             value={
-                                                                country.symbol
+                                                                country.name
                                                             }
                                                         >
                                                             {country.name}
@@ -281,6 +276,24 @@ export default function InvoiceDialog({
                                                     ))}
                                                 </SelectContent>
                                             </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    name={"invoice_date"}
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Invoice date</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="date"
+                                                    disabled={isSubmitting}
+                                                    {...field}
+                                                />
+                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
