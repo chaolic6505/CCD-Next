@@ -67,12 +67,12 @@ export type User = {
 
 export type Invoice = {
     id: string;
-    date: string;
+    invoice_date: string | null;
     name: string;
     email: string;
-    amount: number;
-    status: string;
-    image_url?: string;
+    amount: number | null;
+    status: string | null;
+    image_url: string;
 };
 
 export type ColumnSort = {

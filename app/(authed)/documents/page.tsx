@@ -1,13 +1,8 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { Button } from "@/components/ui/button";
-import { api } from "@/convex/_generated/api";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
-import { UserNoteForm } from "@/components/forms/user-note-form";
 
 const breadcrumbItems = [
     { title: "Dashboard", link: "/dashboard" },

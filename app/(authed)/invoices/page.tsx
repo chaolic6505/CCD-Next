@@ -13,7 +13,6 @@ import InvoiceDialog from "./(shared)/invoice-dialog";
 import { fetchCustomers } from "@/lib/actions/customer.actions";
 import { fetchInvoicesPages } from "@/lib/actions/invoice.actions";
 
-
 export const metadata: Metadata = {
     title: "Invoices",
 };
@@ -33,7 +32,7 @@ export default async function InvoicesPage({
 }) {
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
-    const customers = await fetchCustomers()
+    const customers = await fetchCustomers();
     const { total, totalPages } = await fetchInvoicesPages(query);
 
     return (
@@ -59,10 +58,10 @@ export default async function InvoicesPage({
                             currentPage={currentPage}
                         />
                         {/* <Breadcrumbs items={breadcrumbItems} /> */}
-                        <div className="flex w-full justify-center">
-                            <Pagination totalPages={totalPages} />
-                        </div>
                     </Suspense>
+                    <div className="flex w-full justify-center">
+                        <Pagination totalPages={totalPages} />
+                    </div>
                 </TabsContent>
             </Tabs>
         </div>
