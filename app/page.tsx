@@ -2,15 +2,9 @@
 
 import Link from "next/link";
 import { Suspense } from "react";
-import { useConvexAuth } from "convex/react";
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 import UserAuthForm from "@/components/forms/user-auth-form";
 
-import { api } from "@/convex/_generated/api";
-import { Authenticated, Unauthenticated, useQuery } from "convex/react";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Home() {
     return (

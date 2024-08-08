@@ -1,23 +1,16 @@
 "use client";
 
-import { Suspense } from "react";
-import { useState } from "react";
-import { Plus } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { usePaginatedQuery } from "convex/react";
+import { useState, Suspense } from "react";
 
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Skeleton } from "@/components/ui/skeleton"; // Assume this component exists
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import CollectionDialog from "./(shared)/add-collection-dialog";
 import CollectionCard from "./(shared)/collection-card";
-import { CreateProfileOne } from "@/components/forms/user-profile-stepper/create-profile";
+import CollectionDialog from "./(shared)/add-collection-dialog";
 
 const cards = [
     {
@@ -61,24 +54,7 @@ const SkeletonCard = () => {
 export default function CollectionsPage() {
     const [isAddingNew, setIsAddingNew] = useState(false);
 
-    const { results, status, loadMore } = usePaginatedQuery(
-        api.document.getPaginatedDocuments,
-        {},
-        {
-            initialNumItems: 1,
-        }
-    );
-    const handleAddNew = () => {
-        setIsAddingNew(true);
-        // Logic to add new user
-        console.log("Adding new user");
-        // After adding, set isAddingNew back to false
-        // setIsAddingNew(false);
-    };
 
-    if (results === undefined) {
-        return <SkeletonCard />;
-    }
 
     return (
         <ScrollArea className="h-full">
@@ -86,7 +62,7 @@ export default function CollectionsPage() {
                 <div className="flex items-start justify-between">
                     <Heading
                         description="Manage your collections"
-                        title={`Collections (${results?.length ?? 0})`}
+                        title={`Collections`}
                     />
                     {/* <Button
                         // onClick={() => loadMore(1)}
