@@ -139,5 +139,5 @@ export function TableRowSkeleton() {
 }
 
 export function InvoicesTableSkeleton() {
-    return [...Array(10)].map((_) => <TableRowSkeleton />);
+    return <TableRowSkeleton />;
 }
