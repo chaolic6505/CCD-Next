@@ -47,7 +47,6 @@ export async function fetchCardData() {
             totalPendingInvoices,
         };
     } catch (error) {
-        console.error("Database Error:", error);
         throw new Error("Failed to fetch card data.");
     }
 }
@@ -57,7 +56,6 @@ export async function fetchRevenue() {
         const data = await db.select().from(revenue);
         return data;
     } catch (error) {
-        console.error("Database Error:", error);
         throw new Error("Failed to fetch the revenues.");
     }
 }
@@ -83,7 +81,6 @@ export async function fetchLatestInvoices() {
 
         return latestInvoices;
     } catch (error) {
-        console.error("Database Error:", error);
         throw new Error("Failed to fetch the latest invoices.");
     }
 }
@@ -129,7 +126,6 @@ export async function fetchFilteredInvoices(
 
         return data;
     } catch (error) {
-        console.error("Database Error:", error);
         throw new Error("Failed to fetch invoices.");
     }
 }
@@ -154,7 +150,6 @@ export async function fetchInvoicesPages(query: string) {
 
         return { totalPages, total };
     } catch (error) {
-        console.error("Database Error:", error);
         throw new Error("Failed to fetch total number of invoices.");
     }
 }
@@ -285,7 +280,6 @@ export async function fetchInvoiceById(id: string) {
 
         return invoice[0] as InvoiceForm;
     } catch (error) {
-        console.error("Database Error:", error);
         throw new Error("Failed to fetch invoice.");
     }
 }
