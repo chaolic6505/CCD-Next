@@ -1,5 +1,6 @@
 import "./globals.css";
 import "@uploadthing/react/styles.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -8,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Toaster } from "@/components/ui/toaster";
 import Providers from "@/components/layout/providers";
+
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,4 +1,8 @@
 "use client";
+
+import moment from "moment";
+import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -18,7 +22,6 @@ import {
     FormField,
     FormControl,
     FormMessage,
-    FormDescription,
 } from "@/components/ui/form";
 
 import {
@@ -30,48 +33,57 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { LoaderButton } from "@/components/loader-button";
 
 import { cn } from "@/lib/utils";
 import { CustomerField } from "@/types";
 import { CURRENCY } from "@/lib/constants/currency";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 import { createInvoice } from "@/lib/actions/invoice.actions";
-import { LoaderButton } from "@/components/loader-button";
+import { toast } from "@/components/ui/use-toast";
 
 export default function InvoiceDialog({
     customers,
 }: {
     customers: CustomerField[];
 }) {
+    const { user } = useUser();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const defaultValues = {
-        name: "",
-        status: "",
-        amount: "",
-        currency: "",
-        customerId: "",
-        invoice_date: "",
+        customer_id: "",
+        amount: "666.88",
+        status: "pending",
+        currency: "US Dollar",
+        name: "Pho Men Tay Vietnamese Restaurant",
+        invoice_date: `${moment().format("YYYY-MM-DD")}`,
     };
 
     const submitForm: SubmitHandler<InvoiceFormValues> = (data) => {
-        console.log("data ==>", data);
-        const { amount, currency, ...rest } = data;
-        createInvoice(data);
+        if (user?.id) {
+            createInvoice(data, user?.id);
+            setIsDialogOpen(false);
+
+            toast({
+                variant: "default",
+                title: "Success!",
+                description: "Invoice created.",
+            });
+        };
     };
 
     const form = useForm<InvoiceFormValues>({
         defaultValues,
-        mode: "onChange",
+        mode: "onSubmit",
         resolver: zodResolver(invoiceSchema),
     });
     const {
-        trigger,
         getValues,
         formState: { isSubmitting },
     } = form;
-    console.log("isSubmitting isSubmitting ==>", isSubmitting);
+
     return (
         <div className="z-50">
-            <Dialog>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                     <Button
                         variant="default"
@@ -247,7 +259,6 @@ export default function InvoiceDialog({
                                                 defaultValue={field.value}
                                                 onValueChange={(value) => {
                                                     field.onChange(value);
-
                                                 }}
                                             >
                                                 <FormControl>
@@ -267,9 +278,7 @@ export default function InvoiceDialog({
                                                     ].map((country, index) => (
                                                         <SelectItem
                                                             key={index}
-                                                            value={
-                                                                country.name
-                                                            }
+                                                            value={country.name}
                                                         >
                                                             {country.name}
                                                         </SelectItem>
