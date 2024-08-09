@@ -2,10 +2,12 @@
 
 import { z } from "zod";
 import db from "@/db/drizzle";
+
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { customers, invoices, revenue } from "@/db/schema";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
+
 
 import { InvoiceForm } from "@/types";
 import { formatCurrency } from "../utils";
@@ -182,14 +184,14 @@ export type State = {
     message?: string | null;
 };
 
-export async function createInvoice(formData: InvoiceFormValues) {
+export async function createInvoice(
+    formData: InvoiceFormValues,
+    created_by: string,
+) {
+    //const { user } = useUser();
     // Validate form fields using Zod
     const validatedFields = invoiceSchema.safeParse(formData);
-    console.log(
-        validatedFields,
-        "validatedFields",
-        Math.round(+new Date() / 1000)
-    );
+
     // If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {
         return {
@@ -199,19 +201,19 @@ export async function createInvoice(formData: InvoiceFormValues) {
     }
 
     // Prepare data for insertion into the database
-    const { customer_id, amount, status, invoice_date, currency, name } =
-        validatedFields.data;
+    const { customer_id, amount, status, invoice_date, currency, name } = validatedFields.data;
 
-    // Insert data into the database
+    //Insert data into the database
     try {
         await db.insert(invoices).values({
             name,
             status,
             currency,
+            created_by,
             customer_id,
             invoice_date,
-            created_at: new Date(),
             amount: parseInt(amount),
+            created_at: Math.round(+new Date() / 1000),
         });
     } catch (error) {
         // If a database error occurs, return a more specific error.

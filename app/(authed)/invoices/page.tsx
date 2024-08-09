@@ -17,11 +17,6 @@ export const metadata: Metadata = {
     title: "Invoices",
 };
 
-const breadcrumbItems = [
-    { title: "Dashboard", link: "/dashboard" },
-    { title: "Invoices", link: "/invoices" },
-];
-
 export default async function InvoicesPage({
     searchParams,
 }: {

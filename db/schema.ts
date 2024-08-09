@@ -56,13 +56,13 @@ export const invoices = pgTable("invoices", {
         .default(sql`uuid_generate_v4()`)
         .primaryKey()
         .notNull(),
-    invoice_date: date("invoice_date"),
-    amount: integer("amount"),
-    customer_id: uuid("customer_id").notNull(),
-    name: varchar("name", { length: 255 }),
-    status: varchar("status", { length: 255 }),
-    currency: varchar("currency", { length: 255 }),
-    created_by: varchar("created_by", { length: 255 }),
-    created_at: timestamp("created_at"),
-    updated_at: timestamp("updated_at"),
+        amount: integer("amount"),
+        customer_id: uuid("customer_id").notNull(),
+        name: varchar("name", { length: 255 }),
+        status: varchar("status", { length: 255 }),
+        currency: varchar("currency", { length: 255 }),
+        created_by: varchar("created_by", { length: 255 }),
+        invoice_date: varchar("invoice_date", { length: 255 }),
+    created_at: integer("created_at"),
+    updated_at: integer("updated_at"),
 });

@@ -46,10 +46,7 @@ export const columns: ColumnDef<Invoice>[] = [
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
-        },
-        cell: (props) => (
-            <span>{formatDateToLocal(props.getValue() as string)}</span>
-        ),
+        }
     },
     {
         accessorKey: "name",
