@@ -107,12 +107,12 @@ export async function fetchFilteredInvoices(
         const data = await db
             .select({
                 id: invoices.id,
-                invoice_date: invoices.invoice_date,
-                name: customers.name,
-                email: customers.email,
-                amount: invoices.amount,
-                status: invoices.status,
+                customer_name: customers.name,
                 image_url: customers.image_url,
+                customer_email: customers.email,
+                invoice_amount: invoices.amount,
+                invoice_status: invoices.status,
+                invoice_date: invoices.invoice_date,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))

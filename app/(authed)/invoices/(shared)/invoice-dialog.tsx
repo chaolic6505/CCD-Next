@@ -80,7 +80,7 @@ export default function InvoiceDialog({
         getValues,
         formState: { isSubmitting },
     } = form;
-    console.log(isSubmitting, 'isSubmitting');
+
     return (
         <div className="z-50">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

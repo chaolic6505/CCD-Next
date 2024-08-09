@@ -9,9 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Pagination from "./(shared)/pagination";
 import InvoicesTable from "./(shared)/invoices-table";
 import InvoiceDialog from "./(shared)/invoice-dialog";
+import InvoicesCardsWrapper from "./(shared)/invoice-card-wrapper";
 
 import { fetchCustomers } from "@/lib/actions/customer.actions";
-import { fetchInvoicesPages } from "@/lib/actions/invoice.actions";
+import { fetchFilteredInvoices, fetchInvoicesPages } from "@/lib/actions/invoice.actions";
 
 export const metadata: Metadata = {
     title: "Invoices",
@@ -28,8 +29,9 @@ export default async function InvoicesPage({
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
+    const invoices = await fetchFilteredInvoices(query, currentPage);
     const { total, totalPages } = await fetchInvoicesPages(query);
-
+    console.log(invoices);
     return (
         <div className="flex-1 space-y-4  p-4 pt-1 md:p-8">
             <Heading title={`Total Invoices (${total ?? 0})`} />
@@ -48,10 +50,18 @@ export default async function InvoicesPage({
                         key={query + currentPage}
                         fallback={<InvoicesTableSkeleton />}
                     >
-                        <InvoicesTable
-                            query={query}
-                            currentPage={currentPage}
-                        />
+                        <InvoicesTable invoices={invoices} />
+                    </Suspense>
+                    <div className="flex w-full justify-center">
+                        <Pagination totalPages={totalPages} />
+                    </div>
+                </TabsContent>
+                <TabsContent value="gallery" className="space-y-4">
+                    <Suspense
+                        key={query + currentPage}
+                        fallback={<InvoicesTableSkeleton />}
+                    >
+                        <InvoicesCardsWrapper invoices={invoices} />
                     </Suspense>
                     <div className="flex w-full justify-center">
                         <Pagination totalPages={totalPages} />

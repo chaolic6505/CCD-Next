@@ -49,7 +49,7 @@ export const columns: ColumnDef<Invoice>[] = [
         }
     },
     {
-        accessorKey: "name",
+        accessorKey: "customer_name",
         header: ({ column }) => {
             return (
                 <Button
@@ -58,14 +58,14 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Name
+                    Customer Name
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
         },
     },
     {
-        accessorKey: "email",
+        accessorKey: "customer_email",
         header: ({ column }) => {
             return (
                 <Button
@@ -81,7 +81,7 @@ export const columns: ColumnDef<Invoice>[] = [
         },
     },
     {
-        accessorKey: "amount",
+        accessorKey: "invoice_amount",
         cell: (props) => (
             <span>{formatCurrency(props.getValue() as number)}</span>
         ),
@@ -100,7 +100,7 @@ export const columns: ColumnDef<Invoice>[] = [
         },
     },
     {
-        accessorKey: "status",
+        accessorKey: "invoice_status",
         cell: (props) => <InvoiceStatus status={props.getValue() as string} />,
         header: ({ column }) => {
             return (

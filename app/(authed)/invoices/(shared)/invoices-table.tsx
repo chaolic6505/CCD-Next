@@ -1,17 +1,13 @@
 import { columns } from "./columns";
 
+import { Invoice } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
-import { fetchFilteredInvoices } from "@/lib/actions/invoice.actions";
 
 export default async function InvoicesTable({
-    query,
-    currentPage,
+    invoices,
 }: {
-    query: string;
-    currentPage: number;
+    invoices: Invoice[];
 }) {
-    const invoices = await fetchFilteredInvoices(query, currentPage);
-    console.log(invoices);
     return (
         <DataTable
             data={invoices}
