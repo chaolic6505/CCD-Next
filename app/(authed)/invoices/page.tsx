@@ -57,7 +57,6 @@ export default async function InvoicesPage({
                             query={query}
                             currentPage={currentPage}
                         />
-                        {/* <Breadcrumbs items={breadcrumbItems} /> */}
                     </Suspense>
                     <div className="flex w-full justify-center">
                         <Pagination totalPages={totalPages} />
