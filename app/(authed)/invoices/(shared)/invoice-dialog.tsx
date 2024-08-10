@@ -33,14 +33,15 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { LoaderButton } from "@/components/loader-button";
+import FileUpload, { UploadFileResponse } from "@/components/file-upload";
 
 import { cn } from "@/lib/utils";
 import { CustomerField } from "@/types";
 import { CURRENCY } from "@/lib/constants/currency";
-import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 import { createInvoice } from "@/lib/actions/invoice.actions";
-import { toast } from "@/components/ui/use-toast";
+import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
 export default function InvoiceDialog({
     customers,
@@ -50,6 +51,7 @@ export default function InvoiceDialog({
     const { user } = useUser();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const defaultValues = {
+        imgUrl: [],
         customer_id: "",
         amount: "666.88",
         status: "pending",
@@ -80,7 +82,7 @@ export default function InvoiceDialog({
         getValues,
         formState: { isSubmitting },
     } = form;
-
+    console.log(getValues(["imgUrl"]), 'imgUrl');
     return (
         <div className="z-50">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -108,7 +110,7 @@ export default function InvoiceDialog({
                             <div className={cn("gap-8 md:grid md:grid-cols-3")}>
                                 <>
                                     <FormField
-                                        name="name"
+                                        name="invoice_name"
                                         control={form.control}
                                         render={({ field }) => (
                                             <FormItem>
@@ -174,7 +176,6 @@ export default function InvoiceDialog({
                                             </FormItem>
                                         )}
                                     />
-
                                     <FormField
                                         name="status"
                                         control={form.control}
@@ -235,9 +236,9 @@ export default function InvoiceDialog({
                                             <FormControl>
                                                 <div>
                                                     <Input
+                                                        {...field}
                                                         type="number"
                                                         placeholder="Enter amount"
-                                                        {...field}
                                                         className="pr-10" // Add padding to the right to accommodate the symbol
                                                     />
                                                 </div>
@@ -299,15 +300,33 @@ export default function InvoiceDialog({
                                             <FormControl>
                                                 <Input
                                                     type="date"
-                                                    disabled={isSubmitting}
                                                     {...field}
+                                                    disabled={isSubmitting}
                                                 />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
+
                             </div>
+                            <FormField
+                                name="imgUrl"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Images</FormLabel>
+                                        <FormControl>
+                                            <FileUpload
+                                                value={field.value || []}
+                                                onRemove={() => field.onChange([])}
+                                                onChange={(files: UploadFileResponse[]) => field.onChange(files)}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                             <DialogFooter>
                                 <LoaderButton
                                     form="invoice-form"

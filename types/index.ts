@@ -69,9 +69,9 @@ export type Invoice = {
     id: string;
     image_url?: string | null;
     invoice_name?: string| null;
+    invoice_date?: string | null;
     customer_name?: string| null;
     customer_email?: string| null;
-    invoice_date?: string | null;
     invoice_amount?: number | null;
     invoice_status?: string | null;
 };

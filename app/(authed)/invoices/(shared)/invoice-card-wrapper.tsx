@@ -7,10 +7,6 @@ import {
     CardContent,
 } from "@/components/ui/card";
 import { Invoice } from "@/types";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
-
-
 
 export const InvoiceCard = ({
     image_url,
@@ -25,7 +21,7 @@ export const InvoiceCard = ({
 
     return (
         <Card
-            className="group rounded-lg border px-5 py-4 transition-colors hover:light:bg-slate-300 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+            className="group rounded-lg border px-3 py-2 transition-colors hover:light:bg-slate-300 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
         >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-xl font-medium">{invoice_name}</CardTitle>
@@ -44,13 +40,10 @@ export const InvoiceCard = ({
 export default async function InvoicesCardsWrapper({ invoices }: { invoices: Invoice[]; }) {
     if (!invoices) return null;
     return (
-        <ScrollArea className="h-full">
-
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-                {invoices.map((invoice) => (
-                    <InvoiceCard {...invoice} />
-                ))}
-            </div>
-        </ScrollArea>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {invoices.map((invoice) => (
+                <InvoiceCard {...invoice} />
+            ))}
+        </div>
     );
 }

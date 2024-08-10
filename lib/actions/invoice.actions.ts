@@ -63,11 +63,11 @@ export async function fetchLatestInvoices() {
     try {
         const data = await db
             .select({
-                amount: invoices.amount,
-                name: customers.name,
-                image_url: customers.image_url,
-                email: customers.email,
                 id: invoices.id,
+                name: customers.name,
+                email: customers.email,
+                amount: invoices.amount,
+                image_url: customers.image_url,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
@@ -104,11 +104,12 @@ export async function fetchFilteredInvoices(
         const data = await db
             .select({
                 id: invoices.id,
+                status: invoices.status,
                 customer_name: customers.name,
                 image_url: customers.image_url,
                 customer_email: customers.email,
                 invoice_amount: invoices.amount,
-                invoice_status: invoices.status,
+                invoice_name: invoices.invoice_name,
                 invoice_date: invoices.invoice_date,
             })
             .from(invoices)
@@ -117,7 +118,8 @@ export async function fetchFilteredInvoices(
                 or(
                     ilike(customers.name, sql`${`%${query}%`}`),
                     ilike(customers.email, sql`${`%${query}%`}`),
-                    ilike(invoices.status, sql`${`%${query}%`}`)
+                    ilike(invoices.status, sql`${`%${query}%`}`),
+                    ilike(invoices.invoice_name, sql`${`%${query}%`}`),
                 )
             )
             .orderBy(desc(invoices.invoice_date))
@@ -196,16 +198,16 @@ export async function createInvoice(
     }
 
     // Prepare data for insertion into the database
-    const { customer_id, amount, status, invoice_date, currency, name } = validatedFields.data;
+    const { customer_id, amount, status, invoice_date, currency, invoice_name } = validatedFields.data;
 
     //Insert data into the database
     try {
         await db.insert(invoices).values({
-            name,
             status,
             currency,
             created_by,
             customer_id,
+            invoice_name,
             invoice_date,
             amount: parseInt(amount),
             created_at: Math.round(+new Date() / 1000),
