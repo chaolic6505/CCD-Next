@@ -23,17 +23,17 @@ export type UploadFileResponse = {
 
 interface FileUploadProps {
     onChange?: any;
+    onDrop: () => void;
     IMG_MAX_LIMIT?: number;
     files: UploadFileResponse[];
-    setIsUploading?: (loading: boolean) => void;
     onRemove: (value: UploadFileResponse[]) => void;
 }
 
 export default function FileUpload({
     files,
+    onDrop,
     onChange,
     onRemove,
-    setIsUploading,
     IMG_MAX_LIMIT = 1,
 }: FileUploadProps) {
     const { toast } = useToast();
@@ -91,18 +91,16 @@ export default function FileUpload({
                         endpoint="imageUploader"
                         config={{ mode: "auto" }}
                         className="ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300 py-2 dark:bg-zinc-800"
-                        content={{
+                        onUploadBegin={() => onDrop()}                        content={{
                             allowedContent({ isUploading }) {
                                 if (isUploading)
-                                    if (setIsUploading)
-                                        setIsUploading(isUploading);
-                                return (
-                                    <>
-                                        <p className="mt-2 animate-pulse text-sm text-slate-400">
-                                            Photo Uploading...
-                                        </p>
-                                    </>
-                                );
+                                    return (
+                                        <>
+                                            <p className="mt-2 animate-pulse text-sm text-slate-400">
+                                                Photo Uploading...
+                                            </p>
+                                        </>
+                                    );
                             },
                         }}
                         onClientUploadComplete={(res) => {
@@ -125,9 +123,6 @@ export default function FileUpload({
                                 variant: "destructive",
                                 description: error.message,
                             });
-                        }}
-                        onUploadBegin={() => {
-                            // Do something once upload begins
                         }}
                     />
                 )}

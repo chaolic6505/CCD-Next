@@ -24,7 +24,7 @@ export const ourFileRouter = {
             return { userId: user.userId };
         })
         .onUploadComplete(async () => {
-console.log("onUploadComplete");
+
             // This code RUNS ON YOUR SERVER after upload
         }),
 } satisfies FileRouter;

@@ -62,9 +62,22 @@ export default function InvoiceDialog({
         invoice_date: `${moment().format("YYYY-MM-DD")}`,
     };
 
+    const form = useForm<InvoiceFormValues>({
+        defaultValues,
+        mode: "onSubmit",
+        resolver: zodResolver(invoiceSchema),
+    });
+
+    const {
+        reset,
+        getValues,
+        formState: { isSubmitting },
+    } = form;
+
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
         if (user?.id) {
             createInvoice(data, user?.id);
+            reset();
             setIsDialogOpen(false);
             toast({
                 variant: "default",
@@ -73,16 +86,6 @@ export default function InvoiceDialog({
             });
         }
     };
-
-    const form = useForm<InvoiceFormValues>({
-        defaultValues,
-        mode: "onSubmit",
-        resolver: zodResolver(invoiceSchema),
-    });
-    const {
-        getValues,
-        formState: { isSubmitting },
-    } = form;
 
     return (
         <div className="z-50">
@@ -318,9 +321,11 @@ export default function InvoiceDialog({
                                         <FormLabel>Images</FormLabel>
                                         <FormControl>
                                             <FileUpload
+                                                onDrop={() =>
+                                                    setIsUploading(true)
+                                                }
                                                 onRemove={field.onChange}
                                                 files={field.value ?? []}
-                                                setIsUploading={setIsUploading}
                                                 onChange={(
                                                     value: UploadFileResponse[]
                                                 ) => {

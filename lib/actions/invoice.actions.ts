@@ -63,10 +63,15 @@ export async function fetchLatestInvoices() {
         const data = await db
             .select({
                 id: invoices.id,
-                name: customers.name,
-                email: customers.email,
-                amount: invoices.amount,
+                status: invoices.status,
+                customer_name: customers.name,
                 image_url: customers.image_url,
+                customer_email: customers.email,
+                created_at: invoices.created_at,
+                invoice_amount: invoices.amount,
+                invoice_name: invoices.invoice_name,
+                invoice_date: invoices.invoice_date,
+                invoice_image_url: invoices.image_url,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
@@ -75,7 +80,7 @@ export async function fetchLatestInvoices() {
 
         const latestInvoices = data.map((invoice) => ({
             ...invoice,
-            amount: invoice.amount ? formatCurrency(invoice.amount) : 0,
+            invoice_amount: invoice.invoice_amount ? formatCurrency(invoice.invoice_amount) : 0,
         }));
 
         return latestInvoices;
@@ -215,7 +220,7 @@ export async function createInvoice(
         customer_id,
         invoice_name,
         invoice_date,
-        amount: parseInt(amount),
+        amount: parseFloat(amount),
         created_at: Math.round(+new Date() / 1000),
         image_url: image_urls?.length ? image_urls[0].url : null,
     };
