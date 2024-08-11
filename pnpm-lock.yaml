@@ -30,22 +30,22 @@ importers:
         specifier: 3.2.2
         version: 3.2.2(react@18.3.1)
       '@emotion/react':
-        specifier: ^11.13.0
+        specifier: 11.13.0
         version: 11.13.0(@types/react@18.2.21)(react@18.3.1)
       '@emotion/styled':
-        specifier: ^11.13.0
+        specifier: 11.13.0
         version: 11.13.0(@emotion/react@11.13.0(@types/react@18.2.21)(react@18.3.1))(@types/react@18.2.21)(react@18.3.1)
       '@fontsource/roboto':
-        specifier: ^5.0.14
+        specifier: 5.0.14
         version: 5.0.14
       '@hookform/resolvers':
         specifier: 3.9.0
         version: 3.9.0(react-hook-form@7.52.1(react@18.3.1))
       '@mui/icons-material':
-        specifier: ^5.16.7
+        specifier: 5.16.7
         version: 5.16.7(@mui/material@5.16.7(@emotion/react@11.13.0(@types/react@18.2.21)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.0(@types/react@18.2.21)(react@18.3.1))(@types/react@18.2.21)(react@18.3.1))(@types/react@18.2.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.2.21)(react@18.3.1)
       '@mui/material':
-        specifier: ^5.16.7
+        specifier: 5.16.7
         version: 5.16.7(@emotion/react@11.13.0(@types/react@18.2.21)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.0(@types/react@18.2.21)(react@18.3.1))(@types/react@18.2.21)(react@18.3.1))(@types/react@18.2.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@neondatabase/serverless':
         specifier: 0.9.4
@@ -54,8 +54,8 @@ importers:
         specifier: 14.2.5
         version: 14.2.5(bufferutil@4.0.8)(utf-8-validate@6.0.4)
       '@next/env':
-        specifier: 15.0.0-rc.0
-        version: 15.0.0-rc.0
+        specifier: 14.2.5
+        version: 14.2.5
       '@radix-ui/react-accordion':
         specifier: 1.2.0
         version: 1.2.0(@types/react-dom@18.2.7)(@types/react@18.2.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1274,8 +1274,8 @@ packages:
   '@next/env@14.2.3':
     resolution: {integrity: sha512-W7fd7IbkfmeeY2gXrzJYDx8D2lWKbVoTIj1o1ScPHNzvp30s1AuoEFSdr39bC5sjxJaxTtq3OTCZboNp0lNWHA==}
 
-  '@next/env@15.0.0-rc.0':
-    resolution: {integrity: sha512-6W0ndQvHR9sXcqcKeR/inD2UTRCs9+VkSK3lfaGmEuZs7EjwwXMO2BPYjz9oBrtfPL3xuTjtXsHKSsalYQ5l1Q==}
+  '@next/env@14.2.5':
+    resolution: {integrity: sha512-/zZGkrTOsraVfYjGP8uM0p6r0BDT6xWpkjdVbcz66PJVSpwXX3yNiRycxAuDfBKGWBrZBXRuK/YVlkNgxHGwmA==}
 
   '@next/eslint-plugin-next@14.2.5':
     resolution: {integrity: sha512-LY3btOpPh+OTIpviNojDpUdIbHW9j0JBYBjsIp8IxtDFfYFyORvw3yNq6N231FVqQA7n7lwaf7xHbVJlA1ED7g==}
@@ -6757,7 +6757,7 @@ snapshots:
 
   '@next/env@14.2.3': {}
 
-  '@next/env@15.0.0-rc.0': {}
+  '@next/env@14.2.5': {}
 
   '@next/eslint-plugin-next@14.2.5':
     dependencies:
