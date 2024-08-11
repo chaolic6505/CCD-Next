@@ -9,7 +9,7 @@ import { CellAction } from "./cell-action";
 import { Invoice } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { formatCurrency, formatDateToLocal } from "@/lib/utils";
+import { formatCurrency, formatTS } from "@/lib/utils";
 
 export const columns: ColumnDef<Invoice>[] = [
     // {
@@ -32,6 +32,25 @@ export const columns: ColumnDef<Invoice>[] = [
     //     ),
     //     enableSorting: true,
     // },
+    {
+        accessorKey: "created_at",
+        cell: (props) => (
+            <span>{formatTS(props.getValue() as number)}</span>
+        ),
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Created At
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        }
+    },
     {
         accessorKey: "invoice_date",
         header: ({ column }) => {

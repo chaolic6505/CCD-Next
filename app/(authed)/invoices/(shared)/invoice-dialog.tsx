@@ -31,6 +31,7 @@ import {
     SelectContent,
     SelectTrigger,
 } from "@/components/ui/select";
+import Modal from "@/components/modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";

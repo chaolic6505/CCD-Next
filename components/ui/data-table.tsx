@@ -40,7 +40,9 @@ export function DataTable<TData, TValue>({
     hidePagination,
     defaultSorting,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>(defaultSorting ?? []);
+    const [sorting, setSorting] = React.useState<SortingState>(
+        defaultSorting ?? []
+    );
 
     const table = useReactTable({
         data,

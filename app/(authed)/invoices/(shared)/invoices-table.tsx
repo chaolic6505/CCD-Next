@@ -14,6 +14,7 @@ export default async function InvoicesTable({
             columns={columns}
             hideSearchBar={true}
             hidePagination={true}
+            defaultSorting={[{ id: "created_at", desc: true }]}
         />
     );
 }

@@ -107,9 +107,11 @@ export async function fetchFilteredInvoices(
                 customer_name: customers.name,
                 image_url: customers.image_url,
                 customer_email: customers.email,
+                created_at: invoices.created_at,
                 invoice_amount: invoices.amount,
                 invoice_name: invoices.invoice_name,
                 invoice_date: invoices.invoice_date,
+                invoice_image_url: invoices.image_url,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
@@ -121,7 +123,7 @@ export async function fetchFilteredInvoices(
                     ilike(invoices.invoice_name, sql`${`%${query}%`}`)
                 )
             )
-            .orderBy(desc(invoices.invoice_date))
+            .orderBy(desc(invoices.created_at))
             .limit(ITEMS_PER_PAGE)
             .offset(offset);
 
