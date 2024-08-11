@@ -1,7 +1,5 @@
 "use client";
 
-import { authenticate } from "@/lib/actions/user.actions";
-import { ArrowRightIcon, AtSign, CircleAlert, LockKeyhole } from "lucide-react";
 
 
 import { lusitana } from "./fonts";
