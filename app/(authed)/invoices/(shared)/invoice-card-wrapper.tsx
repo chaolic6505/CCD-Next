@@ -1,32 +1,47 @@
+import Link from "next/link";
 import { BanknoteIcon, ClockIcon, InboxIcon, UsersIcon } from "lucide-react";
 
-import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 import { Invoice } from "@/types";
-import Link from "next/link";
+import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card";
 
-export const InvoiceCard = ({
-    id,
-    image_url,
-    invoice_name,
-    invoice_date,
-    customer_name,
-    customer_email,
-    invoice_amount,
-    invoice_status,
-}: Invoice) => {
+export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => {
+    console.log(invoice, "invoice");
+    const {
+        id,
+        invoice_name,
+        customer_email,
+        customer_name,
+        invoice_date,
+        invoice_amount,
+        invoice_status,
+        invoice_image_url,
+    } = invoice;
     return (
-        <Link href={`/invoices/${id}`} key={id}>
+        <Link href={`/invoices/${invoice.id}`} key={invoice.id}>
             <Card
                 key={id}
-                className="group rounded-lg border px-3 py-2 transition-colors hover:light:bg-slate-300 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                className="max-w-sm overflow-hidden shadow-lg rounded-lg"
             >
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-xl font-medium">
+                <CardHeader></CardHeader>
+                {invoice_image_url ? (
+                    <Image
+                        width={300}
+                        height={200}
+                        alt="invoice"
+                        src={invoice_image_url}
+                        className="object-cover w-full h-48"
+                    />
+                ) : null}
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 ">
+                    <CardTitle className="text-xl font-medium truncate">
                         {invoice_name}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-lg font-bold">{customer_email}</div>
+                    <div className="text-lg font-bold truncate">
+                        {customer_email}
+                    </div>
                     <p className="text-xs text-muted-foreground">
                         {customer_name}
                     </p>
@@ -52,9 +67,9 @@ export default async function InvoicesCardsWrapper({
 }) {
     if (!invoices) return null;
     return (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-4 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr">
             {invoices.map((invoice) => (
-                <InvoiceCard key={invoice.id} {...invoice} />
+                <InvoiceCard invoice={invoice} />
             ))}
         </div>
     );

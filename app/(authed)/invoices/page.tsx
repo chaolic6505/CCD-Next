@@ -3,7 +3,10 @@ import { Suspense } from "react";
 
 import SearchBar from "@/components/search-bar";
 import { Heading } from "@/components/ui/heading";
-import { InvoicesSkeleton, InvoicesTableSkeleton } from "@/components/shared/skeletons";
+import {
+    InvoicesSkeleton,
+    InvoicesTableSkeleton,
+} from "@/components/shared/skeletons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import Pagination from "./(shared)/pagination";
@@ -12,7 +15,10 @@ import InvoiceDialog from "./(shared)/invoice-dialog";
 import InvoicesCardsWrapper from "./(shared)/invoice-card-wrapper";
 
 import { fetchCustomers } from "@/lib/actions/customer.actions";
-import { fetchFilteredInvoices, fetchInvoicesPages } from "@/lib/actions/invoice.actions";
+import {
+    fetchFilteredInvoices,
+    fetchInvoicesPages,
+} from "@/lib/actions/invoice.actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const metadata: Metadata = {
@@ -37,14 +43,13 @@ export default async function InvoicesPage({
         <ScrollArea className="h-screen">
             <div className="flex-1 space-y-4  p-4 pt-1 md:p-8">
                 <Heading title={`Total Invoices (${total ?? 0})`} />
-                <Tabs defaultValue="table" className="space-y-4">
+                <Tabs defaultValue="cards" className="space-y-4">
                     <div className="flex items-start justify-start">
                         <InvoiceDialog customers={customers} />
 
                         <TabsList>
+                            <TabsTrigger value="cards">Cards</TabsTrigger>
                             <TabsTrigger value="table">Table</TabsTrigger>
-                            <TabsTrigger value="gallery">Gallery</TabsTrigger>
-                            {/*  */}
                         </TabsList>
                     </div>
                     <SearchBar placeholder="Search invoices..." />
@@ -60,7 +65,7 @@ export default async function InvoicesPage({
                             <Pagination totalPages={totalPages} />
                         </div>
                     </TabsContent>
-                    <TabsContent value="gallery" className="space-y-4">
+                    <TabsContent value="cards" className="space-y-4">
                         <div className="flex w-full justify-center">
                             <Pagination totalPages={totalPages} />
                         </div>
@@ -70,7 +75,6 @@ export default async function InvoicesPage({
                         >
                             <InvoicesCardsWrapper invoices={invoices} />
                         </Suspense>
-
                     </TabsContent>
                 </Tabs>
             </div>

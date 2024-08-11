@@ -97,7 +97,6 @@ export const UserNoteForm: React.FC<ProductFormProps> = ({
     const onSubmit = async (data: ProductFormValues) => {
         try {
             setLoading(true);
-            console.log("data", data);
             if (initialData) {
                 // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
             } else {
