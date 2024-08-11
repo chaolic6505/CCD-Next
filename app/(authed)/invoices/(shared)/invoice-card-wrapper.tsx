@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { BanknoteIcon, ClockIcon, InboxIcon, UsersIcon } from "lucide-react";
-
 import Image from "next/image";
+
 import { Invoice } from "@/types";
 import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card";
 
@@ -9,10 +8,10 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => {
     console.log(invoice, "invoice");
     const {
         id,
+        invoice_date,
         invoice_name,
         customer_email,
         customer_name,
-        invoice_date,
         invoice_amount,
         invoice_status,
         invoice_image_url,
