@@ -49,28 +49,28 @@ export default function InvoiceDialog({
     customers: CustomerField[];
 }) {
     const { user } = useUser();
+    const [isUploading, setIsUploading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const defaultValues = {
-        imgUrl: [],
+        image_urls: [],
         customer_id: "",
         amount: "666.88",
         status: "pending",
         currency: "US Dollar",
-        name: "Pho Men Tay Vietnamese Restaurant",
+        invoice_name: "Pho Men Tay Vietnamese Restaurant",
         invoice_date: `${moment().format("YYYY-MM-DD")}`,
     };
 
-    const submitForm: SubmitHandler<InvoiceFormValues> = (data) => {
+    const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
         if (user?.id) {
             createInvoice(data, user?.id);
             setIsDialogOpen(false);
-
             toast({
                 variant: "default",
                 title: "Success!",
                 description: "Invoice created.",
             });
-        };
+        }
     };
 
     const form = useForm<InvoiceFormValues>({
@@ -82,14 +82,14 @@ export default function InvoiceDialog({
         getValues,
         formState: { isSubmitting },
     } = form;
-    console.log(getValues(["imgUrl"]), 'imgUrl');
+
     return (
         <div className="z-50">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                     <Button
                         variant="default"
-                        className="text-sm md:text-base lg:text-lg px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4"
+                        className="text-sm md:text-base lg:text-lg px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-lg mr-3"
                     >
                         ＋
                     </Button>
@@ -107,7 +107,7 @@ export default function InvoiceDialog({
                             className="w-full space-y-8"
                             onSubmit={form.handleSubmit(submitForm)}
                         >
-                            <div className={cn("gap-8 md:grid md:grid-cols-3")}>
+                            <div className={cn("gap-8 grid md:grid-cols-3")}>
                                 <>
                                     <FormField
                                         name="invoice_name"
@@ -308,19 +308,26 @@ export default function InvoiceDialog({
                                         </FormItem>
                                     )}
                                 />
-
                             </div>
                             <FormField
-                                name="imgUrl"
+                                name="image_urls"
                                 control={form.control}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Images</FormLabel>
                                         <FormControl>
                                             <FileUpload
-                                                value={field.value || []}
-                                                onRemove={() => field.onChange([])}
-                                                onChange={(files: UploadFileResponse[]) => field.onChange(files)}
+                                                onRemove={field.onChange}
+                                                files={field.value ?? []}
+                                                setIsUploading={setIsUploading}
+                                                onChange={(
+                                                    value: UploadFileResponse[]
+                                                ) => {
+                                                    if (value) {
+                                                        field.onChange(value);
+                                                        setIsUploading(false);
+                                                    }
+                                                }}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -330,7 +337,7 @@ export default function InvoiceDialog({
                             <DialogFooter>
                                 <LoaderButton
                                     form="invoice-form"
-                                    isLoading={isSubmitting}
+                                    isLoading={isSubmitting || isUploading}
                                 >
                                     Add
                                 </LoaderButton>

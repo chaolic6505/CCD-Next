@@ -8,7 +8,6 @@ import { revalidatePath } from "next/cache";
 import { customers, invoices, revenue } from "@/db/schema";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
-
 import { InvoiceForm } from "@/types";
 import { formatCurrency } from "../utils";
 import { ITEMS_PER_PAGE } from "../constants/systems";
@@ -119,7 +118,7 @@ export async function fetchFilteredInvoices(
                     ilike(customers.name, sql`${`%${query}%`}`),
                     ilike(customers.email, sql`${`%${query}%`}`),
                     ilike(invoices.status, sql`${`%${query}%`}`),
-                    ilike(invoices.invoice_name, sql`${`%${query}%`}`),
+                    ilike(invoices.invoice_name, sql`${`%${query}%`}`)
                 )
             )
             .orderBy(desc(invoices.invoice_date))
@@ -183,7 +182,7 @@ export type State = {
 
 export async function createInvoice(
     formData: InvoiceFormValues,
-    created_by: string,
+    created_by: string
 ) {
     //const { user } = useUser();
     // Validate form fields using Zod
@@ -198,26 +197,41 @@ export async function createInvoice(
     }
 
     // Prepare data for insertion into the database
-    const { customer_id, amount, status, invoice_date, currency, invoice_name } = validatedFields.data;
-
+    const {
+        amount,
+        status,
+        currency,
+        image_urls,
+        customer_id,
+        invoice_date,
+        invoice_name,
+    } = validatedFields.data;
+    let values = {
+        status,
+        currency,
+        created_by,
+        customer_id,
+        invoice_name,
+        invoice_date,
+        amount: parseInt(amount),
+        created_at: Math.round(+new Date() / 1000),
+        image_url: image_urls?.length ? image_urls[0].url : null,
+    };
     //Insert data into the database
     try {
-        await db.insert(invoices).values({
-            status,
-            currency,
-            created_by,
-            customer_id,
-            invoice_name,
-            invoice_date,
-            amount: parseInt(amount),
-            created_at: Math.round(+new Date() / 1000),
-        });
+        let insertedInvoices = await db
+            .insert(invoices)
+            .values(values)
+            .returning();
+
+        //return insertedInvoices[0];
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
             message: "Database Error: Failed to Create Invoice.",
         };
     }
+
     // Revalidate the cache for the invoices page and redirect the user.
     revalidatePath("/invoices");
     redirect("/invoices");

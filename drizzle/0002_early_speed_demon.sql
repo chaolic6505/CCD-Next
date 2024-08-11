@@ -1,0 +1,1 @@
+ALTER TABLE "invoices" RENAME COLUMN "name" TO "invoice_name";
