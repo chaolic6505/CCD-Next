@@ -1,3 +1,4 @@
+import moment from "moment";
 import { twMerge } from "tailwind-merge";
 import { Active, DataRef, Over } from "@dnd-kit/core";
 
@@ -58,6 +59,13 @@ export const formatCurrency = (amount: number) => {
         style: "currency",
         currency: "USD",
     });
+};
+
+export const formatTS = (
+    timestamp: number,
+    format: string = "MMMM Do YYYY, h:mm:ss a"
+) => {
+    return moment.unix(timestamp).format(format);
 };
 
 export const formatDateToLocal = (

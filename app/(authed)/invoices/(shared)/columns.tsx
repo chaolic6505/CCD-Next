@@ -9,28 +9,47 @@ import { CellAction } from "./cell-action";
 import { Invoice } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { formatCurrency, formatDateToLocal } from "@/lib/utils";
+import { formatCurrency, formatTS } from "@/lib/utils";
 
 export const columns: ColumnDef<Invoice>[] = [
+    // {
+    //     id: "select",
+    //     header: ({ table }) => (
+    //         <Checkbox
+    //             aria-label="Select all"
+    //             checked={table.getIsAllPageRowsSelected()}
+    //             onCheckedChange={(value) =>
+    //                 table.toggleAllPageRowsSelected(!!value)
+    //             }
+    //         />
+    //     ),
+    //     cell: ({ row }) => (
+    //         <Checkbox
+    //             aria-label="Select row"
+    //             checked={row.getIsSelected()}
+    //             onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //         />
+    //     ),
+    //     enableSorting: true,
+    // },
     {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                aria-label="Select all"
-                checked={table.getIsAllPageRowsSelected()}
-                onCheckedChange={(value) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                }
-            />
+        accessorKey: "created_at",
+        cell: (props) => (
+            <span>{formatTS(props.getValue() as number)}</span>
         ),
-        cell: ({ row }) => (
-            <Checkbox
-                aria-label="Select row"
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-            />
-        ),
-        enableSorting: true,
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Created At
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        }
     },
     {
         accessorKey: "invoice_date",
@@ -47,6 +66,23 @@ export const columns: ColumnDef<Invoice>[] = [
                 </Button>
             );
         }
+    },
+    {
+        accessorKey: "invoice_name",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Invoice Name
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: (props) => <span>{(props.getValue() as string) || 'N/A'}</span>,
     },
     {
         accessorKey: "customer_name",
@@ -100,7 +136,7 @@ export const columns: ColumnDef<Invoice>[] = [
         },
     },
     {
-        accessorKey: "invoice_status",
+        accessorKey: "status",
         cell: (props) => <InvoiceStatus status={props.getValue() as string} />,
         header: ({ column }) => {
             return (

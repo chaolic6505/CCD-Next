@@ -36,17 +36,17 @@ export default async function LatestInvoicesWrapper() {
                                     </Avatar>
                                     <div className="ml-4 space-y-1">
                                         <p className="text-sm font-medium leading-none">
-                                            {invoice.name}
+                                            {invoice.invoice_name}
                                         </p>
                                         <p className="text-sm text-muted-foreground">
-                                            {invoice.email}
+                                            {invoice.customer_email}
                                         </p>
                                     </div>
-                                    <div className="ml-auto font-medium">{invoice.amount}</div>
+                                    <div className="ml-auto font-medium">{invoice.invoice_amount}</div>
                                 </div>
                             );
                         })}
-                    <div className="flex items-center pb-2 pt-6">
+                    <div className="flex items-center pb-2">
                         <RefreshCcw className="h-5 w-5" />
                         <h3 className="ml-2 text-sm">
                             Updated just now

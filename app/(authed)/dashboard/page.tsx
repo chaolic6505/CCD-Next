@@ -4,15 +4,17 @@ import {
     CardsSkeleton,
     RevenueChartSkeleton,
     LatestInvoicesSkeleton,
-} from "@/components/shared/skeletons"
+} from "@/components/shared/skeletons";
 import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { Button } from "@/components/ui/button";
+import { BarGraph } from "@/components/charts/bar-graph";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import DashboardCardsWrapper from "./(shared)/dashboard-card-wrapper";
-import LatestInvoicesWrapper from './(shared)/latest-invoices-wrapper';
-
+import LatestInvoicesWrapper from "./(shared)/latest-invoices-wrapper";
+import { AreaGraph } from "@/components/charts/area-graph";
+import { PieGraph } from "@/components/charts/pie-graph";
 
 export default function page() {
     return (
@@ -42,21 +44,22 @@ export default function page() {
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-
-
-                            <Suspense fallback={<LatestInvoicesSkeleton />}>
-                                <LatestInvoicesWrapper />
-                            </Suspense>
-
-                            <Suspense fallback={<RevenueChartSkeleton />}>
-                                <RevenueChartSkeleton />
-                            </Suspense>
-                            {/* <div className="col-span-4">
+                            <div className="col-span-4">
+                                <Suspense fallback={<LatestInvoicesSkeleton />}>
+                                    <LatestInvoicesWrapper />
+                                </Suspense>
+                            </div>
+                            <div className="col-span-4  md:col-span-3">
+                                <Suspense fallback={<RevenueChartSkeleton />}>
+                                    <BarGraph />
+                                </Suspense>
+                            </div>
+                            <div className="col-span-4">
                                 <AreaGraph />
                             </div>
                             <div className="col-span-4 md:col-span-3">
                                 <PieGraph />
-                            </div> */}
+                            </div>
                         </div>
                     </TabsContent>
                 </Tabs>

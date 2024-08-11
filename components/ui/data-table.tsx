@@ -40,7 +40,9 @@ export function DataTable<TData, TValue>({
     hidePagination,
     defaultSorting,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>(defaultSorting ?? []);
+    const [sorting, setSorting] = React.useState<SortingState>(
+        defaultSorting ?? []
+    );
 
     const table = useReactTable({
         data,
@@ -139,16 +141,16 @@ export function DataTable<TData, TValue>({
                 {!hidePagination ? (
                     <div className="space-x-2">
                         <Button
-                            variant="outline"
                             size="sm"
+                            variant="outline"
                             onClick={() => table.previousPage()}
                             disabled={!table.getCanPreviousPage()}
                         >
                             Previous
                         </Button>
                         <Button
-                            variant="outline"
                             size="sm"
+                            variant="outline"
                             onClick={() => table.nextPage()}
                             disabled={!table.getCanNextPage()}
                         >

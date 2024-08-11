@@ -8,7 +8,6 @@ import { revalidatePath } from "next/cache";
 import { customers, invoices, revenue } from "@/db/schema";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
-
 import { InvoiceForm } from "@/types";
 import { formatCurrency } from "../utils";
 import { ITEMS_PER_PAGE } from "../constants/systems";
@@ -63,11 +62,15 @@ export async function fetchLatestInvoices() {
     try {
         const data = await db
             .select({
-                amount: invoices.amount,
-                name: customers.name,
-                image_url: customers.image_url,
-                email: customers.email,
                 id: invoices.id,
+                status: invoices.status,
+                customer_name: customers.name,
+                customer_email: customers.email,
+                created_at: invoices.created_at,
+                invoice_amount: invoices.amount,
+                invoice_name: invoices.invoice_name,
+                invoice_date: invoices.invoice_date,
+                invoice_image_url: invoices.image_url,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
@@ -76,7 +79,7 @@ export async function fetchLatestInvoices() {
 
         const latestInvoices = data.map((invoice) => ({
             ...invoice,
-            amount: invoice.amount ? formatCurrency(invoice.amount) : 0,
+            invoice_amount: invoice.invoice_amount ? formatCurrency(invoice.invoice_amount) : 0,
         }));
 
         return latestInvoices;
@@ -104,12 +107,14 @@ export async function fetchFilteredInvoices(
         const data = await db
             .select({
                 id: invoices.id,
+                status: invoices.status,
                 customer_name: customers.name,
-                image_url: customers.image_url,
                 customer_email: customers.email,
+                created_at: invoices.created_at,
                 invoice_amount: invoices.amount,
-                invoice_status: invoices.status,
+                invoice_name: invoices.invoice_name,
                 invoice_date: invoices.invoice_date,
+                invoice_image_url: invoices.image_url,
             })
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
@@ -117,10 +122,11 @@ export async function fetchFilteredInvoices(
                 or(
                     ilike(customers.name, sql`${`%${query}%`}`),
                     ilike(customers.email, sql`${`%${query}%`}`),
-                    ilike(invoices.status, sql`${`%${query}%`}`)
+                    ilike(invoices.status, sql`${`%${query}%`}`),
+                    ilike(invoices.invoice_name, sql`${`%${query}%`}`)
                 )
             )
-            .orderBy(desc(invoices.invoice_date))
+            .orderBy(desc(invoices.created_at))
             .limit(ITEMS_PER_PAGE)
             .offset(offset);
 
@@ -181,7 +187,7 @@ export type State = {
 
 export async function createInvoice(
     formData: InvoiceFormValues,
-    created_by: string,
+    created_by: string
 ) {
     //const { user } = useUser();
     // Validate form fields using Zod
@@ -196,26 +202,41 @@ export async function createInvoice(
     }
 
     // Prepare data for insertion into the database
-    const { customer_id, amount, status, invoice_date, currency, name } = validatedFields.data;
-
+    const {
+        amount,
+        status,
+        currency,
+        image_urls,
+        customer_id,
+        invoice_date,
+        invoice_name,
+    } = validatedFields.data;
+    let values = {
+        status,
+        currency,
+        created_by,
+        customer_id,
+        invoice_name,
+        invoice_date,
+        amount: parseFloat(amount),
+        created_at: Math.round(+new Date() / 1000),
+        image_url: image_urls?.length ? image_urls[0].url : null,
+    };
     //Insert data into the database
     try {
-        await db.insert(invoices).values({
-            name,
-            status,
-            currency,
-            created_by,
-            customer_id,
-            invoice_date,
-            amount: parseInt(amount),
-            created_at: Math.round(+new Date() / 1000),
-        });
+        let insertedInvoices = await db
+            .insert(invoices)
+            .values(values)
+            .returning();
+
+        //return insertedInvoices[0];
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
             message: "Database Error: Failed to Create Invoice.",
         };
     }
+
     // Revalidate the cache for the invoices page and redirect the user.
     revalidatePath("/invoices");
     redirect("/invoices");

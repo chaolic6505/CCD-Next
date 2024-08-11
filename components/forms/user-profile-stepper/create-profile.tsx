@@ -118,8 +118,6 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
     };
 
     const processForm: SubmitHandler<ProfileFormValues> = (data) => {
-        console.log("data ==>", data);
-        setData(data);
         // api call and reset
         // form.reset();
     };
@@ -183,9 +181,8 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
         }
     };
 
-    const countries = [{ id: "wow", name: "india" }];
     const cities = [{ id: "2", name: "kerala" }];
-console.log("fields", errors)
+    const countries = [{ id: "wow", name: "india" }];
     return (
         <>
             <div className="flex items-center justify-between">

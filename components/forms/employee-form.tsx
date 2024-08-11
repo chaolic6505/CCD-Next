@@ -33,13 +33,12 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 
 const ImgSchema = z.object({
-    name: z.string(),
     key: z.string(),
     url: z.string(),
-    fileUrl: z.string(),
+    size: z.number(),
+    name: z.string(),
     fileKey: z.string(),
     fileName: z.string(),
-    size: z.number(),
     fileSize: z.number(),
 });
 export const IMG_MAX_LIMIT = 3;

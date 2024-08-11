@@ -2,22 +2,16 @@ import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isPublicRoute = createRouteMatcher(["/signin(.*)", "/signup(.*)", "/"]);
+const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/collections(.*)", "/invoices(.*)"]);
 
-export default clerkMiddleware((auth, request, response) => {
+export default clerkMiddleware((auth, request) => {
     const { userId } = auth();
-    if (userId) {
-        // If the user is authenticated and trying to access a public route, redirect to /collections
-        if (isPublicRoute(request) &&  userId === 'user_2gfs8voqQwlIuXC4cuu5ugMtfrj') {
-            return NextResponse.redirect(new URL("/invoices", request.url));
-        }
-    } else {
-        // If the user is not authenticated and trying to access a protected route, protect it
-        if (!isPublicRoute(request)) {
-            auth().protect();
-        }
-    }
+
+    if (!userId && isProtectedRoute(request)) return NextResponse.redirect(new URL("/", request.url));;
+    if (isProtectedRoute(request)) auth().protect();
+    if (isPublicRoute(request) && userId && userId == 'user_2gfs8voqQwlIuXC4cuu5ugMtfrj') return NextResponse.redirect(new URL("/invoices", request.url));
 });
 
 export const config = {
-    matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+    matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

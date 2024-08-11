@@ -48,13 +48,11 @@ export default function CollectionDialog() {
 
         if (typeof name !== "string") return;
 
-        console.log(name, "name");
     };
 
     const defaultValues = {};
 
     const processForm: SubmitHandler<CollectionFormValues> = (data) => {
-        console.log("data ==>", data);
         //setData(data);
         // api call and reset
         // form.reset();

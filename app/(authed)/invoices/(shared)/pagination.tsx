@@ -6,11 +6,10 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import { cn, generatePagination } from "@/lib/utils";
 
-export default function Pagination({ totalPages }: { totalPages: number; }) {
+export default function Pagination({ totalPages }: { totalPages: number }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const currentPage = Number(searchParams.get("page")) || 1;
-
     const createPageURL = (pageNumber: number | string) => {
         const params = new URLSearchParams(searchParams);
         params.set("page", pageNumber.toString());
@@ -23,6 +22,7 @@ export default function Pagination({ totalPages }: { totalPages: number; }) {
         <div className="inline-flex">
             <PaginationArrow
                 direction="left"
+                isHidden={currentPage === 1}
                 isDisabled={currentPage <= 1}
                 href={createPageURL(currentPage - 1)}
             />
@@ -55,8 +55,8 @@ export default function Pagination({ totalPages }: { totalPages: number; }) {
 
             <PaginationArrow
                 direction="right"
+                isHidden={currentPage >= totalPages}
                 href={createPageURL(currentPage + 1)}
-                isDisabled={currentPage >= totalPages}
             />
         </div>
     );
@@ -68,10 +68,10 @@ function PaginationNumber({
     isActive,
     position,
 }: {
-    page: number | string;
     href: string;
-    position?: "first" | "last" | "middle" | "single";
     isActive: boolean;
+    page: number | string;
+    position?: "first" | "last" | "middle" | "single";
 }) {
     const className = cn(
         "flex h-10 w-10 items-center justify-center text-sm border",
@@ -96,11 +96,13 @@ function PaginationNumber({
 function PaginationArrow({
     href,
     direction,
+    isHidden,
     isDisabled,
 }: {
     href: string;
-    direction: "left" | "right";
+    isHidden?: boolean;
     isDisabled?: boolean;
+    direction: "left" | "right";
 }) {
     const className = cn(
         "flex h-10 w-10 items-center justify-center rounded-md border",
@@ -119,7 +121,7 @@ function PaginationArrow({
             <ArrowRightIcon className="w-4" />
         );
 
-    return isDisabled ? (
+    return isHidden ? null : isDisabled ? (
         <div className={className}>{icon}</div>
     ) : (
         <Link className={className} href={href}>

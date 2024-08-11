@@ -55,7 +55,6 @@ export default async function DashboardCardsWrapper() {
         totalPaidInvoices,
         totalPendingInvoices,
     } = await fetchCardData();
-
     return (
         <>
             <DashboardCard

@@ -1,10 +1,31 @@
 import * as z from "zod";
 
 const STATUS_ENUM = ["pending", "paid"] as const;
+const ImgSchema = z
+    .object({
+        url: z.string(),
+        name: z.string(),
+        key: z.string(),
+        type: z.string(),
+        size: z.number(),
+        customId: z.string().optional(),
+        serverdata: z.string().optional(),
+    })
+    .transform((z) => ({
+        url: z.url,
+        name: z.name,
+        key: z.key,
+        type: z.type,
+        size: z.size,
+        customId: z.customId,
+        serverdata: z.serverdata,
+    }));
+
 export const invoiceSchema = z.object({
-    name: z
+    image_urls: z.array(ImgSchema).optional(),
+    invoice_name: z
         .string()
-        .min(3, { message: "Invoice name must have least 1 character" }),
+        .min(3, { message: "Invoice name must have at least 3 characters" }),
     amount: z.string().min(1, { message: "Please enter an amount" }),
     currency: z.string().min(1, { message: "Please select a currency" }),
     status: z.string().min(1, { message: "Please select a status" }),
