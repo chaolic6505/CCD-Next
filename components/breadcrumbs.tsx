@@ -14,7 +14,7 @@ type BreadcrumbItemProps = {
     title: string;
 };
 
-export function Breadcrumbs({ items }: { items: BreadcrumbItemProps[] }) {
+export function Breadcrumbs({ items }: { items: BreadcrumbItemProps[]; }) {
     return (
         <Breadcrumb>
             <BreadcrumbList>

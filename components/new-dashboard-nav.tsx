@@ -39,8 +39,8 @@ export function Menu({ isOpen }: MenuProps) {
                                     {groupLabel}
                                 </p>
                             ) : !isOpen &&
-                              isOpen !== undefined &&
-                              groupLabel ? (
+                                isOpen !== undefined &&
+                                groupLabel ? (
                                 <TooltipProvider>
                                     <Tooltip delayDuration={100}>
                                         <TooltipTrigger className="w-full">
@@ -140,7 +140,7 @@ export function Menu({ isOpen }: MenuProps) {
                                 <TooltipTrigger asChild>
                                     <Button
                                         variant="outline"
-                                        onClick={() => {}}
+                                        onClick={() => { }}
                                         className="w-full justify-center h-10 mt-5"
                                     >
                                         <span

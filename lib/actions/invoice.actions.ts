@@ -12,7 +12,7 @@ import { Invoice } from "@/types";
 import { formatCurrency } from "../utils";
 import { ITEMS_PER_PAGE } from "../constants/systems";
 import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
-import { Currency } from "lucide-react";
+
 
 export async function fetchCardData() {
     try {
@@ -164,7 +164,11 @@ export async function fetchInvoicesPages(query: string) {
 
 const FormSchema = z.object({
     id: z.string(),
-    customerId: z.string({
+    invoice_name: z
+    .string()
+    .min(3, { message: "Invoice name must have at least 3 characters" }),
+    currency: z.string().min(1, { message: "Please select a currency" }),
+    customer_id: z.string({
         invalid_type_error: "Please select a customer.",
     }),
     amount: z.coerce
@@ -173,16 +177,19 @@ const FormSchema = z.object({
     status: z.enum(["pending", "paid"], {
         invalid_type_error: "Please select an invoice status.",
     }),
-    date: z.string(),
+    invoice_date: z
+        .string()
+        .refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
+            message: "Invoice date should be in the format YYYY-MM-DD",
+        }),
+    image_url: z.string().optional().nullable(),
 });
-const CreateInvoice = FormSchema.omit({ id: true, date: true });
-const UpdateInvoice = FormSchema.omit({ date: true, id: true });
 
 export type State = {
     errors?: {
-        customerId?: string[];
         amount?: string[];
         status?: string[];
+        customer_id?: string[];
     };
     message?: string | null;
 };
@@ -244,15 +251,23 @@ export async function createInvoice(
     redirect("/invoices");
 }
 
+const UpdateInvoice = FormSchema.omit({
+    id: true,
+});
+
 export async function updateInvoice(
     id: string,
     prevState: State,
     formData: FormData
 ) {
     const validatedFields = UpdateInvoice.safeParse({
-        customerId: formData.get("customerId"),
         amount: formData.get("amount"),
         status: formData.get("status"),
+        currency: formData.get("currency"),
+        image_url: formData.get("image_url"),
+        customer_id: formData.get("customer_id"),
+        invoice_date: formData.get("invoice_date"),
+        invoice_name: formData.get("invoice_name"),
     });
 
     if (!validatedFields.success) {
@@ -262,18 +277,23 @@ export async function updateInvoice(
         };
     }
 
-    const { customerId, amount, status } = validatedFields.data;
-    const amountInCents = amount * 100;
+    const { invoice_name, invoice_date, image_url, customer_id, currency, amount, status,  } = validatedFields.data;
 
     try {
         await db
             .update(invoices)
             .set({
-                customer_id: customerId,
-                amount: amountInCents,
                 status,
+                amount,
+                currency,
+                image_url,
+                customer_id: customer_id,
+                invoice_date: invoice_date,
+                invoice_name: invoice_name,
             })
-            .where(eq(invoices.id, id));
+            .where(eq(invoices.id, id))
+            .returning();
+
     } catch (error) {
         return { message: "Database Error: Failed to Update Invoice." };
     }
@@ -297,14 +317,7 @@ export async function fetchInvoiceById(id: string) {
             .from(invoices)
             .where(eq(invoices.id, id));
 
-        const invoice = data.map((invoice) => ({
-            ...invoice,
-            // Convert amount from cents to dollars
-            status: invoice.status === "paid" ? "paid" : "pending",
-            amount: invoice.amount ? invoice.amount / 100 : null,
-        }));
-
-        return invoice[0] as Invoice;
+        return data[0];
     } catch (error) {
         throw new Error("Failed to fetch invoice.");
     }

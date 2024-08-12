@@ -21,9 +21,9 @@ export default function NotFound() {
             </p>
             <div className="mt-8 flex justify-center gap-2">
                 <Button
-                    onClick={() => router.back()}
-                    variant="default"
                     size="lg"
+                    variant="default"
+                    onClick={() => router.back()}
                 >
                     Go back
                 </Button>

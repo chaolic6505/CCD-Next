@@ -19,7 +19,7 @@ export function Modal({ children }: { children: React.ReactNode; }) {
                     <VisuallyHidden>
                         <DialogTitle>Modal</DialogTitle>
                     </VisuallyHidden>
-                    <DialogContent className="lg:max-w-screen-lg overflow-y-scroll h-5/6">
+                    <DialogContent className="lg:max-w-screen-lg scrollbar overflow-y-scroll h-5/6">
                         {children}
                     </DialogContent>
                 </DialogOverlay>

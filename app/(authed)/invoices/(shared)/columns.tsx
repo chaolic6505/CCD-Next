@@ -118,9 +118,6 @@ export const columns: ColumnDef<Invoice>[] = [
     },
     {
         accessorKey: "invoice_amount",
-        cell: (props) => (
-            <span>{formatCurrency(props.getValue() as number)}</span>
-        ),
         header: ({ column }) => {
             return (
                 <Button

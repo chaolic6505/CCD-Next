@@ -57,32 +57,32 @@ export default function FileUpload({
             <div className="mb-4 flex items-center gap-4">
                 {files && files?.length
                     ? files?.map((item: UploadFileResponse, index) => (
-                          <div
-                              key={item.key}
-                              className="relative h-[300px] w-full overflow-hidden rounded-md"
-                          >
-                              <div className="absolute right-2 top-2 z-10">
-                                  <Button
-                                      size="sm"
-                                      type="button"
-                                      variant="destructive"
-                                      onClick={() =>
-                                          onDeleteFile(item.key ?? index)
-                                      }
-                                  >
-                                      <Trash className="h-4 w-4" />
-                                  </Button>
-                              </div>
-                              <div>
-                                  <Image
-                                      fill
-                                      alt="Image"
-                                      src={item.url || ""}
-                                      className="object-cover"
-                                  />
-                              </div>
-                          </div>
-                      ))
+                        <div
+                            key={item.key}
+                            className="relative h-[300px] w-full overflow-hidden rounded-md"
+                        >
+                            <div className="absolute right-2 top-2 z-10">
+                                <Button
+                                    size="sm"
+                                    type="button"
+                                    variant="destructive"
+                                    onClick={() =>
+                                        onDeleteFile(item.key ?? index)
+                                    }
+                                >
+                                    <Trash className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <div>
+                                <Image
+                                    fill
+                                    alt="Image"
+                                    src={item.url || ""}
+                                    className="object-cover"
+                                />
+                            </div>
+                        </div>
+                    ))
                     : null}
             </div>
             <div>
@@ -91,7 +91,7 @@ export default function FileUpload({
                         endpoint="imageUploader"
                         config={{ mode: "auto" }}
                         className="ut-label:text-sm ut-allowed-content:ut-uploading:text-red-300 py-2 dark:bg-zinc-800"
-                        onUploadBegin={() => onDrop()}                        content={{
+                        onUploadBegin={() => onDrop()} content={{
                             allowedContent({ isUploading }) {
                                 if (isUploading)
                                     return (

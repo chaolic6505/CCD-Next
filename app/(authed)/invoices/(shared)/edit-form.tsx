@@ -21,6 +21,7 @@ import {
     SelectTrigger,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { DialogFooter } from "@/components/ui/dialog";
 import { LoaderButton } from "@/components/loader-button";
 import FileUpload, { UploadFileResponse } from "@/components/file-upload";
@@ -32,6 +33,7 @@ import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
 import { CustomerField, Invoice } from "@/types";
 
+
 export default function EditInvoiceForm({
     invoice,
     customers,
@@ -39,8 +41,6 @@ export default function EditInvoiceForm({
     invoice: Invoice;
     customers: CustomerField[];
 }) {
-    const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
-
     const { user } = useUser();
     const [isUploading, setIsUploading] = useState(false);
     const defaultValues = {
@@ -58,7 +58,7 @@ export default function EditInvoiceForm({
         status: invoice.status ?? "pending",
         currency: invoice.currency ?? "CAD Dollar",
         invoice_name: invoice.invoice_name ?? "",
-        invoice_date:  invoice.invoice_date ?? `${moment().format("YYYY-MM-DD")}`,
+        invoice_date: invoice.invoice_date ?? `${moment().format("YYYY-MM-DD")}`,
     };
 
     const form = useForm<InvoiceFormValues>({
@@ -68,26 +68,29 @@ export default function EditInvoiceForm({
     });
 
     const {
-        reset,
-        getValues,
-        formState: { isSubmitting },
+        formState: { isDirty, isSubmitting, },
     } = form;
 
+    const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
-        console.log(data, "data", invoice);
+        console.log(data, "data");
         if (user?.id) {
-            //createInvoice(data, user?.id);
-            // reset();
-            // setIsDialogOpen(false);
-            // toast({
-            //     variant: "default",
-            //     title: "Success!",
-            //     description: "Invoice created.",
-            // });
+            const formData = new FormData();
+            formData.append("amount", data.amount);
+            formData.append("status", data.status);
+            formData.append("currency", data.currency);
+            formData.append("customer_id", data.customer_id);
+            formData.append("invoice_date", data.invoice_date);
+            formData.append("invoice_name", data.invoice_name);
+            if (data.image_urls) formData.append("image_url", data.image_urls[0]?.url ?? "");
+            updateInvoiceWithId(invoice as State, formData);
+            toast({
+                variant: "default",
+                title: "Success!",
+                description: "Invoice updated.",
+            });
         }
     };
-
-
     return (
         <div className="overflow-y-visible">
             <Form {...form}>
@@ -96,6 +99,33 @@ export default function EditInvoiceForm({
                     className="w-full space-y-8"
                     onSubmit={form.handleSubmit(submitForm)}
                 >
+                    <FormField
+                        name="image_urls"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Images</FormLabel>
+                                <FormControl>
+                                    <FileUpload
+                                        onDrop={() =>
+                                            setIsUploading(true)
+                                        }
+                                        onRemove={field.onChange}
+                                        files={field.value as UploadFileResponse[]}
+                                        onChange={(
+                                            value: UploadFileResponse[]
+                                        ) => {
+                                            if (value) {
+                                                field.onChange(value);
+                                                setIsUploading(false);
+                                            }
+                                        }}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <div className={cn("gap-8 grid md:grid-cols-3")}>
                         <>
                             <FormField
@@ -227,8 +257,8 @@ export default function EditInvoiceForm({
                                             <Input
                                                 {...field}
                                                 type="number"
-                                                placeholder="Enter amount"
                                                 className="pr-10" // Add padding to the right to accommodate the symbol
+                                                placeholder="Enter amount"
                                             />
                                         </div>
                                     </FormControl>
@@ -298,44 +328,20 @@ export default function EditInvoiceForm({
                             )}
                         />
                     </div>
-                    <FormField
-                        name="image_urls"
-                        control={form.control}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Images</FormLabel>
-                                <FormControl>
-                                    <FileUpload
-                                        onDrop={() =>
-                                            setIsUploading(true)
-                                        }
-                                        onRemove={field.onChange}
-                                        files={field.value as UploadFileResponse[]}
-                                        onChange={(
-                                            value: UploadFileResponse[]
-                                        ) => {
-                                            if (value) {
-                                                field.onChange(value);
-                                                setIsUploading(false);
-                                            }
-                                        }}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <DialogFooter>
-                        <div className="flex justify-end gap-4">
-                            <LoaderButton
-                                variant={"default"}
-                                form="edit-invoice-form"
-                                isLoading={isSubmitting || isUploading}
-                            >
-                                Edit Invoice
-                            </LoaderButton>
-                        </div>
-                    </DialogFooter>
+                    {
+                        isDirty ?
+                            <DialogFooter>
+                                <div className="flex justify-end gap-4">
+                                    <LoaderButton
+                                        variant={"default"}
+                                        form="edit-invoice-form"
+                                        isLoading={isSubmitting || isUploading}
+                                    >
+                                        Edit Invoice
+                                    </LoaderButton>
+                                </div>
+                            </DialogFooter> : null
+                    }
                 </form>
             </Form>
         </div>

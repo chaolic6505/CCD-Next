@@ -89,8 +89,8 @@ export default async function InvoicesCardsWrapper({
     if (!invoices) return null;
     return (
         <div className="grid gap-4 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 auto-rows-fr">
-            {invoices.map((invoice) => (
-                <InvoiceCard invoice={invoice} />
+            {invoices.map((invoice, index) => (
+                <InvoiceCard key={index} invoice={invoice} />
             ))}
         </div>
     );
