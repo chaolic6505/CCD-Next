@@ -3,13 +3,13 @@ import * as z from "zod";
 const STATUS_ENUM = ["pending", "paid"] as const;
 const ImgSchema = z
     .object({
-        url: z.string(),
-        name: z.string(),
-        key: z.string(),
-        type: z.string(),
-        size: z.number(),
-        customId: z.string().optional(),
-        serverdata: z.string().optional(),
+        url: z.string().optional().nullable(),
+        name: z.string().optional().nullable(),
+        key: z.string().optional().nullable(),
+        type: z.string().optional().nullable(),
+        size: z.number().optional().nullable(),
+        customId: z.string().optional().nullable(),
+        serverdata: z.string().optional().nullable(),
     })
     .transform((z) => ({
         url: z.url,

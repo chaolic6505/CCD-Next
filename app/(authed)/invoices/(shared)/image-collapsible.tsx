@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 
-export function ImageCollapsible({ invoice_image_url }: { invoice_image_url: string | null | undefined; }) {
+export function ImageCollapsible({
+    left,
+    invoice_image_url
+}: {
+    left?: React.ReactNode;
+    invoice_image_url: string | null | undefined;
+}) {
     const [isOpen, setIsOpen] = React.useState(false);
 
     return (
@@ -21,23 +27,29 @@ export function ImageCollapsible({ invoice_image_url }: { invoice_image_url: str
             onOpenChange={setIsOpen}
             className="relative w-full overflow-hidden"
         >
-            <CollapsibleTrigger asChild>
-                <Button variant="ghost" size="sm">
-                    <ImageIcon className="h-4 w-4" />
-                </Button>
-            </CollapsibleTrigger>
+
             <CollapsibleContent className="relative pt-[100%]">
                 {
                     invoice_image_url ?
-                        <Image
-                            fill
-                            alt="profile"
-                            objectFit="cover"
-                            src={invoice_image_url}
-                            className="w-full h-full top-0 left-0 object-cover rounded-sm"
-                        /> : null
+                        <button onClick={() => setIsOpen(false)}>
+                            <Image
+                                fill
+                                alt="profile"
+                                objectFit="cover"
+                                src={invoice_image_url}
+                                className="w-full h-full top-0 left-0 object-cover rounded-sm"
+                            />
+                        </button> : null
                 }
             </CollapsibleContent>
+
+            <div className="flex flex-row justify-end">
+                <CollapsibleTrigger>
+                    <Button variant="ghost" size="sm" className="mb-1 mt-1 bg-none active:bg-none right-15">
+                        <ImageIcon className="h-4 w-4" />
+                    </Button>
+                </CollapsibleTrigger>
+            </div>
         </Collapsible>
     );
 }

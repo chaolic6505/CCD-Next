@@ -38,7 +38,6 @@ export default async function InvoicesPage({
     const customers = await fetchCustomers();
     const invoices = await fetchFilteredInvoices(query, currentPage);
     const { total, totalPages } = await fetchInvoicesPages(query);
-
     return (
         <ScrollArea className="h-screen">
             <div className="flex-1 space-y-4  p-4 pt-1 md:p-8">

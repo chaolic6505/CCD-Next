@@ -1,9 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { CheckIcon, ClockIcon } from "lucide-react";
 
-export default function InvoiceStatus({ status }: { status: string }) {
+export default function InvoiceStatus({ className, status }: { status: string, className?: string; }) {
     return (
-        <Badge variant={status === "paid" ? "secondary" : "default"}>
+        <Badge
+            className={className}
+            variant={status === "paid" ? "secondary" : "default"}>
             {status === "pending" ? (
                 <>
                     Pending

@@ -325,7 +325,7 @@ export default function InvoiceDialog({
                                                     setIsUploading(true)
                                                 }
                                                 onRemove={field.onChange}
-                                                files={field.value ?? []}
+                                                files={field.value as UploadFileResponse[] ?? []}
                                                 onChange={(
                                                     value: UploadFileResponse[]
                                                 ) => {
