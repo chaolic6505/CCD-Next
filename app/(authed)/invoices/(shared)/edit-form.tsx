@@ -326,7 +326,7 @@ export default function EditInvoiceForm({
                         )}
                     />
                     <DialogFooter>
-                        <div className="mt-6 flex justify-end gap-4">
+                        <div className="flex justify-end gap-4">
                             <LoaderButton
                                 variant={"default"}
                                 form="edit-invoice-form"
