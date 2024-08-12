@@ -68,6 +68,7 @@ export type User = {
 export type Invoice = {
     id: string;
     status?: string | null;
+    currency?: string | null;
     created_at?: number | null;
     invoice_name?: string| null;
     invoice_date?: string | null;

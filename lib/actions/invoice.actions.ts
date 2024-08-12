@@ -108,6 +108,7 @@ export async function fetchFilteredInvoices(
             .select({
                 id: invoices.id,
                 status: invoices.status,
+                currency: invoices.currency,
                 customer_name: customers.name,
                 customer_email: customers.email,
                 created_at: invoices.created_at,

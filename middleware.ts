@@ -7,9 +7,9 @@ const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/collections(.*)
 export default clerkMiddleware((auth, request) => {
     const { userId } = auth();
 
+    if (isPublicRoute(request) && userId && userId == 'user_2gfs8voqQwlIuXC4cuu5ugMtfrj') return NextResponse.redirect(new URL("/invoices", request.url));
     if (!userId && isProtectedRoute(request)) return NextResponse.redirect(new URL("/", request.url));;
     if (isProtectedRoute(request)) auth().protect();
-    if (isPublicRoute(request) && userId && userId == 'user_2gfs8voqQwlIuXC4cuu5ugMtfrj') return NextResponse.redirect(new URL("/invoices", request.url));
 });
 
 export const config = {
