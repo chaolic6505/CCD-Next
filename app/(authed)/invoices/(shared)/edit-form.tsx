@@ -1,16 +1,37 @@
 "use client";
 
 import Link from "next/link";
+import moment from "moment";
+import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
-    CheckIcon,
-    ClockIcon,
-    DollarSignIcon,
-    UserCircleIcon,
-} from "lucide-react";
+    Form,
+    FormItem,
+    FormLabel,
+    FormField,
+    FormControl,
+    FormMessage,
+} from "@/components/ui/form";
+import {
+    Select,
+    SelectItem,
+    SelectValue,
+    SelectContent,
+    SelectTrigger,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CustomerField, InvoiceForm } from "@/types";
-import { State, updateInvoice } from "@/lib/actions/invoice.actions";
+import { DialogFooter } from "@/components/ui/dialog";
+import { LoaderButton } from "@/components/loader-button";
+import FileUpload, { UploadFileResponse } from "@/components/file-upload";
 
+import { cn } from "@/lib/utils";
+import { CustomerField, InvoiceForm } from "@/types";
+import { CURRENCY } from "@/lib/constants/currency";
+import { State, updateInvoice } from "@/lib/actions/invoice.actions";
+import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
 export default function EditInvoiceForm({
     invoice,
@@ -22,123 +43,302 @@ export default function EditInvoiceForm({
     const initialState: State = { message: null, errors: {} };
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
 
+    const { user } = useUser();
+    const [isUploading, setIsUploading] = useState(false);
+    const defaultValues = {
+        image_urls: [],
+        customer_id: "",
+        amount: "666.88",
+        status: "pending",
+        currency: "US Dollar",
+        invoice_name: "Pho Men Tay Vietnamese Restaurant",
+        invoice_date: `${moment().format("YYYY-MM-DD")}`,
+    };
+
+    const form = useForm<InvoiceFormValues>({
+        defaultValues,
+        mode: "onSubmit",
+        resolver: zodResolver(invoiceSchema),
+    });
+
+    const {
+        reset,
+        getValues,
+        formState: { isSubmitting },
+    } = form;
+
+    const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
+        console.log(data, "data", invoice);
+        if (user?.id) {
+            //createInvoice(data, user?.id);
+            // reset();
+            // setIsDialogOpen(false);
+            // toast({
+            //     variant: "default",
+            //     title: "Success!",
+            //     description: "Invoice created.",
+            // });
+        }
+    };
+
 
     return (
-        <form>
-            <div className="rounded-md   p-4 md:p-6">
-                {/* Customer Name */}
-                <div className="mb-4">
-                    <label
-                        htmlFor="customer"
-                        className="mb-2 block text-sm font-medium"
-                    >
-                        Choose customer
-                    </label>
-                    <div className="relative">
-                        <select
-                            id="customer"
-                            name="customerId"
-                            aria-describedby="customer-error"
-                            defaultValue={invoice.customer_id}
-                            className="peer block w-full cursor-pointer rounded-md border   py-2 pl-10 text-sm outline-2  "
-                        >
-                            <option value="" disabled>
-                                Select a customer
-                            </option>
-                            {customers.map((customer) => (
-                                <option key={customer.id} value={customer.id}>
-                                    {customer.name}
-                                </option>
-                            ))}
-                        </select>
-                        <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
-                    </div>
-
-
-                </div>
-
-                {/* Invoice Amount */}
-                <div className="mb-4">
-                    <label
-                        htmlFor="amount"
-                        className="mb-2 block text-sm font-medium"
-                    >
-                        Choose an amount
-                    </label>
-                    <div className="relative mt-2 rounded-md">
-                        <div className="relative">
-                            <input
-                                id="amount"
-                                step="0.01"
-                                name="amount"
-                                type="number"
-                                defaultValue={invoice.amount}
-                                placeholder="Enter USD amount"
-                                aria-describedby="amount-error"
-                                className="peer block w-full rounded-md border   py-2 pl-10 text-sm outline-2  "
+        <div className="overflow-y-visible">
+            <Form {...form}>
+                <form
+                    id="edit-invoice-form"
+                    className="w-full space-y-8"
+                    onSubmit={form.handleSubmit(submitForm)}
+                >
+                    <div className={cn("gap-8 grid md:grid-cols-3")}>
+                        <>
+                            <FormField
+                                name="invoice_name"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Invoice Name
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Name"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                            <DollarSignIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 " />
-                        </div>
+                            <FormField
+                                name="customer_id"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Customer Name
+                                        </FormLabel>
+                                        <Select
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                            onValueChange={
+                                                field.onChange
+                                            }
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder="Choose a customer"
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {/* @ts-ignore  */}
+                                                {customers.map(
+                                                    (customer) => (
+                                                        <SelectItem
+                                                            key={
+                                                                customer.id
+                                                            }
+                                                            value={
+                                                                customer.id
+                                                            }
+                                                        >
+                                                            {
+                                                                customer.name
+                                                            }
+                                                        </SelectItem>
+                                                    )
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                name="status"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Invoice Status
+                                        </FormLabel>
+                                        <Select
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                            onValueChange={
+                                                field.onChange
+                                            }
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue
+                                                        placeholder="Choose a status"
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {/* @ts-ignore  */}
+                                                {[
+                                                    "pending",
+                                                    "paid",
+                                                ].map(
+                                                    (status, index) => (
+                                                        <SelectItem
+                                                            key={index}
+                                                            value={
+                                                                status
+                                                            }
+                                                        >
+                                                            {status}
+                                                        </SelectItem>
+                                                    )
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </>
+                        <FormField
+                            name="amount"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Invoice Amount
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div>
+                                            <Input
+                                                {...field}
+                                                type="number"
+                                                placeholder="Enter amount"
+                                                className="pr-10" // Add padding to the right to accommodate the symbol
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            name="currency"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Invoice Currency
+                                    </FormLabel>
+                                    <Select
+                                        value={field.value}
+                                        defaultValue={field.value}
+                                        onValueChange={(value) => {
+                                            field.onChange(value);
+                                        }}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    placeholder="Choose a currency"
+                                                    defaultValue={
+                                                        field.value
+                                                    }
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {/* @ts-ignore  */}
+                                            {CURRENCY[
+                                                "north_america"
+                                            ].map((country, index) => (
+                                                <SelectItem
+                                                    key={index}
+                                                    value={country.name}
+                                                >
+                                                    {country.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            name={"invoice_date"}
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Invoice date</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="date"
+                                            {...field}
+                                            disabled={isSubmitting}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
-
-
-                </div>
-
-                {/* Invoice Status */}
-                <fieldset>
-                    <legend className="mb-2 block text-sm font-medium">
-                        Set the invoice status
-                    </legend>
-                    <div className="rounded-md border  px-[14px] py-3">
-                        <div className="flex gap-4">
-                            <div className="flex items-center">
-                                <input
-                                    id="pending"
-                                    name="status"
-                                    type="radio"
-                                    value="pending"
-                                    defaultChecked={
-                                        invoice.status === "pending"
-                                    }
-                                    className="h-4 w-4   focus:ring-2"
-                                />
-                                <label
-                                    htmlFor="pending"
-                                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full  px-3 py-1.5 text-xs font-medium  "
-                                >
-                                    Pending <ClockIcon className="h-4 w-4" />
-                                </label>
-                            </div>
-                            <div className="flex items-center">
-                                <input
-                                    id="paid"
-                                    name="status"
-                                    type="radio"
-                                    value="paid"
-                                    className="h-4 w-4  focus:ring-2"
-                                    defaultChecked={invoice.status === "paid"}
-                                />
-                                <label
-                                    htmlFor="paid"
-                                    className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full   px-3 py-1.5 text-xs font-medium  "
-                                >
-                                    Paid <CheckIcon className="h-4 w-4" />
-                                </label>
-                            </div>
+                    <FormField
+                        name="image_urls"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Images</FormLabel>
+                                <FormControl>
+                                    <FileUpload
+                                        onDrop={() =>
+                                            setIsUploading(true)
+                                        }
+                                        onRemove={field.onChange}
+                                        files={field.value ?? []}
+                                        onChange={(
+                                            value: UploadFileResponse[]
+                                        ) => {
+                                            if (value) {
+                                                field.onChange(value);
+                                                setIsUploading(false);
+                                            }
+                                        }}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <div className="mt-6 flex justify-end gap-4">
+                            <Button variant="secondary">
+                                <Link href="/invoices">
+                                    Cancel
+                                </Link>
+                            </Button>
+                            <LoaderButton
+                                variant={"default"}
+                                form="edit-invoice-form"
+                                isLoading={isSubmitting || isUploading}
+                            >
+                                Edit Invoice
+                            </LoaderButton>
                         </div>
-                    </div>
+                    </DialogFooter>
+                </form>
+            </Form>
+        </div>
 
-                </fieldset>
 
-
-            </div>
-            <div className="mt-6 flex justify-end gap-4">
-                <Button variant="ghost">
-                    <Link href="/invoices">Cancel</Link>
-                </Button>
-
-                <Button type="submit">Edit Invoice</Button>
-            </div>
-        </form>
     );
 }

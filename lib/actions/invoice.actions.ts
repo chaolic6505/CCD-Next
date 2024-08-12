@@ -285,9 +285,10 @@ export async function fetchInvoiceById(id: string) {
         const data = await db
             .select({
                 id: invoices.id,
-                customer_id: invoices.customer_id,
                 amount: invoices.amount,
                 status: invoices.status,
+
+                customer_id: invoices.customer_id,
                 invoice_date: invoices.invoice_date,
             })
             .from(invoices)

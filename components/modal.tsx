@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Dialog, DialogOverlay, DialogContent } from "./ui/dialog";
+import { Dialog, DialogOverlay, DialogContent, DialogTitle, DialogPortal } from "./ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-export function Modal({ children }: { children: React.ReactNode }) {
+export function Modal({ children }: { children: React.ReactNode; }) {
     const router = useRouter();
 
     const handleOpenChange = () => {
@@ -11,13 +12,20 @@ export function Modal({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange}>
-            <DialogOverlay>
-                <DialogContent className="overflow-y-hidden">
-                    {children}
-                </DialogContent>
-            </DialogOverlay>
+
+        <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange} >
+            <DialogPortal>
+                <DialogOverlay>
+                    <VisuallyHidden>
+                        <DialogTitle>Modal</DialogTitle>
+                    </VisuallyHidden>
+                    <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-screen">
+                        {children}
+                    </DialogContent>
+                </DialogOverlay>
+            </DialogPortal>
         </Dialog>
+
     );
 }
 

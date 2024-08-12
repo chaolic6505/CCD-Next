@@ -39,44 +39,45 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice; }) => {
             value: customer_email
         }
     ];
-    console.log(status, "status");
     return (
-        <Card
-            className={cn("group rounded-lg border px-1 py-1 hover:bg-primary/5 w-full flex flex-col")}
-        >
+        <Link href={`/invoices/${id}`}>
+            <Card
+                className={cn("group rounded-lg border px-1 py-1 hover:bg-primary/5 w-full flex flex-col")}
+            >
 
-            <ImageCollapsible invoice_image_url={invoice_image_url} />
-            <CardContent className="mt-1 p-0 flex flex-col justify-between">
-                <div className="px-1">
-                    <CardDescription className={`${inter.className} truncate`}>
-                        Invoice Name
-                    </CardDescription>
-                    <CardTitle className={`${inter.className} `}>
-                        {invoice_name}
-                    </CardTitle>
-                </div>
+                <ImageCollapsible invoice_image_url={invoice_image_url} />
+                <CardContent className="mt-1 p-0 flex flex-col justify-between">
+                    <div className="px-1">
+                        <CardDescription className={`${inter.className} truncate`}>
+                            Invoice Name
+                        </CardDescription>
+                        <CardTitle className={`${inter.className} `}>
+                            {invoice_name}
+                        </CardTitle>
+                    </div>
 
-                {invoices.map((invoice) => (
+                    {invoices.map((invoice) => (
+                        <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
+                            <CardDescription className={`${inter.className}`}>
+                                {invoice.label}
+                            </CardDescription>
+                            <div className="flex flex-row justify-around">
+                                <CardTitle className={`${inter.className} `}>
+                                    {invoice.value}
+                                </CardTitle>
+                            </div>
+                        </div>
+                    ))}
                     <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
                         <CardDescription className={`${inter.className}`}>
-                            {invoice.label}
+                            {`${invoice_amount} ${currency}`}
                         </CardDescription>
-                        <div className="flex flex-row justify-around">
-                            <CardTitle className={`${inter.className} `}>
-                                {invoice.value}
-                            </CardTitle>
-                        </div>
+                        {status ? <InvoiceStatus status={status} className={"w-15"} /> : null}
                     </div>
-                ))}
-                <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
-                    <CardDescription className={`${inter.className}`}>
-                        {`${invoice_amount} ${currency}`}
-                    </CardDescription>
-                    {status ? <InvoiceStatus status={status} className={"w-15"} /> : null}
-                </div>
 
-            </CardContent>
-        </Card >
+                </CardContent>
+            </Card >
+        </Link>
     );
 };
 
