@@ -8,10 +8,11 @@ import { revalidatePath } from "next/cache";
 import { customers, invoices, revenue } from "@/db/schema";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
-import { InvoiceForm } from "@/types";
+import { Invoice } from "@/types";
 import { formatCurrency } from "../utils";
 import { ITEMS_PER_PAGE } from "../constants/systems";
 import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
+import { Currency } from "lucide-react";
 
 export async function fetchCardData() {
     try {
@@ -276,8 +277,8 @@ export async function updateInvoice(
     } catch (error) {
         return { message: "Database Error: Failed to Update Invoice." };
     }
-    revalidatePath("/dashboard/invoices");
-    redirect("/dashboard/invoices");
+    revalidatePath("/invoices");
+    redirect("/invoices");
 }
 
 export async function fetchInvoiceById(id: string) {
@@ -287,9 +288,11 @@ export async function fetchInvoiceById(id: string) {
                 id: invoices.id,
                 amount: invoices.amount,
                 status: invoices.status,
-
+                currency: invoices.currency,
                 customer_id: invoices.customer_id,
+                invoice_name: invoices.invoice_name,
                 invoice_date: invoices.invoice_date,
+                invoice_image_url: invoices.image_url,
             })
             .from(invoices)
             .where(eq(invoices.id, id));
@@ -301,7 +304,7 @@ export async function fetchInvoiceById(id: string) {
             amount: invoice.amount ? invoice.amount / 100 : null,
         }));
 
-        return invoice[0] as InvoiceForm;
+        return invoice[0] as Invoice;
     } catch (error) {
         throw new Error("Failed to fetch invoice.");
     }

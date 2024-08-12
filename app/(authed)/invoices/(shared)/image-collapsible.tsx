@@ -31,16 +31,18 @@ export function ImageCollapsible({
             <CollapsibleContent className="relative pt-[100%]">
                 {
                     invoice_image_url ?
-                        <Image
-                            fill
-                            alt="profile"
-                            objectFit="cover"
-                            src={invoice_image_url}
-                            className="w-full h-full top-0 left-0 object-cover rounded-sm"
-                        /> : null
+                        <button onClick={() => setIsOpen(false)}>
+                            <Image
+                                fill
+                                alt="profile"
+                                objectFit="cover"
+                                src={invoice_image_url}
+                                className="w-full h-full top-0 left-0 object-cover rounded-sm"
+                            />
+                        </button> : null
                 }
-
             </CollapsibleContent>
+
             <div className="flex flex-row justify-end">
                 <CollapsibleTrigger>
                     <Button variant="ghost" size="sm" className="mb-1 mt-1 bg-none active:bg-none right-15">

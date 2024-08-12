@@ -15,13 +15,6 @@ export type CustomerField = {
     name: string;
 };
 
-export type InvoiceForm = {
-    id: string;
-    customer_id: string;
-    amount: number;
-    status: "pending" | "paid";
-};
-
 export interface NavItem {
     title: string;
     href?: string;
@@ -67,9 +60,11 @@ export type User = {
 
 export type Invoice = {
     id: string;
+    amount?: number | null;
     status?: string | null;
     currency?: string | null;
     created_at?: number | null;
+    customer_id?: string | null;
     invoice_name?: string| null;
     invoice_date?: string | null;
     customer_name?: string| null;

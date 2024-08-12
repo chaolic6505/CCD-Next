@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import moment from "moment";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
@@ -22,37 +21,44 @@ import {
     SelectTrigger,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { LoaderButton } from "@/components/loader-button";
 import FileUpload, { UploadFileResponse } from "@/components/file-upload";
 
 import { cn } from "@/lib/utils";
-import { CustomerField, InvoiceForm } from "@/types";
 import { CURRENCY } from "@/lib/constants/currency";
 import { State, updateInvoice } from "@/lib/actions/invoice.actions";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
+
+import { CustomerField, Invoice } from "@/types";
 
 export default function EditInvoiceForm({
     invoice,
     customers,
 }: {
-    invoice: InvoiceForm;
+    invoice: Invoice;
     customers: CustomerField[];
 }) {
-    const initialState: State = { message: null, errors: {} };
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
 
     const { user } = useUser();
     const [isUploading, setIsUploading] = useState(false);
     const defaultValues = {
-        image_urls: [],
-        customer_id: "",
-        amount: "666.88",
-        status: "pending",
-        currency: "US Dollar",
-        invoice_name: "Pho Men Tay Vietnamese Restaurant",
-        invoice_date: `${moment().format("YYYY-MM-DD")}`,
+        image_urls: [{
+            url: invoice.invoice_image_url,
+            name: null,
+            key: null,
+            type: null,
+            size: null,
+            customId: null,
+            serverdata: null,
+        }],
+        amount: `${invoice.amount ?? "0"}`,
+        customer_id: invoice.customer_id ?? "",
+        status: invoice.status ?? "pending",
+        currency: invoice.currency ?? "CAD Dollar",
+        invoice_name: invoice.invoice_name ?? "",
+        invoice_date:  invoice.invoice_date ?? `${moment().format("YYYY-MM-DD")}`,
     };
 
     const form = useForm<InvoiceFormValues>({
@@ -304,7 +310,7 @@ export default function EditInvoiceForm({
                                             setIsUploading(true)
                                         }
                                         onRemove={field.onChange}
-                                        files={field.value ?? []}
+                                        files={field.value as UploadFileResponse[]}
                                         onChange={(
                                             value: UploadFileResponse[]
                                         ) => {
@@ -321,11 +327,6 @@ export default function EditInvoiceForm({
                     />
                     <DialogFooter>
                         <div className="mt-6 flex justify-end gap-4">
-                            <Button variant="secondary">
-                                <Link href="/invoices">
-                                    Cancel
-                                </Link>
-                            </Button>
                             <LoaderButton
                                 variant={"default"}
                                 form="edit-invoice-form"
