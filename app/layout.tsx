@@ -22,10 +22,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-    modal,
     children,
 }: {
-    modal: React.ReactNode;
     children: React.ReactNode;
 }) {
     return (
@@ -47,7 +45,6 @@ export default async function RootLayout({
                 <Providers>
                     <Toaster />
                     {children}
-                    {modal}
                     <Analytics />
                     <SpeedInsights />
                 </Providers>

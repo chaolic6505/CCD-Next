@@ -43,11 +43,9 @@ export function ImageCollapsible({
                 }
             </CollapsibleContent>
 
-            <div className="flex flex-row justify-end">
+            <div className="flex flex-row justify-end mb-1 mt-1 mr-1">
                 <CollapsibleTrigger>
-                    <Button variant="ghost" size="sm" className="mb-1 mt-1 bg-none active:bg-none right-15">
-                        <ImageIcon className="h-4 w-4" />
-                    </Button>
+                    <ImageIcon className="h-5 w-5" />
                 </CollapsibleTrigger>
             </div>
         </Collapsible>

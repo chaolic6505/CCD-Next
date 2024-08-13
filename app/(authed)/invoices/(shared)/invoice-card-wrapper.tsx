@@ -40,6 +40,7 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice; }) => {
         }
     ];
     return (
+
         <Card
             className={cn("group rounded-lg border px-1 py-1 hover:bg-primary/5 w-full flex flex-col")}
         >
@@ -76,8 +77,8 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice; }) => {
                     </div>
                 </CardContent>
             </Link>
-
         </Card >
+
     );
 };
 
