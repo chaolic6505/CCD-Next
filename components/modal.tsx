@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Dialog, DialogOverlay, DialogContent, DialogTitle, DialogPortal } from "./ui/dialog";
+import { Dialog, DialogOverlay, DialogContent, DialogTitle, DialogPortal, DialogDescription } from "./ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 export function Modal({ children }: { children: React.ReactNode; }) {
@@ -20,6 +20,11 @@ export function Modal({ children }: { children: React.ReactNode; }) {
                         <DialogTitle>Modal</DialogTitle>
                     </VisuallyHidden>
                     <DialogContent className="lg:max-w-screen-lg scrollbar overflow-y-scroll h-5/6">
+                        <VisuallyHidden>
+                            <DialogDescription>
+                                Modal Description
+                            </DialogDescription>
+                        </VisuallyHidden>
                         {children}
                     </DialogContent>
                 </DialogOverlay>

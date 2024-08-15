@@ -316,29 +316,31 @@ export default function InvoiceDialog({
                             <FormField
                                 name="image_urls"
                                 control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Images</FormLabel>
-                                        <FormControl>
-                                            <FileUpload
-                                                onDrop={() =>
-                                                    setIsUploading(true)
-                                                }
-                                                onRemove={field.onChange}
-                                                files={field.value as UploadFileResponse[] ?? []}
-                                                onChange={(
-                                                    value: UploadFileResponse[]
-                                                ) => {
-                                                    if (value) {
-                                                        field.onChange(value);
-                                                        setIsUploading(false);
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem>
+                                            <FormLabel>Images</FormLabel>
+                                            <FormControl>
+                                                <FileUpload
+                                                    onDrop={() =>
+                                                        setIsUploading(true)
                                                     }
-                                                }}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                                    onRemove={field.onChange}
+                                                    files={field.value as UploadFileResponse[] ?? []}
+                                                    onChange={(
+                                                        value: UploadFileResponse[]
+                                                    ) => {
+                                                        if (value) {
+                                                            field.onChange(value);
+                                                            setIsUploading(false);
+                                                        }
+                                                    }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
                             />
                             <DialogFooter>
                                 <LoaderButton

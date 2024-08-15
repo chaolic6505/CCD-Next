@@ -38,10 +38,10 @@ export default function FileUpload({
 }: FileUploadProps) {
     const { toast } = useToast();
 
-    const onDeleteFile = (key: string) => {
+    const onDeleteFile = (url: string) => {
         const _files = files;
         let filteredFiles = _files.filter(
-            (item: UploadFileResponse) => item.key !== key
+            (item: UploadFileResponse) => item.url !== url
         );
         onRemove(filteredFiles);
     };
@@ -60,25 +60,25 @@ export default function FileUpload({
                         <div
                             key={item.key}
                             className="relative h-[300px] w-full overflow-hidden rounded-md"
-                        >
-                            <div className="absolute right-2 top-2 z-10">
-                                <Button
-                                    size="sm"
+                                    >
+                                        <div className="absolute right-2 top-2 z-10">
+                                            <Button
+                                                size="sm"
                                     type="button"
                                     variant="destructive"
                                     onClick={() =>
-                                        onDeleteFile(item.key ?? index)
+                                        onDeleteFile(item.url ?? index)
                                     }
                                 >
                                     <Trash className="h-4 w-4" />
-                                </Button>
-                            </div>
-                            <div>
-                                <Image
-                                    fill
-                                    alt="Image"
-                                    src={item.url || ""}
-                                    className="object-cover"
+                                            </Button>
+                                        </div>
+                                        <div>
+                                            <Image
+                                                fill
+                                                alt="Image"
+                                                src={item.url || ""}
+                                                className="object-cover"
                                 />
                             </div>
                         </div>

@@ -278,7 +278,6 @@ export async function updateInvoice(
     }
 
     const { invoice_name, invoice_date, image_url, customer_id, currency, amount, status,  } = validatedFields.data;
-
     try {
         await db
             .update(invoices)
@@ -286,10 +285,10 @@ export async function updateInvoice(
                 status,
                 amount,
                 currency,
-                image_url,
                 customer_id: customer_id,
                 invoice_date: invoice_date,
                 invoice_name: invoice_name,
+                image_url: image_url && image_url?.length > 3  ? image_url : null,
             })
             .where(eq(invoices.id, id))
             .returning();

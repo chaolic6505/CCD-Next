@@ -44,7 +44,7 @@ export default function EditInvoiceForm({
     const { user } = useUser();
     const [isUploading, setIsUploading] = useState(false);
     const defaultValues = {
-        image_urls: [{
+        image_urls: invoice?.invoice_image_url && invoice?.invoice_image_url?.length > 1 ? [{
             url: invoice.invoice_image_url,
             name: null,
             key: null,
@@ -52,7 +52,7 @@ export default function EditInvoiceForm({
             size: null,
             customId: null,
             serverdata: null,
-        }],
+        }] : [],
         amount: `${invoice.amount ?? "0"}`,
         customer_id: invoice.customer_id ?? "",
         status: invoice.status ?? "pending",
@@ -73,7 +73,6 @@ export default function EditInvoiceForm({
 
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
-        console.log(data, "data");
         if (user?.id) {
             const formData = new FormData();
             formData.append("amount", data.amount);
@@ -102,29 +101,31 @@ export default function EditInvoiceForm({
                     <FormField
                         name="image_urls"
                         control={form.control}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Images</FormLabel>
-                                <FormControl>
-                                    <FileUpload
-                                        onDrop={() =>
-                                            setIsUploading(true)
-                                        }
-                                        onRemove={field.onChange}
-                                        files={field.value as UploadFileResponse[]}
-                                        onChange={(
-                                            value: UploadFileResponse[]
-                                        ) => {
-                                            if (value) {
-                                                field.onChange(value);
-                                                setIsUploading(false);
+                        render={({ field }) => {
+                            return (
+                                <FormItem>
+                                    <FormLabel>Images</FormLabel>
+                                    <FormControl>
+                                        <FileUpload
+                                            onDrop={() =>
+                                                setIsUploading(true)
                                             }
-                                        }}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                                            onRemove={field.onChange}
+                                            files={field.value as UploadFileResponse[]}
+                                            onChange={(
+                                                value: UploadFileResponse[]
+                                            ) => {
+                                                if (value) {
+                                                    field.onChange(value);
+                                                    setIsUploading(false);
+                                                }
+                                            }}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            );
+                        }}
                     />
                     <div className={cn("gap-8 grid md:grid-cols-3")}>
                         <>

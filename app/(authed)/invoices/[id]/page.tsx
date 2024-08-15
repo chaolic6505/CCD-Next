@@ -24,16 +24,16 @@ export default async function Page({ params }: { params: { id: string; }; }) {
 
     return (
         <Modal>
+            <EditInvoiceForm invoice={invoice} customers={customers} />
             <Breadcrumbs
                 items={[
                     { title: "Invoices", link: "/invoices" },
-                        {
-                            title: "Edit Invoice",
-                            link: `/invoices/${id}/edit`,
-                        },
+                    {
+                        title: "Edit Invoice",
+                        link: `/invoices/${id}/edit`,
+                    },
                 ]}
             />
-            <EditInvoiceForm invoice={invoice} customers={customers} />
         </Modal>
     );
 }
