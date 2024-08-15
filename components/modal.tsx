@@ -4,16 +4,16 @@ import { useRouter } from "next/navigation";
 import { Dialog, DialogOverlay, DialogContent, DialogTitle, DialogPortal, DialogDescription } from "./ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-export function Modal({ children }: { children: React.ReactNode; }) {
+export function Modal({
+    children,
+    defaultOpen = true,
+}: { children: React.ReactNode, defaultOpen?: boolean; }) {
     const router = useRouter();
-
     const handleOpenChange = () => {
         router.back();
     };
-
     return (
-
-        <Dialog defaultOpen={true} open={true} onOpenChange={handleOpenChange} >
+        <Dialog defaultOpen={defaultOpen} open={defaultOpen} onOpenChange={handleOpenChange} >
             <DialogPortal>
                 <DialogOverlay>
                     <VisuallyHidden>

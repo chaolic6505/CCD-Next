@@ -13,6 +13,7 @@ import {
     DialogFooter,
     DialogContent,
     DialogTrigger,
+    DialogOverlay,
     DialogDescription,
 } from "@/components/ui/dialog";
 import {
@@ -31,7 +32,7 @@ import {
     SelectContent,
     SelectTrigger,
 } from "@/components/ui/select";
-import Modal from "@/components/modal";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
@@ -98,261 +99,263 @@ export default function InvoiceDialog({
                         ＋
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="w-[50%] max-w-2xl">
-                    <DialogHeader>
-                        <DialogTitle>Create New Invoice</DialogTitle>
-                        <DialogDescription>
-                            Revolutionize your invoicing
-                        </DialogDescription>
-                    </DialogHeader>
-                    <Form {...form}>
-                        <form
-                            id="invoice-form"
-                            className="w-full space-y-8"
-                            onSubmit={form.handleSubmit(submitForm)}
-                        >
-                            <div className={cn("gap-8 grid md:grid-cols-3")}>
-                                <>
-                                    <FormField
-                                        name="invoice_name"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Invoice Name
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Name"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        name="customer_id"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Customer Name
-                                                </FormLabel>
-                                                <Select
-                                                    value={field.value}
-                                                    defaultValue={field.value}
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                >
+                <DialogOverlay>
+                    <DialogContent className="lg:max-w-screen-lg scrollbar overflow-y-scroll h-5/6">
+                        <DialogHeader>
+                            <DialogTitle>Create New Invoice</DialogTitle>
+                            <DialogDescription>
+                                Revolutionize your invoicing
+                            </DialogDescription>
+                        </DialogHeader>
+                        <Form {...form}>
+                            <form
+                                id="invoice-form"
+                                className="w-full space-y-8"
+                                onSubmit={form.handleSubmit(submitForm)}
+                            >
+                                <div className={cn("gap-8 grid md:grid-cols-3")}>
+                                    <>
+                                        <FormField
+                                            name="invoice_name"
+                                            control={form.control}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>
+                                                        Invoice Name
+                                                    </FormLabel>
                                                     <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue
-                                                                placeholder="Choose a customer"
-                                                                defaultValue={
-                                                                    field.value
-                                                                }
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        {/* @ts-ignore  */}
-                                                        {customers.map(
-                                                            (customer) => (
-                                                                <SelectItem
-                                                                    key={
-                                                                        customer.id
-                                                                    }
-                                                                    value={
-                                                                        customer.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        customer.name
-                                                                    }
-                                                                </SelectItem>
-                                                            )
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        name="status"
-                                        control={form.control}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Invoice Status
-                                                </FormLabel>
-                                                <Select
-                                                    value={field.value}
-                                                    defaultValue={field.value}
-                                                    onValueChange={
-                                                        field.onChange
-                                                    }
-                                                >
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue
-                                                                placeholder="Choose a status"
-                                                                defaultValue={
-                                                                    field.value
-                                                                }
-                                                            />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        {/* @ts-ignore  */}
-                                                        {[
-                                                            "pending",
-                                                            "paid",
-                                                        ].map(
-                                                            (status, index) => (
-                                                                <SelectItem
-                                                                    key={index}
-                                                                    value={
-                                                                        status
-                                                                    }
-                                                                >
-                                                                    {status}
-                                                                </SelectItem>
-                                                            )
-                                                        )}
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </>
-                                <FormField
-                                    name="amount"
-                                    control={form.control}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Invoice Amount
-                                            </FormLabel>
-                                            <FormControl>
-                                                <div>
-                                                    <Input
-                                                        {...field}
-                                                        type="number"
-                                                        placeholder="Enter amount"
-                                                        className="pr-10" // Add padding to the right to accommodate the symbol
-                                                    />
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    name="currency"
-                                    control={form.control}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Invoice Currency
-                                            </FormLabel>
-                                            <Select
-                                                value={field.value}
-                                                defaultValue={field.value}
-                                                onValueChange={(value) => {
-                                                    field.onChange(value);
-                                                }}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue
-                                                            placeholder="Choose a currency"
-                                                            defaultValue={
-                                                                field.value
-                                                            }
+                                                        <Input
+                                                            placeholder="Name"
+                                                            {...field}
                                                         />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    {/* @ts-ignore  */}
-                                                    {CURRENCY[
-                                                        "north_america"
-                                                    ].map((country, index) => (
-                                                        <SelectItem
-                                                            key={index}
-                                                            value={country.name}
-                                                        >
-                                                            {country.name}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    name={"invoice_date"}
-                                    control={form.control}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Invoice date</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    type="date"
-                                                    {...field}
-                                                    disabled={isSubmitting}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <FormField
-                                name="image_urls"
-                                control={form.control}
-                                render={({ field }) => {
-                                    return (
-                                        <FormItem>
-                                            <FormLabel>Images</FormLabel>
-                                            <FormControl>
-                                                <FileUpload
-                                                    onDrop={() =>
-                                                        setIsUploading(true)
-                                                    }
-                                                    onRemove={field.onChange}
-                                                    files={field.value as UploadFileResponse[] ?? []}
-                                                    onChange={(
-                                                        value: UploadFileResponse[]
-                                                    ) => {
-                                                        if (value) {
-                                                            field.onChange(value);
-                                                            setIsUploading(false);
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            name="customer_id"
+                                            control={form.control}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>
+                                                        Customer Name
+                                                    </FormLabel>
+                                                    <Select
+                                                        value={field.value}
+                                                        defaultValue={field.value}
+                                                        onValueChange={
+                                                            field.onChange
                                                         }
+                                                    >
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue
+                                                                    placeholder="Choose a customer"
+                                                                    defaultValue={
+                                                                        field.value
+                                                                    }
+                                                                />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            {/* @ts-ignore  */}
+                                                            {customers.map(
+                                                                (customer) => (
+                                                                    <SelectItem
+                                                                        key={
+                                                                            customer.id
+                                                                        }
+                                                                        value={
+                                                                            customer.id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            customer.name
+                                                                        }
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            name="status"
+                                            control={form.control}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>
+                                                        Invoice Status
+                                                    </FormLabel>
+                                                    <Select
+                                                        value={field.value}
+                                                        defaultValue={field.value}
+                                                        onValueChange={
+                                                            field.onChange
+                                                        }
+                                                    >
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue
+                                                                    placeholder="Choose a status"
+                                                                    defaultValue={
+                                                                        field.value
+                                                                    }
+                                                                />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            {/* @ts-ignore  */}
+                                                            {[
+                                                                "pending",
+                                                                "paid",
+                                                            ].map(
+                                                                (status, index) => (
+                                                                    <SelectItem
+                                                                        key={index}
+                                                                        value={
+                                                                            status
+                                                                        }
+                                                                    >
+                                                                        {status}
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </>
+                                    <FormField
+                                        name="amount"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Invoice Amount
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <div>
+                                                        <Input
+                                                            {...field}
+                                                            type="number"
+                                                            placeholder="Enter amount"
+                                                            className="pr-10" // Add padding to the right to accommodate the symbol
+                                                        />
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        name="currency"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Invoice Currency
+                                                </FormLabel>
+                                                <Select
+                                                    value={field.value}
+                                                    defaultValue={field.value}
+                                                    onValueChange={(value) => {
+                                                        field.onChange(value);
                                                     }}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    );
-                                }}
-                            />
-                            <DialogFooter>
-                                <LoaderButton
-                                    form="invoice-form"
-                                    isLoading={isSubmitting || isUploading}
-                                >
-                                    Add
-                                </LoaderButton>
-                            </DialogFooter>
-                        </form>
-                    </Form>
-                </DialogContent>
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue
+                                                                placeholder="Choose a currency"
+                                                                defaultValue={
+                                                                    field.value
+                                                                }
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {/* @ts-ignore  */}
+                                                        {CURRENCY[
+                                                            "north_america"
+                                                        ].map((country, index) => (
+                                                            <SelectItem
+                                                                key={index}
+                                                                value={country.name}
+                                                            >
+                                                                {country.name}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        name={"invoice_date"}
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Invoice date</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="date"
+                                                        {...field}
+                                                        disabled={isSubmitting}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <FormField
+                                    name="image_urls"
+                                    control={form.control}
+                                    render={({ field }) => {
+                                        return (
+                                            <FormItem>
+                                                <FormLabel>Images</FormLabel>
+                                                <FormControl>
+                                                    <FileUpload
+                                                        onDrop={() =>
+                                                            setIsUploading(true)
+                                                        }
+                                                        onRemove={field.onChange}
+                                                        files={field.value as UploadFileResponse[] ?? []}
+                                                        onChange={(
+                                                            value: UploadFileResponse[]
+                                                        ) => {
+                                                            if (value) {
+                                                                field.onChange(value);
+                                                                setIsUploading(false);
+                                                            }
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        );
+                                    }}
+                                />
+                                <DialogFooter>
+                                    <LoaderButton
+                                        form="invoice-form"
+                                        isLoading={isSubmitting || isUploading}
+                                    >
+                                        Add
+                                    </LoaderButton>
+                                </DialogFooter>
+                            </form>
+                        </Form>
+                    </DialogContent>
+                </DialogOverlay>
             </Dialog>
         </div>
     );
