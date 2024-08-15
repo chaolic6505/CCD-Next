@@ -149,8 +149,8 @@ export const columns: ColumnDef<Invoice>[] = [
             );
         },
     },
-    {
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
-    },
+    // {
+    //     id: "actions",
+    //     cell: ({ row }) => <CellAction data={row.original} />,
+    // },
 ];

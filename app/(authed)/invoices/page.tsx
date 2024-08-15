@@ -52,23 +52,25 @@ export default async function InvoicesPage({
                             <TabsTrigger value="table">Table</TabsTrigger>
                         </TabsList>
                     </div>
+
+                    <div className="flex w-full justify-center">
+                        <Pagination totalPages={totalPages} />
+                    </div>
                     <SearchBar placeholder="Search invoices..." />
 
                     <TabsContent value="table" className="space-y-4">
-                        <div className="flex w-full justify-center">
-                            <Pagination totalPages={totalPages} />
-                        </div>
                         <Suspense
                             key={query + currentPage}
                             fallback={<InvoicesTableSkeleton />}
                         >
-                            <InvoicesTable invoices={invoices} />
+                            <InvoicesTable
+                                hideSearchBar
+                                hidePagination
+                                invoices={invoices}
+                            />
                         </Suspense>
                     </TabsContent>
                     <TabsContent value="cards" className="space-y-4">
-                        <div className="flex w-full justify-center">
-                            <Pagination totalPages={totalPages} />
-                        </div>
                         <Suspense
                             key={query + currentPage}
                             fallback={<InvoicesSkeleton />}

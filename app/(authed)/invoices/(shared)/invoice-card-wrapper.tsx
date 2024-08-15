@@ -45,7 +45,7 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice; }) => {
             className={cn("group rounded-lg border px-1 py-1 hover:bg-primary/5 w-full flex flex-col")}
         >
 
-            <ImageCollapsible invoice_image_url={invoice_image_url} />
+            {invoice_image_url ? <ImageCollapsible invoice_image_url={invoice_image_url} /> : null}
             <Link href={`/invoices/${id}`}>
                 <CardContent className="mt-1 p-0 flex flex-col justify-between">
                     <div className="px-1">
@@ -69,7 +69,7 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice; }) => {
                             </div>
                         </div>
                     ))}
-                    <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
+                    <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1 pb-1">
                         <CardDescription className={`${inter.className}`}>
                             {`${invoice_amount} ${currency}`}
                         </CardDescription>

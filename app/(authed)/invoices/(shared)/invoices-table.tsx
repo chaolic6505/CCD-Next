@@ -5,15 +5,20 @@ import { DataTable } from "@/components/ui/data-table";
 
 export default async function InvoicesTable({
     invoices,
+    hideSearchBar,
+    hidePagination,
 }: {
     invoices: Invoice[];
+    hideSearchBar?: boolean
+    hidePagination?: boolean
 }) {
     return (
         <DataTable
             data={invoices}
             columns={columns}
-            hideSearchBar={true}
-            hidePagination={true}
+            hideSearchBar={hideSearchBar}
+            hidePagination={hidePagination}
+
             defaultSorting={[{ id: "created_at", desc: true }]}
         />
     );
