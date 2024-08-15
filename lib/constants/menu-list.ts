@@ -60,27 +60,20 @@ export function getMenuList(pathname: string): Group[] {
                     icon: Receipt,
                     submenus: [],
                 },
-                {
-                    href: "/customers",
-                    label: "Customers",
-                    active: pathname.includes("/customers"),
-                    icon: PersonStanding,
-                    submenus: [],
-                },
-                {
-                    href: "/collections",
-                    label: "Collections",
-                    active: pathname.includes("/collections"),
-                    icon: Notebook,
-                    submenus: [],
-                },
-                {
-                    href: "/users",
-                    label: "Users",
-                    active: pathname.includes("/users"),
-                    icon: Users,
-                    submenus: [],
-                },
+                // {
+                //     href: "/customers",
+                //     label: "Customers",
+                //     active: pathname.includes("/customers"),
+                //     icon: PersonStanding,
+                //     submenus: [],
+                // },
+                // {
+                //     href: "/collections",
+                //     label: "Collections",
+                //     active: pathname.includes("/collections"),
+                //     icon: Notebook,
+                //     submenus: [],
+                // },
                 // {
                 //     href: "",
                 //     label: "Chats",
@@ -173,24 +166,24 @@ export function getMenuList(pathname: string): Group[] {
                 // },
             ],
         },
-        {
-            groupLabel: "Settings",
-            menus: [
-                // {
-                //     href: "/profile",
-                //     label: "Profile",
-                //     active: pathname.includes("/profile"),
-                //     icon: UserPen,
-                //     submenus: [],
-                // },
-                // {
-                //     href: "/account",
-                //     label: "Account",
-                //     active: pathname.includes("/account"),
-                //     icon: Settings,
-                //     submenus: [],
-                // },
-            ],
-        },
+        // {
+        //     groupLabel: "Settings",
+        //     menus: [
+        //         {
+        //             href: "/profile",
+        //             label: "Profile",
+        //             active: pathname.includes("/profile"),
+        //             icon: UserPen,
+        //             submenus: [],
+        //         },
+        //         {
+        //             href: "/account",
+        //             label: "Account",
+        //             active: pathname.includes("/account"),
+        //             icon: Settings,
+        //             submenus: [],
+        //         },
+        //     ],
+        // },
     ];
 }

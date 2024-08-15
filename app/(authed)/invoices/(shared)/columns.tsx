@@ -12,26 +12,26 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { formatCurrency, formatTS } from "@/lib/utils";
 
 export const columns: ColumnDef<Invoice>[] = [
-    // {
-    //     id: "select",
-    //     header: ({ table }) => (
-    //         <Checkbox
-    //             aria-label="Select all"
-    //             checked={table.getIsAllPageRowsSelected()}
-    //             onCheckedChange={(value) =>
-    //                 table.toggleAllPageRowsSelected(!!value)
-    //             }
-    //         />
-    //     ),
-    //     cell: ({ row }) => (
-    //         <Checkbox
-    //             aria-label="Select row"
-    //             checked={row.getIsSelected()}
-    //             onCheckedChange={(value) => row.toggleSelected(!!value)}
-    //         />
-    //     ),
-    //     enableSorting: true,
-    // },
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                aria-label="Select all"
+                checked={table.getIsAllPageRowsSelected()}
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                aria-label="Select row"
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+            />
+        ),
+        enableSorting: true,
+    },
     {
         accessorKey: "created_at",
         cell: (props) => (

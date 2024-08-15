@@ -55,15 +55,15 @@ export default async function InvoicesPage({
                     <SearchBar placeholder="Search invoices..." />
 
                     <TabsContent value="table" className="space-y-4">
+                        <div className="flex w-full justify-center">
+                            <Pagination totalPages={totalPages} />
+                        </div>
                         <Suspense
                             key={query + currentPage}
                             fallback={<InvoicesTableSkeleton />}
                         >
                             <InvoicesTable invoices={invoices} />
                         </Suspense>
-                        <div className="flex w-full justify-center">
-                            <Pagination totalPages={totalPages} />
-                        </div>
                     </TabsContent>
                     <TabsContent value="cards" className="space-y-4">
                         <div className="flex w-full justify-center">

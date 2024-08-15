@@ -4,7 +4,18 @@ const nextConfig = {
         staleTimes: {
             dynamic: 0,
             static: 180,
-        }
+        },
+        turbo: {
+            resolveExtensions: [
+                '.mdx',
+                '.tsx',
+                '.ts',
+                '.jsx',
+                '.js',
+                '.mjs',
+                '.json',
+            ],
+        },
     },
     images: {
         remotePatterns: [
