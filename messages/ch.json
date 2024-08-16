@@ -4,5 +4,12 @@
         "download": "下载",
         "overview_tab": "概览",
         "analytics_tab": "分析"
+    },
+    "LocaleSwitcher": {
+        "ch": "中文",
+        "en": "English",
+        "ru": "Русский",
+        "uk": "Українська",
+        "label": "语言"
     }
 }

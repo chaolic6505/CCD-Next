@@ -4,5 +4,12 @@
         "download": "Download",
         "overview_tab": "Overview",
         "analytics_tab": "Analytics"
+    },
+    "LocaleSwitcher": {
+        "ch": "中文",
+        "en": "English",
+        "ru": "Русский",
+        "uk": "Українська",
+        "label": "Language"
     }
 }
