@@ -24,7 +24,6 @@ export default function LocaleSwitcherSelect({
     function onChange(value: string) {
         const locale = value as Locale;
         startTransition(() => {
-            console.log('Setting locale to:', locale);
             setUserLocale(locale);
         });
     }

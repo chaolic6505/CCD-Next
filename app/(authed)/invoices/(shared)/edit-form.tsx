@@ -72,7 +72,6 @@ export default function EditInvoiceForm({
         getValues,
         formState: { isDirty, isSubmitting, },
     } = form;
-console.log(getValues('image_urls'), 'image_urls');
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
         if (user?.id) {
@@ -104,7 +103,6 @@ console.log(getValues('image_urls'), 'image_urls');
                         name="image_urls"
                         control={form.control}
                         render={({ field }) => {
-                            console.log(field, 'field');
                             return (
                                 <FormItem>
                                     <FormLabel>Images</FormLabel>
@@ -118,7 +116,6 @@ console.log(getValues('image_urls'), 'image_urls');
                                             onChange={(
                                                 value: UploadFileResponse[]
                                             ) => {
-                                                console.log(value, 'onChange value');
                                                 if (value) {
                                                     field.onChange(value);
                                                     setIsUploading(false);
