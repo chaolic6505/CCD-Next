@@ -1,0 +1,15 @@
+{
+    "dashboard": {
+        "title": "Привіт, ласкаво просимо назад",
+        "download": "завантажити",
+        "overview_tab": "Oгляд",
+        "analytics_tab": "Aналітика"
+    },
+    "LocaleSwitcher": {
+        "ch": "中文",
+        "en": "English",
+        "ru": "Русский",
+        "uk": "Українська",
+        "label": "мови"
+    }
+}

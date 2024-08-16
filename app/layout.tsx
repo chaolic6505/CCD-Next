@@ -4,7 +4,9 @@ import "@uploadthing/react/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import { NextIntlClientProvider } from 'next-intl';
 import { Analytics } from "@vercel/analytics/react";
+import { getLocale, getMessages } from 'next-intl/server';
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -18,7 +20,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Chao Chao Dog",
-    description: "AI personal assistant for your daily tasks",
+    description: "AI personal assistant for your daily wardrobe",
 };
 
 export default async function RootLayout({
@@ -26,6 +28,11 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const locale = await getLocale();
+    // Providing all messages to the client
+    // side is the easiest way to get started
+    const messages = await getMessages();
+
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -44,7 +51,9 @@ export default async function RootLayout({
                 <NextTopLoader showSpinner={true} />
                 <Providers>
                     <Toaster />
-                    {children}
+                    <NextIntlClientProvider messages={messages}>
+                        {children}
+                    </NextIntlClientProvider>
                     <Analytics />
                     <SpeedInsights />
                 </Providers>

@@ -32,6 +32,7 @@ import { State, updateInvoice } from "@/lib/actions/invoice.actions";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
 import { CustomerField, Invoice } from "@/types";
+import { get } from "http";
 
 
 export default function EditInvoiceForm({
@@ -68,9 +69,10 @@ export default function EditInvoiceForm({
     });
 
     const {
+        getValues,
         formState: { isDirty, isSubmitting, },
     } = form;
-
+console.log(getValues('image_urls'), 'image_urls');
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
         if (user?.id) {
@@ -102,6 +104,7 @@ export default function EditInvoiceForm({
                         name="image_urls"
                         control={form.control}
                         render={({ field }) => {
+                            console.log(field, 'field');
                             return (
                                 <FormItem>
                                     <FormLabel>Images</FormLabel>
@@ -115,6 +118,7 @@ export default function EditInvoiceForm({
                                             onChange={(
                                                 value: UploadFileResponse[]
                                             ) => {
+                                                console.log(value, 'onChange value');
                                                 if (value) {
                                                     field.onChange(value);
                                                     setIsUploading(false);
