@@ -11,5 +11,23 @@
         "ru": "Русский",
         "uk": "Українська",
         "label": "语言"
+    },
+    "InvoicePage": {
+        "title": "发票总数:",
+        "paid": "已支付",
+        "pending": "待处理",
+        "cardTitle": "发票名称",
+        "invoice_date_label": "发票日期",
+        "customer_name_label": "客户名称",
+        "customer_email_label": "客户电子邮件",
+        "tab1": "格狀",
+        "tab2": "列表",
+        "search": "搜尋发票...",
+        "table": {
+            "id": "ID",
+            "date": "日期",
+            "amount": "金额",
+            "status": "状态"
+        }
     }
 }

@@ -46,21 +46,21 @@ export default function LocaleSwitcherSelect({
                     <Select.Content
                         align="end"
                         position="popper"
-                        className="min-w-[8rem] overflow-hidden rounded-sm bg-white py-1 shadow-md"
+                        className="min-w-[8rem] overflow-hidden rounded-sm bg-ghost py-1 shadow-md"
                     >
                         <Select.Viewport>
                             {items.map((item) => (
                                 <Select.Item
                                     key={item.value}
                                     value={item.value}
-                                    className="flex cursor-default items-center px-3 py-2 text-base data-[highlighted]:bg-slate-100"
+                                    className="flex cursor-default items-center px-3 py-2 data-[highlighted]:bg-slate-500"
                                 >
                                     <div className="mr-2 w-[1rem]">
                                         {item.value === defaultValue && (
-                                            <CheckIcon className="h-5 w-5 text-slate-600" />
+                                            <CheckIcon className="h-5 w-5 dark:text-violet-50 light:text-violet-400" />
                                         )}
                                     </div>
-                                    <span className="text-slate-900">{item.label}</span>
+                                    <span className="dark:text-violet-50 light:text-violet-400">{item.label}</span>
                                 </Select.Item>
                             ))}
                         </Select.Viewport>

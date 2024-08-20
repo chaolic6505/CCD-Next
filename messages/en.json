@@ -11,5 +11,23 @@
         "ru": "Русский",
         "uk": "Українська",
         "label": "Language"
+    },
+    "InvoicePage": {
+        "title": "Total Invoices: ",
+        "paid": "Paid",
+        "pending": "Pending",
+        "cardTitle": "Invoices Name",
+        "invoice_date_label": "Invoice Date",
+        "customer_name_label": "Customer Name",
+        "customer_email_label": "Customer Email",
+        "tab1": "Cards",
+        "tab2": "Table",
+        "search": "Search invoices...",
+        "table": {
+            "id": "ID",
+            "date": "Date",
+            "amount": "Amount",
+            "status": "Status"
+        }
     }
 }

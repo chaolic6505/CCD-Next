@@ -19,14 +19,14 @@ export default function LocaleSwitcher() {
                     value: 'en',
                     label: t('en')
                 },
-                {
-                    value: 'ru',
-                    label: t('ru')
-                },
-                {
-                    value: 'uk',
-                    label: t('uk')
-                }
+                // {
+                //     value: 'ru',
+                //     label: t('ru')
+                // },
+                // {
+                //     value: 'uk',
+                //     label: t('uk')
+                // }
             ]}
         />
     );

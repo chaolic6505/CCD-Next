@@ -10,9 +10,10 @@ export default function Header() {
             <div className="mx-4 sm:mx-8 flex h-14 items-center">
                 <div className="flex items-center space-x-4 lg:space-x-2">
                     <ThemeToggle />
-                    <LocaleSwitcher />
                 </div>
                 <div className="flex flex-1 items-center justify-end space-x-5 ">
+                    <LocaleSwitcher />
+
                     <UserNav />
                     <SheetMenu />
                 </div>

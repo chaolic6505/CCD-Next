@@ -17,10 +17,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { CalendarDateRangePicker } from "@/components/date-range-picker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-
-
-
-
 export default function Dashboard() {
     const t = useTranslations('dashboard');
 

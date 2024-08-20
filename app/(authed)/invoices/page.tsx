@@ -1,25 +1,21 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 
-import SearchBar from "@/components/search-bar";
-import { Heading } from "@/components/ui/heading";
 import {
     InvoicesSkeleton,
     InvoicesTableSkeleton,
 } from "@/components/shared/skeletons";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 
-import Pagination from "./(shared)/pagination";
+import InvoiceLayout from "./(shared)/invoice-layout";
 import InvoicesTable from "./(shared)/invoices-table";
-import InvoiceDialog from "./(shared)/invoice-dialog";
 import InvoicesCardsWrapper from "./(shared)/invoice-card-wrapper";
 
-import { fetchCustomers } from "@/lib/actions/customer.actions";
 import {
     fetchFilteredInvoices,
     fetchInvoicesPages,
 } from "@/lib/actions/invoice.actions";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { fetchCustomers } from "@/lib/actions/customer.actions";
 
 export const metadata: Metadata = {
     title: "Invoices",
@@ -40,46 +36,31 @@ export default async function InvoicesPage({
     const { total, totalPages } = await fetchInvoicesPages(query);
 
     return (
-        <ScrollArea className="h-screen">
-            <div className="flex-1 space-y-4  p-4 pt-1 md:p-8">
-                <Heading title={`Total Invoices (${total ?? 0})`} />
-                <Tabs defaultValue="cards" className="space-y-4">
-                    <div className="flex items-start justify-start">
-                        <InvoiceDialog customers={customers} />
-
-                        <TabsList>
-                            <TabsTrigger value="cards">Cards</TabsTrigger>
-                            <TabsTrigger value="table">Table</TabsTrigger>
-                        </TabsList>
-                    </div>
-
-                    <div className="flex w-full justify-center">
-                        <Pagination totalPages={totalPages} />
-                    </div>
-                    <SearchBar placeholder="Search invoices..." />
-
-                    <TabsContent value="table" className="space-y-4">
-                        <Suspense
-                            key={query + currentPage}
-                            fallback={<InvoicesTableSkeleton />}
-                        >
-                            <InvoicesTable
-                                hideSearchBar
-                                hidePagination
-                                invoices={invoices}
-                            />
-                        </Suspense>
-                    </TabsContent>
-                    <TabsContent value="cards" className="space-y-4">
-                        <Suspense
-                            key={query + currentPage}
-                            fallback={<InvoicesSkeleton />}
-                        >
-                            <InvoicesCardsWrapper invoices={invoices} />
-                        </Suspense>
-                    </TabsContent>
-                </Tabs>
-            </div>
-        </ScrollArea>
+        <InvoiceLayout
+            total={total}
+            customers={customers}
+            totalPages={totalPages}
+        >
+            <TabsContent value="table" className="space-y-4">
+                <Suspense
+                    key={query + currentPage}
+                    fallback={<InvoicesTableSkeleton />}
+                >
+                    <InvoicesTable
+                        hideSearchBar
+                        hidePagination
+                        invoices={invoices}
+                    />
+                </Suspense>
+            </TabsContent>
+            <TabsContent value="cards" className="space-y-4">
+                <Suspense
+                    key={query + currentPage}
+                    fallback={<InvoicesSkeleton />}
+                >
+                    <InvoicesCardsWrapper invoices={invoices} />
+                </Suspense>
+            </TabsContent>
+        </InvoiceLayout>
     );
 }
