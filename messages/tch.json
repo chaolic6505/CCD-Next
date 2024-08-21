@@ -1,0 +1,49 @@
+{
+    "sidebar": {
+        "dashboard": "主頁",
+        "invoices": "發票",
+        "clients": "客戶",
+        "products": "產品",
+        "settings": "設置",
+        "logout": "登出"
+    },
+    "dashboard": {
+        "title": "您好！歡迎回來",
+        "download": "下載",
+        "overview_tab": "概覽",
+        "analytics_tab": "分析",
+        "card1Title": "已收款",
+        "card2Title": "待處理",
+        "card3Title": "總發票數",
+        "card4Title": "總客戶量",
+        "recent_invoices": "最近的發票",
+        "new_invoice": "張 新發票",
+        "update_time": "剛剛更新"
+    },
+    "LocaleSwitcher": {
+        "ch": "简体中文",
+        "tch": "繁體中文",
+        "en": "English",
+        "ru": "Русский",
+        "uk": "Українська",
+        "label": "Language"
+    },
+    "InvoicePage": {
+        "title": "總發票數：",
+        "paid": "已付款",
+        "pending": "待處理",
+        "cardTitle": "發票名稱",
+        "invoice_date_label": "發票日期",
+        "customer_name_label": "客戶名稱",
+        "customer_email_label": "客戶電郵",
+        "tab1": "卡片",
+        "tab2": "表格",
+        "search": "搜尋發票...",
+        "table": {
+            "id": "ID",
+            "date": "日期",
+            "amount": "金額",
+            "status": "狀態"
+        }
+    }
+}

@@ -1,12 +1,28 @@
 {
+    "sidebar":{
+        "dashboard": "Dashboard",
+        "invoices": "Invoices",
+        "clients": "Clients",
+        "products": "Products",
+        "settings": "Settings",
+        "logout": "Sign Out"
+    },
     "dashboard": {
         "title": "Hi, Welcome back",
         "download": "Download",
         "overview_tab": "Overview",
-        "analytics_tab": "Analytics"
+        "analytics_tab": "Analytics",
+        "card1Title": "Collected",
+        "card2Title": "Pending",
+        "card3Title": "Total Invoices",
+        "card4Title": "Total Customers",
+        "recent_invoices": "Recent Invoices",
+        "new_invoice": "new invoices",
+        "update_time": "Updated just now"
     },
     "LocaleSwitcher": {
-        "ch": "中文",
+        "ch": "简体中文",
+        "tch": "繁體中文",
         "en": "English",
         "ru": "Русский",
         "uk": "Українська",

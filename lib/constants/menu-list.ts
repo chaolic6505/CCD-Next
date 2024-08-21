@@ -1,4 +1,5 @@
-import { Invoice } from '../definitions';
+import { useTranslations } from "next-intl";
+import { Invoice } from "../definitions";
 import {
     Tag,
     Users,
@@ -37,13 +38,15 @@ type Group = {
 };
 
 export function getMenuList(pathname: string): Group[] {
+    const t = useTranslations("sidebar");
+
     return [
         {
             groupLabel: "",
             menus: [
                 {
                     href: "/dashboard",
-                    label: "Dashboard",
+                    label: t("dashboard"),
                     active: pathname.includes("/dashboard"),
                     icon: LayoutGrid,
                     submenus: [],
@@ -55,7 +58,7 @@ export function getMenuList(pathname: string): Group[] {
             menus: [
                 {
                     href: "/invoices",
-                    label: "Invoices",
+                    label: t("invoices"),
                     active: pathname.includes("/invoices"),
                     icon: Receipt,
                     submenus: [],
