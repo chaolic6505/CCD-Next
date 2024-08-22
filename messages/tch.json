@@ -44,8 +44,12 @@
         "search": "搜尋發票...",
         "table": {
             "id": "ID",
-            "date": "日期",
-            "amount": "金額",
+            "created_at": "建立日期",
+            "invoice_date": "發票日期",
+            "invoice_name": "發票名稱",
+            "customer_name": "客戶名稱",
+            "customer_email": "客戶電郵",
+            "invoice_amount": "發票金額",
             "status": "狀態"
         }
     }

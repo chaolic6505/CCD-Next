@@ -1,5 +1,5 @@
 {
-    "sidebar":{
+    "sidebar": {
         "dashboard": "Dashboard",
         "invoices": "Invoices",
         "clients": "Clients",
@@ -45,7 +45,13 @@
         "table": {
             "id": "ID",
             "date": "Date",
-            "amount": "Amount",
+            "customer": "Customer",
+            "created_at": "Created At",
+            "invoice_date": "Invoice Date",
+            "invoice_name": "Invoice Name",
+            "customer_name": "Customer Name",
+            "customer_email": "Customer Email",
+            "invoice_amount": "Invoice Amount",
             "status": "Status"
         }
     }
