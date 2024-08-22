@@ -16,6 +16,8 @@ import {
     Notebook,
     Receipt,
     PersonStanding,
+    HeartPulse,
+    Star,
 } from "lucide-react";
 
 type Submenu = {
@@ -54,8 +56,15 @@ export function getMenuList(pathname: string): Group[] {
             ],
         },
         {
-            groupLabel: "Contents",
+            groupLabel: t("content"),
             menus: [
+                {
+                    href: "/collections",
+                    label: t("collections"),
+                    active: pathname.includes("/collections"),
+                    icon: Star,
+                    submenus: [],
+                },
                 {
                     href: "/invoices",
                     label: t("invoices"),
@@ -70,13 +79,7 @@ export function getMenuList(pathname: string): Group[] {
                 //     icon: PersonStanding,
                 //     submenus: [],
                 // },
-                // {
-                //     href: "/collections",
-                //     label: "Collections",
-                //     active: pathname.includes("/collections"),
-                //     icon: Notebook,
-                //     submenus: [],
-                // },
+
                 // {
                 //     href: "",
                 //     label: "Chats",

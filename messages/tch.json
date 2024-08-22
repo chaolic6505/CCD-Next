@@ -5,7 +5,10 @@
         "clients": "客戶",
         "products": "產品",
         "settings": "設置",
-        "logout": "登出"
+        "logout": "登出",
+        "profile": "個人資料",
+        "content": "內容",
+        "collections": "收藏"
     },
     "dashboard": {
         "title": "您好！歡迎回來",

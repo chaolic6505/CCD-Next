@@ -5,7 +5,10 @@
         "clients": "Clients",
         "products": "Products",
         "settings": "Settings",
-        "logout": "Sign Out"
+        "logout": "Sign Out",
+        "profile": "Profile",
+        "content": "Content",
+        "collections": "Collections"
     },
     "dashboard": {
         "title": "Hi, Welcome back",

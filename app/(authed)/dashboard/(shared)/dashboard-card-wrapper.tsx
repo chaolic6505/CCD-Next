@@ -34,7 +34,7 @@ export const DashboardCard = ({
 
     return (
         <Card
-            className="group rounded-lg border px-5 py-4 transition-colors hover:bg-slate-600 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+            className="group rounded-lg border px-5 py-4 hover:shadow-lg transition-shadow duration-300"
         >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">{title}</CardTitle>

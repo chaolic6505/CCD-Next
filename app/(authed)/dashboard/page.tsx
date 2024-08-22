@@ -27,10 +27,10 @@ export default function Dashboard() {
                     <h2 className="text-3xl font-bold tracking-tight">
                         {t("title")} 👋
                     </h2>
-                    <div className="hidden items-center space-x-2 md:flex">
+                    {/* <div className="hidden items-center space-x-2 md:flex">
                         <CalendarDateRangePicker />
                         <Button>{t("download")}</Button>
-                    </div>
+                    </div> */}
                 </div>
                 <Tabs defaultValue="overview" className="space-y-4">
                     <TabsList>
@@ -63,7 +63,7 @@ export default function Dashboard() {
                                     />
                                 </Suspense>
                             </div>
-                            <div className="col-span-4  md:col-span-3">
+                            <div className="col-span-4 md:col-span-3">
                                 <Suspense fallback={<RevenueChartSkeleton />}>
                                     <BarGraph />
                                 </Suspense>
