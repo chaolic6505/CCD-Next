@@ -61,29 +61,31 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className=" w-full">
-            {
-                !hideSearchBar && searchKey ?
-                    <Input
-                        className="w-full md:max-w-sm"
-                        placeholder={`Search ${searchKey}...`}
-                        value={
-                            (table
-                                .getColumn(searchKey)
-                                ?.getFilterValue() as string) ?? ""
-                        }
-                        onChange={(event) =>
-                            table
-                                .getColumn(searchKey)
-                                ?.setFilterValue(event.target.value)
-                        }
-                    /> : null
-            }
+            {!hideSearchBar && searchKey ? (
+                <Input
+                    className="w-full md:max-w-sm"
+                    placeholder={`Search ${searchKey}...`}
+                    value={
+                        (table
+                            .getColumn(searchKey)
+                            ?.getFilterValue() as string) ?? ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn(searchKey)
+                            ?.setFilterValue(event.target.value)
+                    }
+                />
+            ) : null}
             <div className="flex-1 text-sm text-muted-foreground px-3">
                 {table.getFilteredSelectedRowModel().rows.length} of{" "}
                 {table.getFilteredRowModel().rows.length} row(s) selected.
             </div>
             <div className="flex">
-                <ScrollArea className="h-[calc(95vh-300px)] rounded-md overflow-x-auto w-1 flex-1" type="always">
+                <ScrollArea
+                    className="h-[calc(95vh-300px)] rounded-md overflow-x-auto w-1 flex-1"
+                    type="always"
+                >
                     <div className="w-full whitespace-nowrap">
                         <Table className="relative min-w-full overflow-auto">
                             <TableHeader>
@@ -95,10 +97,11 @@ export function DataTable<TData, TValue>({
                                                     {header.isPlaceholder
                                                         ? null
                                                         : flexRender(
-                                                            header.column.columnDef
-                                                                .header,
-                                                            header.getContext()
-                                                        )}
+                                                              header.column
+                                                                  .columnDef
+                                                                  .header,
+                                                              header.getContext()
+                                                          )}
                                                 </TableHead>
                                             );
                                         })}
@@ -111,17 +114,21 @@ export function DataTable<TData, TValue>({
                                         <TableRow
                                             key={row.id}
                                             data-state={
-                                                row.getIsSelected() && "selected"
+                                                row.getIsSelected() &&
+                                                "selected"
                                             }
                                         >
-                                            {row.getVisibleCells().map((cell) => (
-                                                <TableCell key={cell.id}>
-                                                    {flexRender(
-                                                        cell.column.columnDef.cell,
-                                                        cell.getContext()
-                                                    )}
-                                                </TableCell>
-                                            ))}
+                                            {row
+                                                .getVisibleCells()
+                                                .map((cell) => (
+                                                    <TableCell key={cell.id}>
+                                                        {flexRender(
+                                                            cell.column
+                                                                .columnDef.cell,
+                                                            cell.getContext()
+                                                        )}
+                                                    </TableCell>
+                                                ))}
                                         </TableRow>
                                     ))
                                 ) : (

@@ -24,11 +24,11 @@ export function ImageCollapsible({
     return (
         <Collapsible
             open={isOpen}
-            onOpenChange={setIsOpen}
+            // onOpenChange={setIsOpen}
             className="relative w-full overflow-hidden"
         >
 
-            <CollapsibleContent className="relative pt-[100%]">
+            {/* <CollapsibleContent className="relative pt-[100%]">
                 {
                     invoice_image_url ?
                         <button onClick={() => setIsOpen(false)}>
@@ -41,7 +41,7 @@ export function ImageCollapsible({
                             />
                         </button> : null
                 }
-            </CollapsibleContent>
+            </CollapsibleContent> */}
 
             <div className="flex flex-row justify-end mb-1 mt-1 mr-1">
                 <CollapsibleTrigger>

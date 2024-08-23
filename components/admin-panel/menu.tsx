@@ -17,6 +17,7 @@ import {
     TooltipContent,
     TooltipProvider,
 } from "@/components/ui/tooltip";
+import { useTranslations } from "next-intl";
 
 interface MenuProps {
     isOpen: boolean | undefined;
@@ -26,6 +27,7 @@ export function Menu({ isOpen }: MenuProps) {
     const pathname = usePathname();
     const menuList = getMenuList(pathname);
     const { signOut } = useClerk();
+    const t = useTranslations("sidebar");
 
     return (
         <ScrollArea className="[&>div>div[style]]:!block overflow-y-auto">
@@ -155,7 +157,7 @@ export function Menu({ isOpen }: MenuProps) {
                                         : "opacity-100"
                                 )}
                             >
-                                Sign out
+                                {t("logout")}
                             </p>
                         </Button>
                     </li>

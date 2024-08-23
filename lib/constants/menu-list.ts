@@ -1,4 +1,5 @@
-import { Invoice } from '../definitions';
+import { useTranslations } from "next-intl";
+import { Invoice } from "../definitions";
 import {
     Tag,
     Users,
@@ -15,6 +16,8 @@ import {
     Notebook,
     Receipt,
     PersonStanding,
+    HeartPulse,
+    Star,
 } from "lucide-react";
 
 type Submenu = {
@@ -37,13 +40,15 @@ type Group = {
 };
 
 export function getMenuList(pathname: string): Group[] {
+    const t = useTranslations("sidebar");
+
     return [
         {
             groupLabel: "",
             menus: [
                 {
                     href: "/dashboard",
-                    label: "Dashboard",
+                    label: t("dashboard"),
                     active: pathname.includes("/dashboard"),
                     icon: LayoutGrid,
                     submenus: [],
@@ -51,11 +56,18 @@ export function getMenuList(pathname: string): Group[] {
             ],
         },
         {
-            groupLabel: "Contents",
+            groupLabel: t("content"),
             menus: [
                 {
+                    href: "/collections",
+                    label: t("collections"),
+                    active: pathname.includes("/collections"),
+                    icon: Star,
+                    submenus: [],
+                },
+                {
                     href: "/invoices",
-                    label: "Invoices",
+                    label: t("invoices"),
                     active: pathname.includes("/invoices"),
                     icon: Receipt,
                     submenus: [],
@@ -67,13 +79,7 @@ export function getMenuList(pathname: string): Group[] {
                 //     icon: PersonStanding,
                 //     submenus: [],
                 // },
-                // {
-                //     href: "/collections",
-                //     label: "Collections",
-                //     active: pathname.includes("/collections"),
-                //     icon: Notebook,
-                //     submenus: [],
-                // },
+
                 // {
                 //     href: "",
                 //     label: "Chats",

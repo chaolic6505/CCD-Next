@@ -174,7 +174,7 @@ export function BarGraph() {
             <CardContent className="px-2 sm:p-6">
                 <ChartContainer
                     config={chartConfig}
-                    className="aspect-auto h-[280px] w-full"
+                    className="aspect-auto h-[380px] w-full"
                 >
                     <BarChart
                         data={chartData}

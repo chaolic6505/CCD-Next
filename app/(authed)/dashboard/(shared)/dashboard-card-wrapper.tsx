@@ -34,7 +34,7 @@ export const DashboardCard = ({
 
     return (
         <Card
-            className="group rounded-lg border px-5 py-4 transition-colors hover:bg-slate-600 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+            className="group rounded-lg border px-5 py-4 hover:shadow-lg transition-shadow duration-300"
         >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">{title}</CardTitle>
@@ -48,7 +48,17 @@ export const DashboardCard = ({
     );
 };
 
-export default async function DashboardCardsWrapper() {
+export default async function DashboardCardsWrapper({
+    card1Title,
+    card2Title,
+    card3Title,
+    card4Title,
+}: {
+    card1Title: string;
+    card2Title: string;
+    card3Title: string;
+    card4Title: string;
+}) {
     const {
         numberOfInvoices,
         numberOfCustomers,
@@ -58,26 +68,26 @@ export default async function DashboardCardsWrapper() {
     return (
         <>
             <DashboardCard
-                title="Collected"
                 type="collected"
+                title={card1Title}
                 value={totalPaidInvoices}
                 change={"+20.1% from last month"}
             />
             <DashboardCard
                 type="pending"
-                title="Pending"
+                title={card2Title}
                 value={totalPendingInvoices}
                 change={"+20.1% from last month"}
             />
             <DashboardCard
                 type="invoices"
-                title="Total Invoices"
+                title={card3Title}
                 value={numberOfInvoices}
                 change={"+20.1% from last month"}
             />
             <DashboardCard
                 type="customers"
-                title="Total Customers"
+                title={card4Title}
                 value={numberOfCustomers}
                 change={"+20.1% from last month"}
             />

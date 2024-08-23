@@ -6,7 +6,8 @@
         "analytics_tab": "Aналітика"
     },
     "LocaleSwitcher": {
-        "ch": "中文",
+        "ch": "简体中文",
+        "tch": "繁體中文",
         "en": "English",
         "ru": "Русский",
         "uk": "Українська",

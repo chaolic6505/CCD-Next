@@ -10,6 +10,7 @@ import { Invoice } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formatCurrency, formatTS } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export const columns: ColumnDef<Invoice>[] = [
     {
@@ -34,10 +35,9 @@ export const columns: ColumnDef<Invoice>[] = [
     },
     {
         accessorKey: "created_at",
-        cell: (props) => (
-            <span>{formatTS(props.getValue() as number)}</span>
-        ),
+        cell: (props) => <span>{formatTS(props.getValue() as number)}</span>,
         header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
             return (
                 <Button
                     variant="ghost"
@@ -45,48 +45,16 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Created At
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        }
-    },
-    {
-        accessorKey: "invoice_date",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Invoice Date
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        }
-    },
-    {
-        accessorKey: "invoice_name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Invoice Name
+                    {t("created_at")}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
         },
-        cell: (props) => <span>{(props.getValue() as string) || 'N/A'}</span>,
     },
     {
-        accessorKey: "customer_name",
+        accessorKey: "invoice_date",
         header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
             return (
                 <Button
                     variant="ghost"
@@ -94,7 +62,42 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Customer Name
+                    {t("invoice_date")}
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+    },
+    {
+        accessorKey: "invoice_name",
+        header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    {t("invoice_name")}
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: (props) => <span>{(props.getValue() as string) || "N/A"}</span>,
+    },
+    {
+        accessorKey: "customer_name",
+        header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    {t("customer_name")}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -103,6 +106,7 @@ export const columns: ColumnDef<Invoice>[] = [
     {
         accessorKey: "customer_email",
         header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
             return (
                 <Button
                     variant="ghost"
@@ -110,7 +114,7 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Email
+                    {t("customer_email")}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -119,6 +123,7 @@ export const columns: ColumnDef<Invoice>[] = [
     {
         accessorKey: "invoice_amount",
         header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
             return (
                 <Button
                     variant="ghost"
@@ -126,7 +131,7 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Amount
+                    {t("invoice_amount")}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -136,6 +141,7 @@ export const columns: ColumnDef<Invoice>[] = [
         accessorKey: "status",
         cell: (props) => <InvoiceStatus status={props.getValue() as string} />,
         header: ({ column }) => {
+            const t = useTranslations("InvoicePage.table");
             return (
                 <Button
                     variant="ghost"
@@ -143,7 +149,7 @@ export const columns: ColumnDef<Invoice>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Status
+                    {t("status")}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
