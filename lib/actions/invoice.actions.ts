@@ -1,18 +1,18 @@
 "use server";
 
 import { z } from "zod";
-import db from "@/db/drizzle";
-
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { customers, invoices, revenue } from "@/db/schema";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
-import { Invoice } from "@/types";
+import db from "@/db/drizzle";
+import revenue from "@/db/schemas/revenue";
+import invoices from "@/db/schemas/invoices";
+import customers from "@/db/schemas/customers";
+
 import { formatCurrency } from "../utils";
 import { ITEMS_PER_PAGE } from "../constants/systems";
 import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
-
 
 export async function fetchCardData() {
     try {
