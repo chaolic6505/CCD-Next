@@ -39,7 +39,7 @@ export default function LocaleSwitcherSelect({
                     )}
                 >
                     <Select.Icon>
-                        <LanguagesIcon className="h-6 w-6 text-slate-600 transition-colors group-hover:text-slate-900" />
+                        <LanguagesIcon className="h-6 w-6 text-slate-600 transition-colors group-hover:text-slate-700" />
                     </Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
@@ -53,7 +53,7 @@ export default function LocaleSwitcherSelect({
                                 <Select.Item
                                     key={item.value}
                                     value={item.value}
-                                    className="flex cursor-default items-center px-3 py-2 data-[highlighted]:bg-slate-500"
+                                    className="flex cursor-default items-center px-3 py-2 data-[highlighted]:bg-slate-300"
                                 >
                                     <div className="mr-2 w-[1rem]">
                                         {item.value === defaultValue && (

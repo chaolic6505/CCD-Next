@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { LayoutGrid, LogOut, User } from "lucide-react";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -80,10 +81,12 @@ export function UserNav() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                         className="hover:cursor-pointer"
-                        onClick={() => signOut({ redirectUrl: "/" })}
+
                     >
-                        <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
-                        Sign out
+                        <LogoutLink>
+                            <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
+                            Sign out2
+                        </LogoutLink>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

@@ -1,9 +1,11 @@
 {
     "dashboard": {
         "title": "Привет, с возвращением",
+        "title": "Привет, с возвращением",
         "download": "Cкачать",
         "overview_tab": "Обзор",
-        "analytics_tab": "Analitika"
+        "analytics_tab": "Analitika",
+        "invoices_tab": "Счета"
     },
     "LocaleSwitcher": {
         "ch": "简体中文",

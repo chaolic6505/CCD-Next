@@ -16,6 +16,7 @@ import {
 import { DialogDescription } from "../ui/dialog";
 import { useStore } from "@/hooks/use-store";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 export function SheetMenu() {
     const sidebar = useStore(useSidebarToggle, (state) => state);
@@ -45,12 +46,13 @@ export function SheetMenu() {
                         className="flex justify-center items-center pb-2 pt-1"
                     >
                         <Link
-                            href="/dashboard"
+                            href="/invoices"
                             className="flex items-center gap-2"
                         >
                             <PanelsTopLeft className="w-6 h-6 mr-1" />
                             <h1 className="font-bold text-lg">CCD</h1>
                         </Link>
+
                     </Button>
                 </SheetHeader>
                 <Menu isOpen={sidebar?.isOpen} />

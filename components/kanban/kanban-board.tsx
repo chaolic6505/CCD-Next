@@ -47,6 +47,7 @@ const initialTasks: Task[] = [
         status: "DONE",
         title: "Project initiation and planning",
     },
+    
     {
         id: "task2",
         status: "DONE",

@@ -12,6 +12,8 @@ export default async function InvoicesTable({
     hideSearchBar?: boolean
     hidePagination?: boolean
 }) {
+
+
     return (
         <DataTable
             data={invoices}

@@ -54,42 +54,44 @@ const InvoiceCard = ({
         },
     ];
     return (
-        <Card
-            className={cn(
-                "group rounded-lg border px-1 py-1 hover:shadow-lg w-full flex flex-col"
-            )}
-        >
-            {invoice_image_url ? (
-                <ImageCollapsible invoice_image_url={invoice_image_url} />
-            ) : null}
-            <Link href={`/invoices/${id}`}>
-                <CardContent className="mt-1 p-0 flex flex-col justify-between">
-                    {invoice_name ? (
-                        <CardTitleWrapper invoice_name={invoice_name} />
-                    ) : null}
-                    {invoices.map((invoice) => (
-                        <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
-                            <CardDescription className={`${inter.className}`}>
-                                {invoice.label}
-                            </CardDescription>
-                            <div className="flex flex-row justify-around">
-                                <CardTitle className={`${inter.className} `}>
-                                    {invoice.value}
-                                </CardTitle>
-                            </div>
-                        </div>
-                    ))}
-                    <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1 pb-1">
-                        <CardDescription className={`${inter.className}`}>
-                            {`${invoice_amount} ${currency}`}
-                        </CardDescription>
-                        {status ? (
-                            <InvoiceStatus status={status} className={"w-15"} />
+        <div>
+            <Card
+                className={cn(
+                    "group rounded-lg border px-1 py-1 hover:shadow-lg w-full flex flex-col"
+                )}
+            >
+                {invoice_image_url ? (
+                    <ImageCollapsible invoice_image_url={invoice_image_url} />
+                ) : null}
+                <Link href={`/invoices/${id}`}>
+                    <CardContent className="mt-1 p-0 flex flex-col justify-between">
+                        {invoice_name ? (
+                            <CardTitleWrapper invoice_name={invoice_name} />
                         ) : null}
-                    </div>
-                </CardContent>
-            </Link>
-        </Card>
+                        {invoices.map((invoice, index) => (
+                            <div key={index} className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
+                                <CardDescription className={`${inter.className}`}>
+                                    {invoice.label}
+                                </CardDescription>
+                                <div className="flex flex-row justify-around">
+                                    <CardTitle className={`${inter.className} `}>
+                                        {invoice.value}
+                                    </CardTitle>
+                                </div>
+                            </div>
+                        ))}
+                        <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1 pb-1">
+                            <CardDescription className={`${inter.className}`}>
+                                {`${invoice_amount} ${currency}`}
+                            </CardDescription>
+                            {status ? (
+                                <InvoiceStatus status={status} className={"w-15"} />
+                            ) : null}
+                        </div>
+                    </CardContent>
+                </Link>
+            </Card>
+        </div>
     );
 };
 

@@ -54,101 +54,62 @@ export function getNewMenuList(pathname: string): Group[] {
             groupLabel: "",
             menus: [
                 {
-                    href: "/dashboard",
-                    label: "Dashboard",
-                    active: pathname.includes("/dashboard"),
+                    href: "/invoices",
+                    label: "Home",
+                    active: pathname.includes("/invoices"),
                     icon: LayoutGrid,
                     submenus: [],
                 },
             ],
         },
-        {
-            groupLabel: "Contents",
-            menus: [
-                {
-                    href: "",
-                    label: "Posts",
-                    active: pathname.includes("/posts"),
-                    icon: SquarePen,
-                    submenus: [
-                        {
-                            href: "/posts",
-                            label: "All Posts",
-                            active: pathname === "/posts",
-                        },
-                        {
-                            href: "/posts/new",
-                            label: "New Post",
-                            active: pathname === "/posts/new",
-                        },
-                    ],
-                },
-                {
-                    href: "/categories",
-                    label: "Categories",
-                    active: pathname.includes("/categories"),
-                    icon: Bookmark,
-                    submenus: [],
-                },
-                {
-                    href: "/tags",
-                    label: "Tags",
-                    active: pathname.includes("/tags"),
-                    icon: Tag,
-                    submenus: [],
-                },
-            ],
-        },
-        {
-            groupLabel: "Settings",
-            menus: [
-                {
-                    href: "/account",
-                    label: "Account",
-                    active: pathname.includes("/account"),
-                    icon: Settings,
-                    submenus: [],
-                },
-            ],
-        },
+        // {
+        //     groupLabel: "Contents",
+        //     menus: [
+        //         {
+        //             href: "",
+        //             label: "Posts",
+        //             active: pathname.includes("/posts"),
+        //             icon: SquarePen,
+        //             submenus: [
+        //                 {
+        //                     href: "/posts",
+        //                     label: "All Posts",
+        //                     active: pathname === "/posts",
+        //                 },
+        //                 {
+        //                     href: "/posts/new",
+        //                     label: "New Post",
+        //                     active: pathname === "/posts/new",
+        //                 },
+        //             ],
+        //         },
+        //         {
+        //             href: "/categories",
+        //             label: "Categories",
+        //             active: pathname.includes("/categories"),
+        //             icon: Bookmark,
+        //             submenus: [],
+        //         },
+        //         {
+        //             href: "/tags",
+        //             label: "Tags",
+        //             active: pathname.includes("/tags"),
+        //             icon: Tag,
+        //             submenus: [],
+        //         },
+        //     ],
+        // },
+        // {
+        //     groupLabel: "Settings",
+        //     menus: [
+        //         {
+        //             href: "/account",
+        //             label: "Account",
+        //             active: pathname.includes("/account"),
+        //             icon: Settings,
+        //             submenus: [],
+        //         },
+        //     ],
+        // },
     ];
 }
-
-export const navItems: NavItem[] = [
-    {
-        title: "Dashboard",
-        href: "/dashboard",
-        icon: "dashboard",
-        label: "Dashboard",
-    },
-    {
-        title: "User",
-        href: "/dashboard/user",
-        icon: "user",
-        label: "user",
-    },
-    {
-        title: "Employee",
-        href: "/dashboard/employee",
-        icon: "employee",
-        label: "employee",
-    },
-    {
-        title: "Profile",
-        href: "/dashboard/profile",
-        icon: "profile",
-        label: "profile",
-    },
-    {
-        title: "Kanban",
-        href: "/dashboard/kanban",
-        icon: "kanban",
-        label: "kanban",
-    },
-    {
-        title: "Login",
-        href: "/",
-        icon: "login",
-        label: "login",
-    },
-];

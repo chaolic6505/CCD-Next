@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useClerk } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Ellipsis, LogOut } from "lucide-react";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import { cn } from "@/lib/utils";
 import { getMenuList } from "@/lib/constants/menu-list";
@@ -18,6 +18,7 @@ import {
     TooltipProvider,
 } from "@/components/ui/tooltip";
 import { useTranslations } from "next-intl";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 interface MenuProps {
     isOpen: boolean | undefined;
@@ -26,7 +27,6 @@ interface MenuProps {
 export function Menu({ isOpen }: MenuProps) {
     const pathname = usePathname();
     const menuList = getMenuList(pathname);
-    const { signOut } = useClerk();
     const t = useTranslations("sidebar");
 
     return (
@@ -43,8 +43,8 @@ export function Menu({ isOpen }: MenuProps) {
                                     {groupLabel}
                                 </p>
                             ) : !isOpen &&
-                              isOpen !== undefined &&
-                              groupLabel ? (
+                                isOpen !== undefined &&
+                                groupLabel ? (
                                 <TooltipProvider>
                                     <Tooltip delayDuration={100}>
                                         <TooltipTrigger className="w-full">
@@ -138,29 +138,29 @@ export function Menu({ isOpen }: MenuProps) {
                             )}
                         </li>
                     ))}
-                    <li className="w-full grow flex items-end">
-                        <Button
-                            variant="outline"
-                            onClick={() => signOut()}
-                            className="w-full justify-center h-10 mb-5"
-                        >
-                            <span
-                                className={cn(isOpen === false ? "" : "mr-4")}
+
+                        <LogoutLink className="w-full grow flex items-end">
+                            <Button
+                                variant="outline"
+                                className="w-full justify-center h-10 mb-5"
                             >
-                                <LogOut size={18} />
-                            </span>
-                            <p
-                                className={cn(
-                                    "whitespace-nowrap",
-                                    isOpen === false
-                                        ? "opacity-0 hidden"
-                                        : "opacity-100"
-                                )}
-                            >
-                                {t("logout")}
-                            </p>
-                        </Button>
-                    </li>
+                                <span
+                                    className={cn(isOpen === false ? "" : "mr-4")}
+                                >
+                                    <LogOut size={18} />
+                                </span>
+                                <p
+                                    className={cn(
+                                        "whitespace-nowrap",
+                                        isOpen === false
+                                            ? "opacity-0 hidden"
+                                            : "opacity-100"
+                                    )}
+                                >
+                                    {t("logout")}
+                                </p>
+                            </Button>
+                        </LogoutLink>
                 </ul>
             </nav>
         </ScrollArea>

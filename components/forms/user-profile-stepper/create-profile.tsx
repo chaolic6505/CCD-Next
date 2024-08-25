@@ -97,7 +97,7 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
                 // console.log("product", res);
             }
             router.refresh();
-            router.push(`/dashboard/products`);
+            router.push(`/products`);
         } catch (error: any) {
         } finally {
             setLoading(false);

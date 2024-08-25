@@ -1,4 +1,5 @@
 import { BanknoteIcon, ClockIcon, InboxIcon, UsersIcon } from "lucide-react";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import {
     Card,
@@ -8,10 +9,11 @@ import {
 } from "@/components/ui/card";
 
 import { fetchCardData } from "@/lib/actions/invoice.actions";
+import { useTranslations } from "next-intl";
 
-interface DashboardCardProps {
+interface InvoiceCardSummaryProps {
     title: string;
-    change: string;
+    change?: string;
     value: number | string;
     type: "invoices" | "customers" | "pending" | "collected";
 }
@@ -23,32 +25,39 @@ const iconMap = {
     invoices: InboxIcon,
 };
 
-export const DashboardCard = ({
+export const InvoiceCardSummary = ({
     type,
     title,
     value,
     change,
-}: DashboardCardProps) => {
+}: InvoiceCardSummaryProps) => {
 
     const Icon = iconMap[type];
+    const t = useTranslations("dashboard");
 
     return (
         <Card
-            className="group rounded-lg border px-5 py-4 hover:shadow-lg transition-shadow duration-300"
+            className="group rounded-lg border px-5 py-4 hover:shadow-lg transition-shadow duration-300 border-transparent"
         >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{title}</CardTitle>
-                {Icon ? <Icon className="h-5 w-5" /> : null}
+
+            <CardHeader className="flex flex-row items-center justify-start space-y-0 pb-2">
+                {Icon ? <Icon className="h-5 w-5 mr-1" /> : null}
+
+                <CardTitle className="text-sm font-medium">
+
+                    {title}
+                </CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="text-2xl font-bold">{value}</div>
-                <p className="text-xs text-muted-foreground">{change}</p>
+                {change ? <p className="text-xs text-muted-foreground">{change}</p> : null}
+
             </CardContent>
-        </Card>
+        </Card >
     );
 };
 
-export default async function DashboardCardsWrapper({
+export default async function InvoicesSummaryWrapper({
     card1Title,
     card2Title,
     card3Title,
@@ -65,31 +74,28 @@ export default async function DashboardCardsWrapper({
         totalPaidInvoices,
         totalPendingInvoices,
     } = await fetchCardData();
+
     return (
         <>
-            <DashboardCard
+            <InvoiceCardSummary
                 type="collected"
                 title={card1Title}
                 value={totalPaidInvoices}
-                change={"+20.1% from last month"}
             />
-            <DashboardCard
+            <InvoiceCardSummary
                 type="pending"
                 title={card2Title}
                 value={totalPendingInvoices}
-                change={"+20.1% from last month"}
             />
-            <DashboardCard
+            <InvoiceCardSummary
                 type="invoices"
                 title={card3Title}
                 value={numberOfInvoices}
-                change={"+20.1% from last month"}
             />
-            <DashboardCard
+            <InvoiceCardSummary
                 type="customers"
                 title={card4Title}
                 value={numberOfCustomers}
-                change={"+20.1% from last month"}
             />
         </>
     );

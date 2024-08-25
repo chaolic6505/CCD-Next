@@ -30,7 +30,7 @@ export default function NotFound() {
                 <Button
                     size="lg"
                     variant="ghost"
-                    onClick={() => router.push("/dashboard")}
+                    onClick={() => router.push("/invoices")}
                 >
                     Back to Home
                 </Button>

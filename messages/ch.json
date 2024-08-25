@@ -1,5 +1,6 @@
 {
     "sidebar": {
+        "home": "主页",
         "collections": "收藏",
         "dashboard": "主页",
         "invoices": "发票",
@@ -15,6 +16,7 @@
         "download": "下载",
         "overview_tab": "概览",
         "analytics_tab": "分析",
+        "invoices_tab": "发票",
         "card1Title": "已收款",
         "card2Title": "待处理",
         "card3Title": "总发票數",
@@ -41,6 +43,7 @@
         "customer_email_label": "客户电子邮件",
         "tab1": "格状",
         "tab2": "列表",
+        "tab3": "总结",
         "search": "搜寻发票...",
         "table": {
             "id": "ID",
@@ -63,6 +66,7 @@
         "customer_email_label": "客户电子邮件",
         "tab1": "格状",
         "tab2": "列表",
+        "tab3": "总结",
         "search": "搜寻收款..."
     }
 }
