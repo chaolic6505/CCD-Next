@@ -7,8 +7,8 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import UserAuthForm from "@/components/forms/user-auth-form";
 
 export default async function HomePage() {
-    const { isAuthenticated } = getKindeServerSession();
-    if ((await isAuthenticated())) return redirect("/invoices");
+    // const { isAuthenticated } = getKindeServerSession();
+    // if ((await isAuthenticated())) return redirect("/invoices");
 
     return (
         <div className="relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">

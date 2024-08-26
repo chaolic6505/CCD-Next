@@ -15,32 +15,24 @@ export async function fetchCustomers() {
     if (!user) return;
 
     try {
-        const response = await prisma.customers.findMany(
+        const customers = await prisma.customers.findMany(
             {
                 select: {
-                id: true,
-                name: true,
+                    id: true,
+                    name: true,
+                },
+                orderBy: {
+                    name: 'asc'
                 }
             }
         );
+
+        return customers;
 
     } catch (err) {
         console.error("Database Error:", err);
         throw new Error("Failed to fetch all customers.");
     }
-    // try {
-    //     const data = await db
-    //         .select({
-    //             id: customers.id,
-    //             name: customers.name,
-    //         })
-    //         .from(customers)
-    //         .orderBy(customers.name);
-    //     return data;
-    // } catch (err) {
-    //     console.error("Database Error:", err);
-    //     throw new Error("Failed to fetch all customers.");
-    // }
 }
 
 export async function fetchFilteredCustomers(query: string) {

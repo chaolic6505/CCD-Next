@@ -1,5 +1,4 @@
 import { BanknoteIcon, ClockIcon, InboxIcon, UsersIcon } from "lucide-react";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import {
     Card,
@@ -14,7 +13,7 @@ import { useTranslations } from "next-intl";
 interface InvoiceCardSummaryProps {
     title: string;
     change?: string;
-    value: number | string;
+    value?: number | string;
     type: "invoices" | "customers" | "pending" | "collected";
 }
 
@@ -42,9 +41,7 @@ export const InvoiceCardSummary = ({
 
             <CardHeader className="flex flex-row items-center justify-start space-y-0 pb-2">
                 {Icon ? <Icon className="h-5 w-5 mr-1" /> : null}
-
                 <CardTitle className="text-sm font-medium">
-
                     {title}
                 </CardTitle>
             </CardHeader>
@@ -68,35 +65,34 @@ export default async function InvoicesSummaryWrapper({
     card3Title: string;
     card4Title: string;
 }) {
-    const cardData = await fetchCardData();
     const {
         numberOfInvoices,
         numberOfCustomers,
         totalPaidInvoices,
         totalPendingInvoices,
-    } = cardData || {};
+    } = await fetchCardData();
 
     return (
         <>
             <InvoiceCardSummary
                 type="collected"
                 title={card1Title}
-                value={totalPaidInvoices || 0}
+                value={totalPaidInvoices}
             />
             <InvoiceCardSummary
                 type="pending"
                 title={card2Title}
-                value={totalPendingInvoices || 0}
+                value={totalPendingInvoices}
             />
             <InvoiceCardSummary
                 type="invoices"
                 title={card3Title}
-                value={numberOfInvoices || 0}
+                value={numberOfInvoices}
             />
             <InvoiceCardSummary
                 type="customers"
                 title={card4Title}
-                value={numberOfCustomers || 0}
+                value={numberOfCustomers}
             />
         </>
     );

@@ -11,13 +11,13 @@ export default async function UserAuthForm() {
     console.log(isUserAuthenticated, 'isUserAuthenticated');
     return (
         <div className="flex justify-center gap-6">
-            <LoginLink postLoginRedirectURL="/invoices">
+            <LoginLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL}>
                 <Button className="rounded-md px-6 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Sign in
                 </Button>
             </LoginLink>
 
-            <RegisterLink postLoginRedirectURL="/">
+            <RegisterLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL}>
                 <Button className="rounded-md px-6 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Sign up
                 </Button>

@@ -74,16 +74,14 @@ export default function InvoiceDialog({
     } = form;
 
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
-        if (user?.id) {
-            createInvoice(data, user?.id);
-            reset();
-            setIsDialogOpen(false);
-            toast({
-                variant: "default",
-                title: "Success!",
-                description: "Invoice created.",
-            });
-        }
+        createInvoice(data);
+        reset();
+        setIsDialogOpen(false);
+        toast({
+            variant: "default",
+            title: "Success!",
+            description: "Invoice created.",
+        });
     };
 
     return (
@@ -159,7 +157,7 @@ export default function InvoiceDialog({
                                                         <SelectContent>
                                                             {/* @ts-ignore  */}
                                                             {customers.map(
-                                                                (customer) => (
+                                                                (customer) => customer.name ? (
                                                                     <SelectItem
                                                                         key={
                                                                             customer.id
@@ -172,7 +170,7 @@ export default function InvoiceDialog({
                                                                             customer.name
                                                                         }
                                                                     </SelectItem>
-                                                                )
+                                                                ) : null
                                                             )}
                                                         </SelectContent>
                                                     </Select>

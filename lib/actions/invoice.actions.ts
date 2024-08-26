@@ -14,44 +14,46 @@ import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
 export async function fetchCardData() {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
-    if (!user) return;
+    if (!user) return {};
 
-    // try {
-    //     const invoiceCountPromise = db
-    //         .select({ count: count() })
-    //         .from(invoices)
-    //         .where(eq(invoices.created_by, user.id))
-    //     const customerCountPromise = db
-    //         .select({ count: count() })
-    //         .from(customers)
-    //     const invoiceStatusPromise = db
-    //         .select({
-    //             paid: sql<number>`SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END)`,
-    //             pending: sql<number>`SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END)`,
-    //         })
-    //         .from(invoices)
-    //         .where(eq(invoices.created_by, user.id));
+    try {
+        const invoiceCountPromise = prisma.invoice.count({});
+        const customerCountPromise = prisma.customers.count();
+        const invoiceStatusPromise = prisma.invoice.groupBy({
+            by: ['status'],
+            where: {
+                created_by: user.id
+            },
+            _sum: {
+                amount: true
+            }
+            }).then(results => {
+                return results.reduce((acc, curr) => {
+                    if (curr.status) {
+                        acc[curr.status.toLowerCase() as 'paid' | 'pending'] = curr._sum.amount || 0;
+                    }
+                    return acc;
+                }, { paid: 0, pending: 0 });
+            });
 
-    //     const data = await Promise.all([
-    //         invoiceCountPromise,
-    //         customerCountPromise,
-    //         invoiceStatusPromise,
-    //     ]);
+        const data = await Promise.all([
+            invoiceCountPromise,
+            customerCountPromise,
+            invoiceStatusPromise,
+        ]);
+        const numberOfInvoices = Number(data[0] ?? "0");
+        const numberOfCustomers = Number(data[1] ?? "0");
+        const { paid, pending } = data[2];
 
-    //     const numberOfInvoices = data[0] ? Number(data[0][0].count ?? "0") : 0;
-    //     const numberOfCustomers = data[0] ? Number(data[1][0].count ?? "0") : 0;
-    //     const totalPaidInvoices = data[0] ? formatCurrency(data[2][0].paid ?? "0") : 0;
-    //     const totalPendingInvoices = data[0] ? formatCurrency(data[2][0].pending ?? "0") : 0;
-
-    //     return {
-    //         numberOfCustomers: numberOfCustomers,
-    //         numberOfInvoices: numberOfInvoices,
-    //         totalPaidInvoices: totalPaidInvoices,
-    //         totalPendingInvoices: totalPendingInvoices,
-    //     };
-    // } catch (error) {
-    //     throw new Error("Failed to fetch card data.");
-    // }
+        return {
+            numberOfInvoices,
+            numberOfCustomers,
+            totalPaidInvoices: paid,
+            totalPendingInvoices: pending,
+        };
+    } catch (error) {
+        throw new Error("Failed to fetch card data.");
+    }
 }
 
 export async function fetchRevenue() {
@@ -216,10 +218,14 @@ export type State = {
 
 export async function createInvoice(
     formData: InvoiceFormValues,
-    created_by: string
 ) {
     // Validate form fields using Zod
     const validatedFields = invoiceSchema.safeParse(formData);
+
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    console.log(user, 'user user user');
+    if (!user) return;
 
     // If form validation fails, return errors early. Otherwise, continue.
     if (!validatedFields.success) {
@@ -239,25 +245,30 @@ export async function createInvoice(
         invoice_date,
         invoice_name,
     } = validatedFields.data;
-    let values = {
+    console.log(amount,
         status,
         currency,
-        created_by,
+        image_urls,
         customer_id,
-        invoice_name,
         invoice_date,
-        amount: parseFloat(amount),
-        created_at: Math.round(+new Date() / 1000),
-        image_url: image_urls?.length ? image_urls[0].url : null,
-    };
+        invoice_name, 'invoiceinvoiceinvoiceinvoiceinvoice');
+
     //Insert data into the database
     try {
-        // let insertedInvoices = await db
-        //     .insert(invoices)
-        //     .values(values)
-        //     .returning();
+        let invoice = await prisma.invoice.create({
+            data: {
+                status,
+                currency,
+                customer_id,
+                invoice_name,
+                invoice_date,
+                userId: user.id,
+                isArchived: false,
+                created_by: user.id,
+                amount: parseFloat(amount),
+            }
+        });
 
-        //return insertedInvoices[0];
     } catch (error) {
         // If a database error occurs, return a more specific error.
         return {
@@ -268,6 +279,7 @@ export async function createInvoice(
     // Revalidate the cache for the invoices page and redirect the user.
     revalidatePath("/invoices");
     redirect("/invoices");
+
 }
 
 const UpdateInvoice = FormSchema.omit({

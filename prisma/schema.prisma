@@ -34,12 +34,12 @@ model Invoice {
     id        String   @id @default(cuid())
     amount    Float?
     customer_id String?
-    updated_at DateTime @updatedAt
-    created_at DateTime @default(now())
-    user User @relation(fields: [userId], references: [id])
     userId String
+    user User @relation(fields: [userId], references: [id])
     status String?
     currency String?
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
     isArchived Boolean?
     files Files[]
     created_by String?

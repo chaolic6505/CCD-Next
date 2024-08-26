@@ -13,11 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import InvoicesSummaryWrapper from "./invoices-card-summary";
 import { CardsSkeleton } from "@/components/shared/skeletons";
-
-export type CustomerList = {
-    id: string;
-    name: string;
-};
+import { CustomerField } from "@/lib/definitions";
 
 const InvoiceLayout = ({
     total,
@@ -27,8 +23,8 @@ const InvoiceLayout = ({
 }: {
     total: number;
     totalPages: number;
-    customers: CustomerList[];
     children: React.ReactNode;
+    customers: CustomerField[];
 }) => {
     const t = useTranslations('InvoicePage');
 
@@ -37,7 +33,7 @@ const InvoiceLayout = ({
             <div className="flex-1 space-y-4  p-4 pt-1 md:p-8">
                 <Tabs defaultValue="cards" className="space-y-4">
                     <div className="flex items-start justify-start">
-                        <InvoiceDialog customers={customers} />
+                        {customers ? <InvoiceDialog customers={customers} /> : null}
 
                         <TabsList>
                             <TabsTrigger value="cards">
