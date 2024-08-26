@@ -1,4 +1,6 @@
 
+"use server";
+
 import { asc, eq, ilike, or, sql } from "drizzle-orm";
 
 import { formatCurrency } from "../utils";

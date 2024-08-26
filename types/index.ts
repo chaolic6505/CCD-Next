@@ -59,7 +59,7 @@ export type User = {
 };
 
 export type Invoice = {
-    id: string | null;
+    id: string;
     amount?: number | null;
     status?: string | null;
     currency?: string | null;
@@ -84,3 +84,5 @@ export type SortingState = ColumnSort[];
 export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
+
+

@@ -205,3 +205,4 @@ export async function streamComponent() {
 
     return result.value;
 }
+

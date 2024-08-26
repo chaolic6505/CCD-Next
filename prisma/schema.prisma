@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider          = "postgresql"
+    url               = env("DATABASE_URL")
+    directUrl         = env("DIRECT_URL")
+}
+
+model User {
+    id        String   @id @default(cuid())
+    email     String   @unique
+    name      String?
+    password  String?
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    kindeAuthId String?
+    customer_id String?
+    userTags UserTag[]
+    invoices Invoice[]
+}
+
+model Invoice {
+    id        String   @id @default(cuid())
+    amount    Float?
+    customer_id String?
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+    user User @relation(fields: [userId], references: [id])
+    userId String
+    status String?
+    currency String?
+    isArchived Boolean?
+    files Files[]
+    created_by String?
+    invoice_name String?
+    invoice_date DateTime?
+    invoice_number Int? @default(autoincrement())
+    invoice_tags InvoiceTag[]
+}
+
+model InvoiceTag {
+    id        String   @id @default(cuid())
+    name      String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    invoice Invoice @relation(fields: [invoiceId], references: [id])
+    invoiceId String
+}
+
+model Files {
+    id        String   @id @default(cuid())
+    url       String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    metadata String?
+    invoice Invoice @relation(fields: [invoiceId], references: [id])
+    invoiceId String
+    isArchived Boolean? @default(false)
+}
+
+model UserTag {
+    id        String   @id @default(cuid())
+    name      String
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    user User @relation(fields: [userId], references: [id])
+    userId String
+}
+
+model Revenue {
+    id        String   @id @default(cuid())
+    month String?
+    revenue Int?
+}
+
+model Customers {
+    id        String   @id @default(cuid())
+    name      String?
+    email     String?
+    image_url String?
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+}
