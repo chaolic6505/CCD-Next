@@ -5,10 +5,7 @@ import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/components
 import { Button } from "@/components/ui/button";
 
 export default async function UserAuthForm() {
-    const { isAuthenticated } = getKindeServerSession();
-    let isUserAuthenticated = await isAuthenticated();
 
-    console.log(isUserAuthenticated, 'isUserAuthenticated');
     return (
         <div className="flex justify-center gap-6">
             <LoginLink postLoginRedirectURL={process.env.KINDE_POST_LOGIN_REDIRECT_URL}>

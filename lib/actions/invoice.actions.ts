@@ -224,7 +224,6 @@ export async function createInvoice(
 
     const { getUser } = getKindeServerSession();
     const user = await getUser();
-    console.log(user, 'user user user');
     if (!user) return;
 
     // If form validation fails, return errors early. Otherwise, continue.
@@ -245,27 +244,20 @@ export async function createInvoice(
         invoice_date,
         invoice_name,
     } = validatedFields.data;
-    console.log(amount,
-        status,
-        currency,
-        image_urls,
-        customer_id,
-        invoice_date,
-        invoice_name, 'invoiceinvoiceinvoiceinvoiceinvoice');
 
     //Insert data into the database
     try {
-        let invoice = await prisma.invoice.create({
+        await prisma.invoice.create({
             data: {
-                status,
-                currency,
-                customer_id,
-                invoice_name,
-                invoice_date,
+                status: status,
+                currency: currency,
+                customer_id: customer_id,
+                invoice_name: invoice_name,
                 userId: user.id,
                 isArchived: false,
                 created_by: user.id,
                 amount: parseFloat(amount),
+                invoice_date: new Date(invoice_date).toISOString(),
             }
         });
 
