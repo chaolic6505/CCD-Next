@@ -1,55 +1,14 @@
-"use client";
 
-import * as z from "zod";
-import { useState, Suspense } from "react";
-import { SignInButton } from "@clerk/nextjs";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
-
-import {
-    Form,
-    FormItem,
-    FormField,
-    FormLabel,
-    FormMessage,
-    FormControl,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import GoogleSignInButton from "../github-auth-button";
+export default async function UserAuthForm() {
+    const { isAuthenticated } = getKindeServerSession();
+    let isUserAuthenticated = await isAuthenticated();
 
-const formSchema = z.object({
-    email: z.string().email({ message: "Enter a valid email address" }),
-});
-
-type UserFormValue = z.infer<typeof formSchema>;
-
-export default function UserAuthForm() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl");
-    const [loading, setLoading] = useState(false);
-    const defaultValues = {
-        email: "demo@gmail.com",
-    };
-    const form = useForm<UserFormValue>({
-        resolver: zodResolver(formSchema),
-        defaultValues,
-    });
-
-    const onSubmit = async (data: UserFormValue) => {
-        router.push("/invoices");
-
-        // signIn('credentials', {
-        //     email: data.email,
-        //     callbackUrl: callbackUrl ?? '/invoices'
-        // });
-    };
-
+    console.log(isUserAuthenticated, 'isUserAuthenticated');
     return (
         <div className="flex justify-center gap-6">
             <LoginLink postLoginRedirectURL="/invoices">
@@ -63,58 +22,6 @@ export default function UserAuthForm() {
                     Sign up
                 </Button>
             </RegisterLink>
-            {/* <Form {...form}>
-                <form
-                    className="w-full space-y-2"
-                    onSubmit={form.handleSubmit(onSubmit)}
-                >
-                    <FormField
-                        name="email"
-                        control={form.control}
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="email"
-                                        disabled={loading}
-                                        placeholder="Enter your email..."
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <Button
-                        type="submit"
-                        disabled={loading}
-                        className="ml-auto w-full"
-                    >
-                        Continue With Email
-                    </Button>
-                </form>
-            </Form> */}
-
-            {/* <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                        Or continue with
-                    </span>
-                </div>
-            </div> */}
-            {/* <SignInButton>
-                <Button className="rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Continue with Google
-                </Button>
-            </SignInButton> */}
-            {/* <Suspense>
-                <GoogleSignInButton />
-            </Suspense> */}
         </div>
     );
 }

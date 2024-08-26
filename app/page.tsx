@@ -1,11 +1,15 @@
 
 import Link from "next/link";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import UserAuthForm from "@/components/forms/user-auth-form";
 
+export default async function HomePage() {
+    const { isAuthenticated } = getKindeServerSession();
+    if ((await isAuthenticated())) return redirect("/invoices");
 
-export default function Home() {
     return (
         <div className="relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
             <div className="flex h-full items-center p-4 lg:p-8">
@@ -14,9 +18,6 @@ export default function Home() {
                         <h1 className="text-2xl font-semibold tracking-tight">
                             Chao Chao Dog
                         </h1>
-                        {/* <p className="text-sm text-muted-foreground">
-                            Enter your email below to create your account
-                        </p> */}
                     </div>
                     <Suspense>
                         <UserAuthForm />
@@ -24,14 +25,14 @@ export default function Home() {
                     <p className="px-8 text-center text-sm text-muted-foreground">
                         By clicking continue, you agree to our{" "}
                         <Link
-                            href="/terms"
+                            href="/"
                             className="underline underline-offset-4 hover:text-primary"
                         >
                             Terms of Service
                         </Link>{" "}
                         and{" "}
                         <Link
-                            href="/privacy"
+                            href="/"
                             className="underline underline-offset-4 hover:text-primary"
                         >
                             Privacy Policy
