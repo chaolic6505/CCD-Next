@@ -2,7 +2,6 @@
 
 import moment from "moment";
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -50,7 +49,6 @@ export default function InvoiceDialog({
 }: {
     customers: CustomerField[];
 }) {
-    const { user } = useUser();
     const [isUploading, setIsUploading] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const defaultValues = {

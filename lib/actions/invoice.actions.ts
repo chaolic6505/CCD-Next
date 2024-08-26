@@ -3,14 +3,10 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { and, count, desc, eq, ilike, sql } from "drizzle-orm";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-import db from "@/db/drizzle";
-import revenue from "@/db/schemas/revenue";
-import invoices from "@/db/schemas/invoices";
-import customers from "@/db/schemas/customers";
 
+import prisma from "@/db";
 import { formatCurrency } from "../utils";
 import { ITEMS_PER_PAGE } from "../constants/systems";
 import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
@@ -20,95 +16,95 @@ export async function fetchCardData() {
     const user = await getUser();
     if (!user) return;
 
-    try {
-        const invoiceCountPromise = db
-            .select({ count: count() })
-            .from(invoices)
-            .where(eq(invoices.created_by, user.id))
-        const customerCountPromise = db
-            .select({ count: count() })
-            .from(customers)
-        const invoiceStatusPromise = db
-            .select({
-                paid: sql<number>`SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END)`,
-                pending: sql<number>`SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END)`,
-            })
-            .from(invoices)
-            .where(eq(invoices.created_by, user.id));
+    // try {
+    //     const invoiceCountPromise = db
+    //         .select({ count: count() })
+    //         .from(invoices)
+    //         .where(eq(invoices.created_by, user.id))
+    //     const customerCountPromise = db
+    //         .select({ count: count() })
+    //         .from(customers)
+    //     const invoiceStatusPromise = db
+    //         .select({
+    //             paid: sql<number>`SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END)`,
+    //             pending: sql<number>`SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END)`,
+    //         })
+    //         .from(invoices)
+    //         .where(eq(invoices.created_by, user.id));
 
-        const data = await Promise.all([
-            invoiceCountPromise,
-            customerCountPromise,
-            invoiceStatusPromise,
-        ]);
+    //     const data = await Promise.all([
+    //         invoiceCountPromise,
+    //         customerCountPromise,
+    //         invoiceStatusPromise,
+    //     ]);
 
-        const numberOfInvoices = data[0] ? Number(data[0][0].count ?? "0") : 0;
-        const numberOfCustomers = data[0] ? Number(data[1][0].count ?? "0") : 0;
-        const totalPaidInvoices = data[0] ? formatCurrency(data[2][0].paid ?? "0") : 0;
-        const totalPendingInvoices = data[0] ? formatCurrency(data[2][0].pending ?? "0") : 0;
+    //     const numberOfInvoices = data[0] ? Number(data[0][0].count ?? "0") : 0;
+    //     const numberOfCustomers = data[0] ? Number(data[1][0].count ?? "0") : 0;
+    //     const totalPaidInvoices = data[0] ? formatCurrency(data[2][0].paid ?? "0") : 0;
+    //     const totalPendingInvoices = data[0] ? formatCurrency(data[2][0].pending ?? "0") : 0;
 
-        return {
-            numberOfCustomers: numberOfCustomers,
-            numberOfInvoices: numberOfInvoices,
-            totalPaidInvoices: totalPaidInvoices,
-            totalPendingInvoices: totalPendingInvoices,
-        };
-    } catch (error) {
-        throw new Error("Failed to fetch card data.");
-    }
+    //     return {
+    //         numberOfCustomers: numberOfCustomers,
+    //         numberOfInvoices: numberOfInvoices,
+    //         totalPaidInvoices: totalPaidInvoices,
+    //         totalPendingInvoices: totalPendingInvoices,
+    //     };
+    // } catch (error) {
+    //     throw new Error("Failed to fetch card data.");
+    // }
 }
 
 export async function fetchRevenue() {
-    try {
-        const data = await db.select().from(revenue);
-        return data;
-    } catch (error) {
-        throw new Error("Failed to fetch the revenues.");
-    }
+    // try {
+    //     const data = await db.select().from(revenue);
+    //     return data;
+    // } catch (error) {
+    //     throw new Error("Failed to fetch the revenues.");
+    // }
 }
 export async function fetchLatestInvoices() {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
     if (!user) return;
 
-    try {
-        const data = await db
-            .select({
-                id: invoices.id,
-                status: invoices.status,
-                customer_name: customers.name,
-                customer_email: customers.email,
-                created_at: invoices.created_at,
-                invoice_amount: invoices.amount,
-                invoice_name: invoices.invoice_name,
-                invoice_date: invoices.invoice_date,
-                invoice_image_url: invoices.image_url,
-            })
-            .from(invoices)
-            .where(eq(invoices.created_by, user.id))
-            .innerJoin(customers, eq(invoices.customer_id, customers.id))
-            .orderBy(desc(invoices.invoice_date))
-            .limit(5);
+    // try {
+    //     const data = await db
+    //         .select({
+    //             id: invoices.id,
+    //             status: invoices.status,
+    //             customer_name: customers.name,
+    //             customer_email: customers.email,
+    //             created_at: invoices.created_at,
+    //             invoice_amount: invoices.amount,
+    //             invoice_name: invoices.invoice_name,
+    //             invoice_date: invoices.invoice_date,
+    //             invoice_image_url: invoices.image_url,
+    //         })
+    //         .from(invoices)
+    //         .where(eq(invoices.created_by, user.id))
+    //         .innerJoin(customers, eq(invoices.customer_id, customers.id))
+    //         .orderBy(desc(invoices.invoice_date))
+    //         .limit(5);
 
-        const latestInvoices = data.map((invoice) => ({
-            ...invoice,
-            invoice_amount: invoice.invoice_amount ? formatCurrency(invoice.invoice_amount) : 0,
-        }));
+    //     const latestInvoices = data.map((invoice) => ({
+    //         ...invoice,
+    //         invoice_amount: invoice.invoice_amount ? formatCurrency(invoice.invoice_amount) : 0,
+    //     }));
 
-        return latestInvoices;
-    } catch (error) {
-        throw new Error("Failed to fetch the latest invoices.");
-    }
+    //     return latestInvoices;
+    // } catch (error) {
+    //     throw new Error("Failed to fetch the latest invoices.");
+    // }
 }
 
 export async function deleteInvoice(id: string) {
-    try {
-        await db.delete(invoices).where(eq(invoices.id, id));
-        revalidatePath("/invoices");
-        return { message: "Deleted Invoice" };
-    } catch (error) {
-        return { message: "Database Error: Failed to Delete Invoice." };
-    }
+    // try {
+    //     await db.delete(invoices).where(eq(invoices.id, id));
+    //     revalidatePath("/invoices");
+    //     return { message: "Deleted Invoice" };
+    // } catch (error) {
+    //     return { message: "Database Error: Failed to Delete Invoice." };
+    // }
 }
 
 export async function fetchFilteredInvoices(
@@ -120,41 +116,41 @@ export async function fetchFilteredInvoices(
     const user = await getUser();
     if (!user) return;
 
-    try {
-        const data = await db
-            .select({
-                id: invoices.id,
-                status: invoices.status,
-                currency: invoices.currency,
-                customer_name: customers.name,
-                customer_email: customers.email,
-                created_at: invoices.created_at,
-                invoice_amount: invoices.amount,
-                invoice_name: invoices.invoice_name,
-                invoice_date: invoices.invoice_date,
-                invoice_image_url: invoices.image_url,
-            })
-            .from(invoices)
-            .innerJoin(customers, eq(invoices.customer_id, customers.id))
-            .where(
-                and(
-                    eq(invoices.created_by, user.id),
-                    (
-                        ilike(customers.name, sql`${`%${query}%`}`),
-                        ilike(customers.email, sql`${`%${query}%`}`),
-                        ilike(invoices.status, sql`${`%${query}%`}`),
-                        ilike(invoices.invoice_name, sql`${`%${query}%`}`)
-                    )
-                )
-            )
-            .orderBy(desc(invoices.created_at))
-            .limit(ITEMS_PER_PAGE)
-            .offset(offset);
+    // try {
+    //     const data = await db
+    //         .select({
+    //             id: invoices.id,
+    //             status: invoices.status,
+    //             currency: invoices.currency,
+    //             customer_name: customers.name,
+    //             customer_email: customers.email,
+    //             created_at: invoices.created_at,
+    //             invoice_amount: invoices.amount,
+    //             invoice_name: invoices.invoice_name,
+    //             invoice_date: invoices.invoice_date,
+    //             invoice_image_url: invoices.image_url,
+    //         })
+    //         .from(invoices)
+    //         .innerJoin(customers, eq(invoices.customer_id, customers.id))
+    //         .where(
+    //             and(
+    //                 eq(invoices.created_by, user.id),
+    //                 (
+    //                     ilike(customers.name, sql`${`%${query}%`}`),
+    //                     ilike(customers.email, sql`${`%${query}%`}`),
+    //                     ilike(invoices.status, sql`${`%${query}%`}`),
+    //                     ilike(invoices.invoice_name, sql`${`%${query}%`}`)
+    //                 )
+    //             )
+    //         )
+    //         .orderBy(desc(invoices.created_at))
+    //         .limit(ITEMS_PER_PAGE)
+    //         .offset(offset);
 
-        return data;
-    } catch (error) {
-        throw new Error("Failed to fetch invoices.");
-    }
+    //     return data;
+    // } catch (error) {
+    //     throw new Error("Failed to fetch invoices.");
+    // }
 }
 
 export async function fetchInvoicesPages(query: string) {
@@ -162,28 +158,28 @@ export async function fetchInvoicesPages(query: string) {
     const user = await getUser();
     if (!user) return;
 
-    try {
-        const data = await db
-            .select({
-                count: count(),
-            })
-            .from(invoices)
-            .innerJoin(customers, eq(invoices.customer_id, customers.id))
-            .where(
-                and(
-                    eq(invoices.created_by, user.id),
-                    ilike(customers.name, sql`${`%${query}%`}`),
-                    ilike(customers.email, sql`${`%${query}%`}`),
-                    ilike(invoices.status, sql`${`%${query}%`}`)
-                )
-            );
-        const total = data ? data[0].count : 0;
-        const totalPages = data ? Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE) : 0;
+    // try {
+    //     const data = await db
+    //         .select({
+    //             count: count(),
+    //         })
+    //         .from(invoices)
+    //         .innerJoin(customers, eq(invoices.customer_id, customers.id))
+    //         .where(
+    //             and(
+    //                 eq(invoices.created_by, user.id),
+    //                 ilike(customers.name, sql`${`%${query}%`}`),
+    //                 ilike(customers.email, sql`${`%${query}%`}`),
+    //                 ilike(invoices.status, sql`${`%${query}%`}`)
+    //             )
+    //         );
+    //     const total = data ? data[0].count : 0;
+    //     const totalPages = data ? Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE) : 0;
 
-        return { totalPages, total };
-    } catch (error) {
-        throw new Error("Failed to fetch total number of invoices.");
-    }
+    //     return { totalPages, total };
+    // } catch (error) {
+    //     throw new Error("Failed to fetch total number of invoices.");
+    // }
 }
 
 const FormSchema = z.object({
@@ -222,7 +218,6 @@ export async function createInvoice(
     formData: InvoiceFormValues,
     created_by: string
 ) {
-    //const { user } = useUser();
     // Validate form fields using Zod
     const validatedFields = invoiceSchema.safeParse(formData);
 
@@ -257,10 +252,10 @@ export async function createInvoice(
     };
     //Insert data into the database
     try {
-        let insertedInvoices = await db
-            .insert(invoices)
-            .values(values)
-            .returning();
+        // let insertedInvoices = await db
+        //     .insert(invoices)
+        //     .values(values)
+        //     .returning();
 
         //return insertedInvoices[0];
     } catch (error) {
@@ -303,19 +298,19 @@ export async function updateInvoice(
 
     const { invoice_name, invoice_date, image_url, customer_id, currency, amount, status,  } = validatedFields.data;
     try {
-        await db
-            .update(invoices)
-            .set({
-                status,
-                amount,
-                currency,
-                customer_id: customer_id,
-                invoice_date: invoice_date,
-                invoice_name: invoice_name,
-                image_url: image_url && image_url?.length > 3  ? image_url : null,
-            })
-            .where(eq(invoices.id, id))
-            .returning();
+        // await db
+        //     .update(invoices)
+        //     .set({
+        //         status,
+        //         amount,
+        //         currency,
+        //         customer_id: customer_id,
+        //         invoice_date: invoice_date,
+        //         invoice_name: invoice_name,
+        //         image_url: image_url && image_url?.length > 3  ? image_url : null,
+        //     })
+        //     .where(eq(invoices.id, id))
+        //     .returning();
 
     } catch (error) {
         return { message: "Database Error: Failed to Update Invoice." };
@@ -326,21 +321,21 @@ export async function updateInvoice(
 
 export async function fetchInvoiceById(id: string) {
     try {
-        const data = await db
-            .select({
-                id: invoices.id,
-                amount: invoices.amount,
-                status: invoices.status,
-                currency: invoices.currency,
-                customer_id: invoices.customer_id,
-                invoice_name: invoices.invoice_name,
-                invoice_date: invoices.invoice_date,
-                invoice_image_url: invoices.image_url,
-            })
-            .from(invoices)
-            .where(eq(invoices.id, id));
+        // const data = await db
+        //     .select({
+        //         id: invoices.id,
+        //         amount: invoices.amount,
+        //         status: invoices.status,
+        //         currency: invoices.currency,
+        //         customer_id: invoices.customer_id,
+        //         invoice_name: invoices.invoice_name,
+        //         invoice_date: invoices.invoice_date,
+        //         invoice_image_url: invoices.image_url,
+        //     })
+        //     .from(invoices)
+        //     .where(eq(invoices.id, id));
 
-        return data[0];
+        //return data[0];
     } catch (error) {
         throw new Error("Failed to fetch invoice.");
     }

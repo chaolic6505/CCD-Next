@@ -2,7 +2,6 @@
 
 import moment from "moment";
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -42,7 +41,6 @@ export default function EditInvoiceForm({
     invoice: Invoice;
     customers: CustomerField[];
 }) {
-    const { user } = useUser();
     const [isUploading, setIsUploading] = useState(false);
     const defaultValues = {
         image_urls: invoice?.invoice_image_url && invoice?.invoice_image_url?.length > 1 ? [{
@@ -74,22 +72,20 @@ export default function EditInvoiceForm({
     } = form;
     const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
     const submitForm: SubmitHandler<InvoiceFormValues> = async (data) => {
-        if (user?.id) {
-            const formData = new FormData();
-            formData.append("amount", data.amount);
-            formData.append("status", data.status);
-            formData.append("currency", data.currency);
-            formData.append("customer_id", data.customer_id);
-            formData.append("invoice_date", data.invoice_date);
-            formData.append("invoice_name", data.invoice_name);
-            if (data.image_urls) formData.append("image_url", data.image_urls[0]?.url ?? "");
-            updateInvoiceWithId(invoice as State, formData);
-            toast({
-                variant: "default",
-                title: "Success!",
-                description: "Invoice updated.",
-            });
-        }
+        const formData = new FormData();
+        formData.append("amount", data.amount);
+        formData.append("status", data.status);
+        formData.append("currency", data.currency);
+        formData.append("customer_id", data.customer_id);
+        formData.append("invoice_date", data.invoice_date);
+        formData.append("invoice_name", data.invoice_name);
+        if (data.image_urls) formData.append("image_url", data.image_urls[0]?.url ?? "");
+        updateInvoiceWithId(invoice as State, formData);
+        toast({
+            variant: "default",
+            title: "Success!",
+            description: "Invoice updated.",
+        });
     };
     return (
         <div className="overflow-y-visible">

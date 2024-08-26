@@ -60,8 +60,8 @@ export default async function InvoicesPage({
     const customers = await fetchCustomers();
     const invoices = await fetchFilteredInvoices(query, currentPage);
     const pagesData = await fetchInvoicesPages(query);
-    const totalPages = pagesData?.totalPages || 0;
-    const total = pagesData?.total || 0;
+    const totalPages =  0;
+    const total =  0;
 
     return (
         <InvoiceLayout
