@@ -19,6 +19,8 @@ import {
     HeartPulse,
     Star,
     Home,
+    CheckCircle2,
+    DollarSignIcon,
 } from "lucide-react";
 
 type Submenu = {
@@ -66,7 +68,14 @@ export function getMenuList(pathname: string): Group[] {
                     icon: Star,
                     submenus: [],
                 },
+                {
+                    href: "/pricing",
+                    label: t("pricing"),
+                    active: pathname.includes("/pricing"),
+                    icon: DollarSignIcon,
+                    submenus: [],
+                }
             ]
-        }
+        },
     ];
 }

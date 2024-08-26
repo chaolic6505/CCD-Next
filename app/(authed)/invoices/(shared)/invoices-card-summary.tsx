@@ -68,34 +68,35 @@ export default async function InvoicesSummaryWrapper({
     card3Title: string;
     card4Title: string;
 }) {
+    const cardData = await fetchCardData();
     const {
         numberOfInvoices,
         numberOfCustomers,
         totalPaidInvoices,
         totalPendingInvoices,
-    } = await fetchCardData();
+    } = cardData || {};
 
     return (
         <>
             <InvoiceCardSummary
                 type="collected"
                 title={card1Title}
-                value={totalPaidInvoices}
+                value={totalPaidInvoices || 0}
             />
             <InvoiceCardSummary
                 type="pending"
                 title={card2Title}
-                value={totalPendingInvoices}
+                value={totalPendingInvoices || 0}
             />
             <InvoiceCardSummary
                 type="invoices"
                 title={card3Title}
-                value={numberOfInvoices}
+                value={numberOfInvoices || 0}
             />
             <InvoiceCardSummary
                 type="customers"
                 title={card4Title}
-                value={numberOfCustomers}
+                value={numberOfCustomers || 0}
             />
         </>
     );

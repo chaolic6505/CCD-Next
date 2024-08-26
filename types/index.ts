@@ -59,7 +59,7 @@ export type User = {
 };
 
 export type Invoice = {
-    id: string;
+    id: string | null;
     amount?: number | null;
     status?: string | null;
     currency?: string | null;

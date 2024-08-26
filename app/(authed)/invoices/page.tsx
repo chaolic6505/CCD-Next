@@ -59,15 +59,24 @@ export default async function InvoicesPage({
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
     const invoices = await fetchFilteredInvoices(query, currentPage);
-    const { total, totalPages } = await fetchInvoicesPages(query);
+    const pagesData = await fetchInvoicesPages(query);
+    const totalPages = pagesData?.totalPages || 0;
+    const total = pagesData?.total || 0;
 
     return (
         <InvoiceLayout
             total={total}
             customers={customers}
-            totalPages={totalPages}
+            totalPages={totalPages || 0}
         >
-
+            <TabsContent value="cards" className="space-y-4">
+                <Suspense
+                    key={query + currentPage}
+                    fallback={<InvoicesSkeleton />}
+                >
+                    <InvoicesCardsWrapper invoices={invoices || []} />
+                </Suspense>
+            </TabsContent>
             <TabsContent value="table" className="space-y-4">
                 <Suspense
                     key={query + currentPage}
@@ -76,18 +85,11 @@ export default async function InvoicesPage({
                     <InvoicesTable
                         hideSearchBar
                         hidePagination
-                        invoices={invoices}
+                        invoices={invoices || []}
                     />
                 </Suspense>
             </TabsContent>
-            <TabsContent value="cards" className="space-y-4">
-                <Suspense
-                    key={query + currentPage}
-                    fallback={<InvoicesSkeleton />}
-                >
-                    <InvoicesCardsWrapper invoices={invoices} />
-                </Suspense>
-            </TabsContent>
+
             <InvoicesSummary />
         </InvoiceLayout>
     );

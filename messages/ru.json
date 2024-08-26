@@ -14,5 +14,17 @@
         "ru": "Русский",
         "uk": "Українська",
         "label": "Язык"
+    },
+    "sideBar": {
+        "dashboard": "Главная",
+        "invoices": "Счета",
+        "clients": "Клиенты",
+        "products": "Продукты",
+        "settings": "Настройки",
+        "logout": "Выйти",
+        "profile": "Профиль",
+        "content": "Содержание",
+        "collections": "Коллекции",
+        "pricing": "Цены"
     }
 }

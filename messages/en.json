@@ -9,7 +9,8 @@
         "logout": "Sign Out",
         "profile": "Profile",
         "content": "Content",
-        "collections": "Collections"
+        "collections": "Collections",
+        "pricing": "Pricing"
     },
     "dashboard": {
         "title": "Hi, Welcome back",
@@ -20,7 +21,7 @@
         "card1Title": "Collected",
         "card2Title": "Pending",
         "card3Title": "Total Invoices",
-        "card4Title": "Total Customers",
+        "card4Title": "Total Customers In System",
         "recent_invoices": "Recent Invoices",
         "new_invoice": "new invoices",
         "update_time": "Updated just now"
@@ -43,8 +44,7 @@
         "customer_email_label": "Customer Email",
         "tab1": "Cards",
         "tab2": "Table",
-        "tab3":"Summary",
-
+        "tab3": "Summary",
         "search": "Search invoices...",
         "table": {
             "id": "ID",
@@ -58,5 +58,9 @@
             "invoice_amount": "Invoice Amount",
             "status": "Status"
         }
+    },
+    "pricing": {
+        "title": "Clear and Transparent Pricing",
+        "subtitle": "Access all features, including uploading unlimited collections."
     }
 }

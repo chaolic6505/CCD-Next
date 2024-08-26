@@ -10,6 +10,7 @@ import {
 import { sql, relations } from "drizzle-orm";
 
 import invoice from "./invoices";
+import subscriptions from './subscriptions';
 
 const users = pgTable(
     "users",
@@ -24,6 +25,7 @@ const users = pgTable(
         createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
         updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
         userId: varchar("user_id", { length: 255 }).notNull().default(sql`user_2gfs8voqQwlIuXC4cuu5ugMtfrj`),
+        subscriptionId: varchar("subscription", { length: 255 }),
     },
     (table) => {
         return {
@@ -32,8 +34,12 @@ const users = pgTable(
     }
 );
 
-export const userRelations = relations(users, ({ many }) => ({
+export const userRelations = relations(users, ({ one, many }) => ({
     invoices: many(invoice),
+    subscriptionId: one(subscriptions, {
+        fields: [users.subscriptionId],
+        references: [subscriptions.id],
+    }),
 }));
 
 export default UsersIcon;

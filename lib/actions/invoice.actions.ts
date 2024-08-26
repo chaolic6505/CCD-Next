@@ -3,8 +3,8 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
-
+import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import db from "@/db/drizzle";
 import revenue from "@/db/schemas/revenue";
@@ -16,20 +16,25 @@ import { ITEMS_PER_PAGE } from "../constants/systems";
 import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
 
 export async function fetchCardData() {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    if (!user) return;
 
     try {
         const invoiceCountPromise = db
             .select({ count: count() })
             .from(invoices)
+            .where(eq(invoices.created_by, user.id))
         const customerCountPromise = db
             .select({ count: count() })
-            .from(customers);
+            .from(customers)
         const invoiceStatusPromise = db
             .select({
                 paid: sql<number>`SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END)`,
                 pending: sql<number>`SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END)`,
             })
-            .from(invoices);
+            .from(invoices)
+            .where(eq(invoices.created_by, user.id));
 
         const data = await Promise.all([
             invoiceCountPromise,
@@ -37,16 +42,16 @@ export async function fetchCardData() {
             invoiceStatusPromise,
         ]);
 
-        const numberOfInvoices = Number(data[0][0].count ?? "0");
-        const numberOfCustomers = Number(data[1][0].count ?? "0");
-        const totalPaidInvoices = formatCurrency(data[2][0].paid ?? "0");
-        const totalPendingInvoices = formatCurrency(data[2][0].pending ?? "0");
+        const numberOfInvoices = data[0] ? Number(data[0][0].count ?? "0") : 0;
+        const numberOfCustomers = data[0] ? Number(data[1][0].count ?? "0") : 0;
+        const totalPaidInvoices = data[0] ? formatCurrency(data[2][0].paid ?? "0") : 0;
+        const totalPendingInvoices = data[0] ? formatCurrency(data[2][0].pending ?? "0") : 0;
 
         return {
-            numberOfCustomers,
-            numberOfInvoices,
-            totalPaidInvoices,
-            totalPendingInvoices,
+            numberOfCustomers: numberOfCustomers,
+            numberOfInvoices: numberOfInvoices,
+            totalPaidInvoices: totalPaidInvoices,
+            totalPendingInvoices: totalPendingInvoices,
         };
     } catch (error) {
         throw new Error("Failed to fetch card data.");
@@ -62,6 +67,10 @@ export async function fetchRevenue() {
     }
 }
 export async function fetchLatestInvoices() {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    if (!user) return;
+
     try {
         const data = await db
             .select({
@@ -76,6 +85,7 @@ export async function fetchLatestInvoices() {
                 invoice_image_url: invoices.image_url,
             })
             .from(invoices)
+            .where(eq(invoices.created_by, user.id))
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
             .orderBy(desc(invoices.invoice_date))
             .limit(5);
@@ -106,6 +116,10 @@ export async function fetchFilteredInvoices(
     currentPage: number
 ) {
     const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    if (!user) return;
+
     try {
         const data = await db
             .select({
@@ -123,11 +137,14 @@ export async function fetchFilteredInvoices(
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
             .where(
-                or(
-                    ilike(customers.name, sql`${`%${query}%`}`),
-                    ilike(customers.email, sql`${`%${query}%`}`),
-                    ilike(invoices.status, sql`${`%${query}%`}`),
-                    ilike(invoices.invoice_name, sql`${`%${query}%`}`)
+                and(
+                    eq(invoices.created_by, user.id),
+                    (
+                        ilike(customers.name, sql`${`%${query}%`}`),
+                        ilike(customers.email, sql`${`%${query}%`}`),
+                        ilike(invoices.status, sql`${`%${query}%`}`),
+                        ilike(invoices.invoice_name, sql`${`%${query}%`}`)
+                    )
                 )
             )
             .orderBy(desc(invoices.created_at))
@@ -141,6 +158,10 @@ export async function fetchFilteredInvoices(
 }
 
 export async function fetchInvoicesPages(query: string) {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
+    if (!user) return;
+
     try {
         const data = await db
             .select({
@@ -149,14 +170,15 @@ export async function fetchInvoicesPages(query: string) {
             .from(invoices)
             .innerJoin(customers, eq(invoices.customer_id, customers.id))
             .where(
-                or(
+                and(
+                    eq(invoices.created_by, user.id),
                     ilike(customers.name, sql`${`%${query}%`}`),
                     ilike(customers.email, sql`${`%${query}%`}`),
                     ilike(invoices.status, sql`${`%${query}%`}`)
                 )
             );
-        const total = data[0].count;
-        const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
+        const total = data ? data[0].count : 0;
+        const totalPages = data ? Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE) : 0;
 
         return { totalPages, total };
     } catch (error) {
