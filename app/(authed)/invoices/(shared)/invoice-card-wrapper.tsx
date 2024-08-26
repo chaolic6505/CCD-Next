@@ -1,10 +1,11 @@
 "use client";
+
 import { useTranslations } from 'next-intl';
 
 import { Invoice } from "@/types";
 import InvoiceCard from "./invoice-card";
 
-export default async function InvoicesCardsWrapper({
+export default function InvoicesCardsWrapper({
     invoices,
 }: {
     invoices: Invoice[];

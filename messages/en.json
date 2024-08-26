@@ -1,5 +1,6 @@
 {
     "sidebar": {
+        "home": "Home",
         "dashboard": "Dashboard",
         "invoices": "Invoices",
         "clients": "Clients",
@@ -15,6 +16,7 @@
         "download": "Download",
         "overview_tab": "Overview",
         "analytics_tab": "Analytics",
+        "invoices_tab": "Invoices",
         "card1Title": "Collected",
         "card2Title": "Pending",
         "card3Title": "Total Invoices",
@@ -41,6 +43,8 @@
         "customer_email_label": "Customer Email",
         "tab1": "Cards",
         "tab2": "Table",
+        "tab3":"Summary",
+
         "search": "Search invoices...",
         "table": {
             "id": "ID",

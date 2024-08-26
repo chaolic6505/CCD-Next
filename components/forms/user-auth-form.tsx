@@ -3,6 +3,7 @@
 import * as z from "zod";
 import { useState, Suspense } from "react";
 import { SignInButton } from "@clerk/nextjs";
+import { RegisterLink, LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,16 +42,27 @@ export default function UserAuthForm() {
     });
 
     const onSubmit = async (data: UserFormValue) => {
-        router.push("/dashboard");
+        router.push("/invoices");
 
         // signIn('credentials', {
         //     email: data.email,
-        //     callbackUrl: callbackUrl ?? '/dashboard'
+        //     callbackUrl: callbackUrl ?? '/invoices'
         // });
     };
 
     return (
-        <>
+        <div className="flex justify-center gap-6">
+            <LoginLink postLoginRedirectURL="/invoices">
+                <Button className="rounded-md px-6 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Sign in
+                </Button>
+            </LoginLink>
+
+            <RegisterLink postLoginRedirectURL="/">
+                <Button className="rounded-md px-6 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Sign up
+                </Button>
+            </RegisterLink>
             {/* <Form {...form}>
                 <form
                     className="w-full space-y-2"
@@ -95,14 +107,14 @@ export default function UserAuthForm() {
                     </span>
                 </div>
             </div> */}
-            <SignInButton>
+            {/* <SignInButton>
                 <Button className="rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Continue with Google
                 </Button>
-            </SignInButton>
+            </SignInButton> */}
             {/* <Suspense>
                 <GoogleSignInButton />
             </Suspense> */}
-        </>
+        </div>
     );
 }

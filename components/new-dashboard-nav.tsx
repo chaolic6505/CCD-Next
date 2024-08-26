@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Ellipsis, LogOut } from "lucide-react";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import { cn } from "@/lib/utils";
 import { getMenuList } from "@/lib/constants/menu-list";
@@ -41,8 +42,8 @@ export function Menu({ isOpen }: MenuProps) {
                                     {groupLabel}
                                 </p>
                             ) : !isOpen &&
-                              isOpen !== undefined &&
-                              groupLabel ? (
+                                isOpen !== undefined &&
+                                groupLabel ? (
                                 <TooltipProvider>
                                     <Tooltip delayDuration={100}>
                                         <TooltipTrigger className="w-full">
@@ -140,34 +141,39 @@ export function Menu({ isOpen }: MenuProps) {
                         <TooltipProvider disableHoverableContent>
                             <Tooltip delayDuration={100}>
                                 <TooltipTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => {}}
-                                        className="w-full justify-center h-10 mt-5"
-                                    >
-                                        <span
-                                            className={cn(
-                                                isOpen === false ? "" : "mr-4"
-                                            )}
+                                    <LogoutLink>
+                                        <Button
+                                            variant="outline"
+
+                                            className="w-full justify-center h-10 mt-5"
                                         >
-                                            <LogOut size={18} />
-                                        </span>
-                                        <p
-                                            className={cn(
-                                                "whitespace-nowrap",
-                                                isOpen === false
-                                                    ? "opacity-0 hidden"
-                                                    : "opacity-100"
-                                            )}
-                                        >
-                                            {t("logout")}
-                                        </p>
-                                    </Button>
+                                            <span
+                                                className={cn(
+                                                    isOpen === false ? "" : "mr-4"
+                                                )}
+                                            >
+                                                <LogOut size={18} />
+                                            </span>
+                                            <p
+                                                className={cn(
+                                                    "whitespace-nowrap",
+                                                    isOpen === false
+                                                        ? "opacity-0 hidden"
+                                                        : "opacity-100"
+                                                )}
+                                            >
+                                                {t("logout")}
+                                            </p>
+                                        </Button>
+                                    </LogoutLink>
                                 </TooltipTrigger>
                                 {isOpen === false && (
-                                    <TooltipContent side="right">
-                                        {t("logout")}
-                                    </TooltipContent>
+                                    <LogoutLink>
+                                        <TooltipContent side="right">
+
+                                            {t("logout")}
+                                        </TooltipContent>
+                                    </LogoutLink>
                                 )}
                             </Tooltip>
                         </TooltipProvider>

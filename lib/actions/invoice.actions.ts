@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
+
 import db from "@/db/drizzle";
 import revenue from "@/db/schemas/revenue";
 import invoices from "@/db/schemas/invoices";
@@ -15,10 +16,11 @@ import { ITEMS_PER_PAGE } from "../constants/systems";
 import { InvoiceFormValues, invoiceSchema } from "../schemas/invoice";
 
 export async function fetchCardData() {
+
     try {
         const invoiceCountPromise = db
             .select({ count: count() })
-            .from(invoices);
+            .from(invoices)
         const customerCountPromise = db
             .select({ count: count() })
             .from(customers);
@@ -92,7 +94,7 @@ export async function fetchLatestInvoices() {
 export async function deleteInvoice(id: string) {
     try {
         await db.delete(invoices).where(eq(invoices.id, id));
-        revalidatePath("/dashboard/invoices");
+        revalidatePath("/invoices");
         return { message: "Deleted Invoice" };
     } catch (error) {
         return { message: "Database Error: Failed to Delete Invoice." };

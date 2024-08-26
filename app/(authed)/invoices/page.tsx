@@ -1,7 +1,11 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { useTranslations } from "next-intl";
+import { redirect } from "next/navigation";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 import {
+    CardsSkeleton,
     InvoicesSkeleton,
     InvoicesTableSkeleton,
 } from "@/components/shared/skeletons";
@@ -10,15 +14,34 @@ import { TabsContent } from "@/components/ui/tabs";
 import InvoiceLayout from "./(shared)/invoice-layout";
 import InvoicesTable from "./(shared)/invoices-table";
 import InvoicesCardsWrapper from "./(shared)/invoice-card-wrapper";
+import InvoicesSummaryWrapper from "./(shared)/invoices-card-summary";
 
 import {
-    fetchFilteredInvoices,
     fetchInvoicesPages,
+    fetchFilteredInvoices,
 } from "@/lib/actions/invoice.actions";
 import { fetchCustomers } from "@/lib/actions/customer.actions";
 
+
 export const metadata: Metadata = {
     title: "Invoices",
+};
+
+const InvoicesSummary = () => {
+    const t = useTranslations("dashboard");
+
+    return (
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
+            <Suspense fallback={<CardsSkeleton />}>
+                <InvoicesSummaryWrapper
+                    card1Title={t("card1Title")}
+                    card2Title={t("card2Title")}
+                    card3Title={t("card3Title")}
+                    card4Title={t("card4Title")}
+                />
+            </Suspense>
+        </div>
+    );
 };
 
 export default async function InvoicesPage({
@@ -29,6 +52,9 @@ export default async function InvoicesPage({
         query?: string;
     };
 }) {
+    const { isAuthenticated } = getKindeServerSession();
+    if (!(await isAuthenticated())) return redirect("/");
+
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
@@ -41,6 +67,7 @@ export default async function InvoicesPage({
             customers={customers}
             totalPages={totalPages}
         >
+
             <TabsContent value="table" className="space-y-4">
                 <Suspense
                     key={query + currentPage}
@@ -61,6 +88,7 @@ export default async function InvoicesPage({
                     <InvoicesCardsWrapper invoices={invoices} />
                 </Suspense>
             </TabsContent>
+            <InvoicesSummary />
         </InvoiceLayout>
     );
 }

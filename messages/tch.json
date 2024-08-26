@@ -1,5 +1,6 @@
 {
     "sidebar": {
+        "home": "主頁",
         "dashboard": "主頁",
         "invoices": "發票",
         "clients": "客戶",
@@ -15,6 +16,7 @@
         "download": "下載",
         "overview_tab": "概覽",
         "analytics_tab": "分析",
+        "invoices_tab": "發票",
         "card1Title": "已收款",
         "card2Title": "待處理",
         "card3Title": "總發票數",
@@ -41,6 +43,7 @@
         "customer_email_label": "客戶電郵",
         "tab1": "卡片",
         "tab2": "表格",
+        "tab3": "總結",
         "search": "搜尋發票...",
         "table": {
             "id": "ID",
