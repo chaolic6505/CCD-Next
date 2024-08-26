@@ -27,11 +27,11 @@ export default async function LatestInvoicesWrapper({
             <CardHeader>
                 <CardTitle>{sectionTitle}</CardTitle>
                 <CardDescription>
-                    {latestInvoices.length} {sectionDescription}
+                    {latestInvoices?.length} {sectionDescription}
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                {latestInvoices.map((invoice, i) => {
+                {latestInvoices?.map((invoice, i) => {
                     return (
                         <div
                             key={invoice.id}
@@ -51,10 +51,10 @@ export default async function LatestInvoicesWrapper({
                                     {invoice.invoice_name}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                    {invoice.customer_email}
+                                    {invoice.customer.name}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                    {invoice.invoice_date}
+                                    {invoice.invoice_date ? invoice.invoice_date.toString() : ''}
                                 </p>
                             </div>
                             <div className="ml-auto font-medium">

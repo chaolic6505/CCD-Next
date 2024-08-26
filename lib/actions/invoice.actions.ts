@@ -69,34 +69,35 @@ export async function fetchLatestInvoices() {
     const user = await getUser();
     if (!user) return;
 
-    // try {
-    //     const data = await db
-    //         .select({
-    //             id: invoices.id,
-    //             status: invoices.status,
-    //             customer_name: customers.name,
-    //             customer_email: customers.email,
-    //             created_at: invoices.created_at,
-    //             invoice_amount: invoices.amount,
-    //             invoice_name: invoices.invoice_name,
-    //             invoice_date: invoices.invoice_date,
-    //             invoice_image_url: invoices.image_url,
-    //         })
-    //         .from(invoices)
-    //         .where(eq(invoices.created_by, user.id))
-    //         .innerJoin(customers, eq(invoices.customer_id, customers.id))
-    //         .orderBy(desc(invoices.invoice_date))
-    //         .limit(5);
+    try {
+        const data = await prisma.invoice.findMany({
+            select: {
+                customer: true,
+                id: true,
+                status: true,
+                amount: true,
+                created_at: true,
+                invoice_name: true,
+                invoice_date: true,
+            },
+            where: {
+                created_by: user.id
+            },
+            orderBy: {
+                created_at: 'desc'
+            },
+            take: 5
+        });
 
-    //     const latestInvoices = data.map((invoice) => ({
-    //         ...invoice,
-    //         invoice_amount: invoice.invoice_amount ? formatCurrency(invoice.invoice_amount) : 0,
-    //     }));
+        const latestInvoices = data.map((invoice) => ({
+            ...invoice,
+            invoice_amount: invoice.amount ? formatCurrency(invoice.amount) : 0,
+        }));
 
-    //     return latestInvoices;
-    // } catch (error) {
-    //     throw new Error("Failed to fetch the latest invoices.");
-    // }
+        return latestInvoices;
+    } catch (error) {
+        throw new Error("Failed to fetch the latest invoices.");
+    }
 }
 
 export async function deleteInvoice(id: string) {

@@ -21,7 +21,7 @@ import {
     fetchFilteredInvoices,
 } from "@/lib/actions/invoice.actions";
 import { fetchCustomers } from "@/lib/actions/customer.actions";
-
+import { fetchLatestInvoices } from "@/lib/actions/invoice.actions";
 
 export const metadata: Metadata = {
     title: "Invoices",
@@ -58,6 +58,7 @@ export default async function InvoicesPage({
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
+    const res = await fetchLatestInvoices()
     // const invoices = await fetchFilteredInvoices(query, currentPage);
     const pagesData = await fetchInvoicesPages(query);
     const totalPages = 0;

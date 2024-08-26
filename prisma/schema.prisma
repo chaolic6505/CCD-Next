@@ -6,6 +6,7 @@
 
 generator client {
     provider = "prisma-client-js"
+    previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -30,10 +31,21 @@ model User {
     invoices Invoice[]
 }
 
+model Customers {
+    id        String   @id @default(cuid())
+    name      String?
+    email     String?
+    image_url String?
+    updated_at DateTime @updatedAt
+    created_at DateTime @default(now())
+    Invoice Invoice[]
+}
+
 model Invoice {
     id        String   @id @default(cuid())
     amount    Float?
-    customer_id String?
+    customer Customers @relation(fields: [customer_id], references: [id])
+    customer_id String
     userId String
     user User @relation(fields: [userId], references: [id])
     status String?
@@ -84,11 +96,3 @@ model Revenue {
     revenue Int?
 }
 
-model Customers {
-    id        String   @id @default(cuid())
-    name      String?
-    email     String?
-    image_url String?
-    updated_at DateTime @updatedAt
-    created_at DateTime @default(now())
-}
