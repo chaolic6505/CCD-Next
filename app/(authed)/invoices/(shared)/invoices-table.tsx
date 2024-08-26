@@ -13,7 +13,6 @@ export default async function InvoicesTable({
     hidePagination?: boolean
 }) {
 
-
     return (
         <DataTable
             data={invoices}
