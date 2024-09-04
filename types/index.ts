@@ -13,6 +13,7 @@ export type FormattedCustomersTable = {
 export type CustomerField = {
     id: string;
     name: string | null;
+    email: string | null;
 };
 
 export interface NavItem {
@@ -63,15 +64,15 @@ export type Invoice = {
     amount?: number | null;
     status?: string | null;
     currency?: string | null;
-    created_at?: number | null;
     customer_id?: string | null;
     invoice_name?: string| null;
     invoice_date?: string | null;
-    customer_name?: string| null;
+    customer_name?: Date | string| null;
     customer_email?: string| null;
-    invoice_amount?: number | null;
     invoice_status?: string | null;
+    created_at?: Date | string | null;
     invoice_image_url?: string | null;
+    customer?: CustomerField | null;
 };
 
 export type ColumnSort = {

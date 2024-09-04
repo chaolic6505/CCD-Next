@@ -30,12 +30,11 @@ const InvoiceCard = ({
     const {
         id,
         status,
+        amount,
         currency,
+        customer,
         invoice_date,
         invoice_name,
-        customer_email,
-        customer_name,
-        invoice_amount,
         invoice_image_url,
     } = invoice;
 
@@ -43,16 +42,20 @@ const InvoiceCard = ({
         {
             value: invoice_date,
             label: invoice_date_label,
-        },
+        }
+    ];
+
+    const customers = [
         {
-            value: customer_name,
+            value: customer?.name,
             label: customer_name_label,
         },
         {
-            value: customer_email,
+            value: customer?.email,
             label: customer_email_label,
-        },
+        }
     ];
+    console.log(invoice, 'invoice invoice');
     return (
         <div>
             <Card
@@ -68,21 +71,36 @@ const InvoiceCard = ({
                         {invoice_name ? (
                             <CardTitleWrapper invoice_name={invoice_name} />
                         ) : null}
-                        {invoices.map((invoice, index) => (
+                        {invoices.map((item, index) => (
                             <div key={index} className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
                                 <CardDescription className={`${inter.className}`}>
-                                    {invoice.label}
+                                    {item.label}
                                 </CardDescription>
                                 <div className="flex flex-row justify-around">
                                     <CardTitle className={`${inter.className} `}>
-                                        {invoice.value}
+                                        {item.value}
                                     </CardTitle>
                                 </div>
                             </div>
                         ))}
+                        {
+                            customers.map((item, index) => (
+                                <div key={index} className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
+                                    <CardDescription className={`${inter.className}`}>
+                                        {item.label}
+                                    </CardDescription>
+                                    <div className="flex flex-row justify-around">
+                                        <CardTitle className={`${inter.className} `}>
+                                            {item.value}
+                                        </CardTitle>
+                                    </div>
+                                </div>
+                            ))
+
+                        }
                         <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1 pb-1">
                             <CardDescription className={`${inter.className}`}>
-                                {`${invoice_amount} ${currency}`}
+                                {`${amount} ${currency}`}
                             </CardDescription>
                             {status ? (
                                 <InvoiceStatus status={status} className={"w-15"} />

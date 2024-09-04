@@ -72,10 +72,11 @@ export async function fetchLatestInvoices() {
     try {
         const data = await prisma.invoice.findMany({
             select: {
-                customer: true,
                 id: true,
                 status: true,
                 amount: true,
+                currency: true,
+                customer: true,
                 created_at: true,
                 invoice_name: true,
                 invoice_date: true,
@@ -91,6 +92,7 @@ export async function fetchLatestInvoices() {
 
         const latestInvoices = data.map((invoice) => ({
             ...invoice,
+            invoice_date: invoice.invoice_date ? new Date(invoice.invoice_date).toISOString().split('T')[0] : null, // Convert Date to string
             invoice_amount: invoice.amount ? formatCurrency(invoice.amount) : 0,
         }));
 

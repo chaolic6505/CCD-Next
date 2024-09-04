@@ -58,7 +58,8 @@ export default async function InvoicesPage({
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
-    const res = await fetchLatestInvoices()
+    const invoices = await fetchLatestInvoices();
+    console.log(invoices, 'invoices');
     // const invoices = await fetchFilteredInvoices(query, currentPage);
     const pagesData = await fetchInvoicesPages(query);
     const totalPages = 0;
@@ -75,7 +76,7 @@ export default async function InvoicesPage({
                     key={query + currentPage}
                     fallback={<InvoicesSkeleton />}
                 >
-                    <InvoicesCardsWrapper invoices={[]} />
+                    <InvoicesCardsWrapper invoices={invoices || []} />
                 </Suspense>
             </TabsContent>
             <TabsContent value="table" className="space-y-4">
@@ -86,7 +87,7 @@ export default async function InvoicesPage({
                     <InvoicesTable
                         hideSearchBar
                         hidePagination
-                        invoices={[]}
+                        invoices={invoices || []}
                     />
                 </Suspense>
             </TabsContent>
