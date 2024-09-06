@@ -1,11 +1,10 @@
 "use client";
 
 import React from "react";
-import { ClerkProvider, useAuth } from "@clerk/nextjs";
 
 import ThemeProvider from "./ThemeToggle/theme-provider";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({ children }: { children: React.ReactNode; }) {
     return (
         <ThemeProvider
             enableSystem
@@ -21,13 +20,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
                 "redDark",
             ]}
         >
-            <ClerkProvider
-                publishableKey={
-                    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? ""
-                }
-            >
-                {children}
-            </ClerkProvider>
+
+            {children}
         </ThemeProvider>
     );
 }

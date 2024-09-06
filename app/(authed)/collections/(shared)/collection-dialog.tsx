@@ -44,7 +44,7 @@ import { CURRENCY } from "@/lib/constants/currency";
 import { createInvoice } from "@/lib/actions/invoice.actions";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
-export default function InvoiceDialog({
+export default function CollectionDialog({
     customers,
 }: {
     customers: CustomerField[];
@@ -69,6 +69,7 @@ export default function InvoiceDialog({
 
     const {
         reset,
+        getValues,
         formState: { isSubmitting },
     } = form;
 

@@ -1,6 +1,6 @@
 import { UploadThingError } from "uploadthing/server";
-import { auth, clerkClient } from "@clerk/nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const f = createUploadthing();
 
@@ -12,16 +12,16 @@ export const ourFileRouter = {
         // Set permissions and file types for this FileRoute
         .middleware(async ({}) => {
             // This code runs on your server before upload
-            const user = auth();
-            if (!user.userId) throw new UploadThingError("Unauthorized");
-            if (user.userId !== "user_2gfs8voqQwlIuXC4cuu5ugMtfrj")
-              throw new UploadThingError("Unauthorized");
+            const { getUser } = getKindeServerSession();
+            const user = await getUser();
+            if (!user?.id) throw new UploadThingError("Unauthorized");
+
 
             // If you throw, the user will not be able to upload
             if (!user) throw new Error("Unauthorized");
 
             // Whatever is returned here is accessible in onUploadComplete as `metadata`
-            return { userId: user.userId };
+            return { userId: user.id };
         })
         .onUploadComplete(async () => {
 

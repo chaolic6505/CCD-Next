@@ -13,6 +13,18 @@
         "en": "English",
         "ru": "Русский",
         "uk": "Українська",
-        "label": "мови"
+        "label": "mови"
+    },
+    "sideBar": {
+        "dashboard": "Головна",
+        "invoices": "Рахунки",
+        "clients": "Клієнти",
+        "products": "Продукти",
+        "settings": "Налаштування",
+        "logout": "Вийти",
+        "profile": "Профіль",
+        "content": "Зміст",
+        "collections": "Колекції",
+        "pricing": "Ціни"
     }
 }

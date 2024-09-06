@@ -30,7 +30,8 @@ import { CURRENCY } from "@/lib/constants/currency";
 import { State, updateInvoice } from "@/lib/actions/invoice.actions";
 import { invoiceSchema, type InvoiceFormValues } from "@/lib/schemas/invoice";
 
-import { Invoice, Customer } from "@/types";
+import { CustomerField, Invoice } from "@/types";
+import { get } from "http";
 
 
 export default function EditInvoiceForm({
@@ -38,7 +39,7 @@ export default function EditInvoiceForm({
     customers,
 }: {
     invoice: Invoice;
-    customers: Customer[];
+    customers: CustomerField[];
 }) {
     const [isUploading, setIsUploading] = useState(false);
     const defaultValues = {
@@ -58,15 +59,13 @@ export default function EditInvoiceForm({
         invoice_name: invoice.invoice_name ?? "",
         invoice_date: invoice.invoice_date ?? `${moment().format("YYYY-MM-DD")}`,
     };
+
     const form = useForm<InvoiceFormValues>({
-        defaultValues: {
-            ...defaultValues,
-            invoice_date: defaultValues.invoice_date as string,
-        },
+        defaultValues,
         mode: "onSubmit",
         resolver: zodResolver(invoiceSchema),
     });
-    console.log(invoice, 'invoice', typeof invoice.invoice_date);
+
     const {
         getValues,
         formState: { isDirty, isSubmitting, },
@@ -102,7 +101,7 @@ export default function EditInvoiceForm({
                         render={({ field }) => {
                             return (
                                 <FormItem>
-                                    <FormLabel>Image</FormLabel>
+                                    <FormLabel>Images</FormLabel>
                                     <FormControl>
                                         <FileUpload
                                             onDrop={() =>

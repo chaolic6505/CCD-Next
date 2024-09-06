@@ -9,7 +9,8 @@
         "settings": "设置",
         "logout": "登出",
         "profile": "个人资料",
-        "content": "内容"
+        "content": "内容",
+        "pricing": "价格"
     },
     "dashboard": {
         "title": "您好！ 欢迎回来",
@@ -20,7 +21,7 @@
         "card1Title": "已收款",
         "card2Title": "待处理",
         "card3Title": "总发票數",
-        "card4Title": "总客户量",
+        "card4Title": "系统总客户量",
         "recent_invoices": "最近的发票",
         "new_invoice": "张 新发票",
         "update_time": "刚刚更新"
@@ -68,5 +69,9 @@
         "tab2": "列表",
         "tab3": "总结",
         "search": "搜寻收款..."
+    },
+    "pricing": {
+        "title": "清晰简单的定价",
+        "subtitle": "解锁所有功能，包括上传无限量的收藏"
     }
 }

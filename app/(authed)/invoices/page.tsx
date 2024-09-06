@@ -21,7 +21,7 @@ import {
     fetchFilteredInvoices,
 } from "@/lib/actions/invoice.actions";
 import { fetchCustomers } from "@/lib/actions/customer.actions";
-
+import { fetchLatestInvoices } from "@/lib/actions/invoice.actions";
 
 export const metadata: Metadata = {
     title: "Invoices",
@@ -58,16 +58,26 @@ export default async function InvoicesPage({
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
-    const invoices = await fetchFilteredInvoices(query, currentPage);
-    const { total, totalPages } = await fetchInvoicesPages(query);
+    const invoices = await fetchLatestInvoices();
+    // const invoices = await fetchFilteredInvoices(query, currentPage);
+    const pagesData = await fetchInvoicesPages(query);
+    const totalPages = 0;
+    const total = 0;
 
     return (
         <InvoiceLayout
             total={total}
-            customers={customers}
-            totalPages={totalPages}
+            customers={customers || []}
+            totalPages={totalPages || 0}
         >
-
+            <TabsContent value="cards" className="space-y-4">
+                <Suspense
+                    key={query + currentPage}
+                    fallback={<InvoicesSkeleton />}
+                >
+                    <InvoicesCardsWrapper invoices={invoices || []} />
+                </Suspense>
+            </TabsContent>
             <TabsContent value="table" className="space-y-4">
                 <Suspense
                     key={query + currentPage}
@@ -76,18 +86,11 @@ export default async function InvoicesPage({
                     <InvoicesTable
                         hideSearchBar
                         hidePagination
-                        invoices={invoices}
+                        invoices={invoices || []}
                     />
                 </Suspense>
             </TabsContent>
-            <TabsContent value="cards" className="space-y-4">
-                <Suspense
-                    key={query + currentPage}
-                    fallback={<InvoicesSkeleton />}
-                >
-                    <InvoicesCardsWrapper invoices={invoices} />
-                </Suspense>
-            </TabsContent>
+
             <InvoicesSummary />
         </InvoiceLayout>
     );

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useClerk, useUser } from "@clerk/nextjs";
 import { LayoutGrid, LogOut, User } from "lucide-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
@@ -26,70 +25,68 @@ import {
 
 export function UserNav() {
     const router = useRouter();
-    const { user } = useUser();
-    const { signOut } = useClerk();
 
-    if (user) {
-        return (
-            <DropdownMenu>
-                <TooltipProvider disableHoverableContent>
-                    <Tooltip delayDuration={100}>
-                        <TooltipTrigger asChild>
-                            <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    onClick={() => router.push("/profile")}
-                                    className="relative h-8 w-8 rounded-full"
-                                >
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage src="#" alt="Avatar" />
-                                        <AvatarFallback className="bg-transparent">
-                                            {user?.firstName?.[0] ?? ""}
-                                            {user?.lastName?.[0] ?? ""}
-                                        </AvatarFallback>
-                                    </Avatar>
-                                </Button>
-                            </DropdownMenuTrigger>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom">Profile</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+    // if (user) {
+    //     return (
+    //         <DropdownMenu>
+    //             <TooltipProvider disableHoverableContent>
+    //                 <Tooltip delayDuration={100}>
+    //                     <TooltipTrigger asChild>
+    //                         <DropdownMenuTrigger asChild>
+    //                             <Button
+    //                                 variant="outline"
+    //                                 onClick={() => router.push("/profile")}
+    //                                 className="relative h-8 w-8 rounded-full"
+    //                             >
+    //                                 <Avatar className="h-8 w-8">
+    //                                     <AvatarImage src="#" alt="Avatar" />
+    //                                     <AvatarFallback className="bg-transparent">
+    //                                         {user?.firstName?.[0] ?? ""}
+    //                                         {user?.lastName?.[0] ?? ""}
+    //                                     </AvatarFallback>
+    //                                 </Avatar>
+    //                             </Button>
+    //                         </DropdownMenuTrigger>
+    //                     </TooltipTrigger>
+    //                     <TooltipContent side="bottom">Profile</TooltipContent>
+    //                 </Tooltip>
+    //             </TooltipProvider>
 
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                        <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">
-                                {user?.firstName}
-                            </p>
-                            <p className="text-xs leading-none text-muted-foreground">
-                                {user?.emailAddresses?.[0]?.emailAddress}
-                            </p>
-                        </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem
-                            className="hover:cursor-pointer"
-                            asChild
-                        >
-                            <Link href="/profile" className="flex items-center">
-                                <User className="w-4 h-4 mr-3 text-muted-foreground" />
-                                Profile
-                            </Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                        className="hover:cursor-pointer"
+    //             <DropdownMenuContent className="w-56" align="end" forceMount>
+    //                 <DropdownMenuLabel className="font-normal">
+    //                     <div className="flex flex-col space-y-1">
+    //                         <p className="text-sm font-medium leading-none">
+    //                             {user?.firstName}
+    //                         </p>
+    //                         <p className="text-xs leading-none text-muted-foreground">
+    //                             {user?.emailAddresses?.[0]?.emailAddress}
+    //                         </p>
+    //                     </div>
+    //                 </DropdownMenuLabel>
+    //                 <DropdownMenuSeparator />
+    //                 <DropdownMenuGroup>
+    //                     <DropdownMenuItem
+    //                         className="hover:cursor-pointer"
+    //                         asChild
+    //                     >
+    //                         <Link href="/profile" className="flex items-center">
+    //                             <User className="w-4 h-4 mr-3 text-muted-foreground" />
+    //                             Profile
+    //                         </Link>
+    //                     </DropdownMenuItem>
+    //                 </DropdownMenuGroup>
+    //                 <DropdownMenuSeparator />
+    //                 <DropdownMenuItem
+    //                     className="hover:cursor-pointer"
 
-                    >
-                        <LogoutLink>
-                            <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
-                            Sign out2
-                        </LogoutLink>
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        );
-    }
+    //                 >
+    //                     <LogoutLink>
+    //                         <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
+    //                         Sign out2
+    //                     </LogoutLink>
+    //                 </DropdownMenuItem>
+    //             </DropdownMenuContent>
+    //         </DropdownMenu>
+    //     );
+    // }
 }

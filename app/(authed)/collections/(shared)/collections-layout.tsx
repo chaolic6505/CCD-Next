@@ -3,16 +3,16 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 
-import Pagination from "@/components/pagination";
-import InvoiceDialog from "./invoice-dialog";
+import CollectionDialog from "./collection-dialog";
 
+import Pagination from "@/components/pagination";
 import SearchBar from "@/components/search-bar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { Customer } from "@/lib/definitions";
 
-const InvoiceLayout = ({
+const CollectionLayout = ({
     total,
     children,
     customers,
@@ -30,7 +30,7 @@ const InvoiceLayout = ({
             <div className="flex-1 space-y-4  p-4 pt-1 md:p-8">
                 <Tabs defaultValue="cards" className="space-y-4">
                     <div className="flex items-start justify-start">
-                        {customers ? <InvoiceDialog customers={customers} /> : null}
+                        {customers ? <CollectionDialog customers={customers} /> : null}
 
                         <TabsList>
                             <TabsTrigger value="cards">
@@ -52,6 +52,6 @@ const InvoiceLayout = ({
     );
 };
 
-export default InvoiceLayout;
+export default CollectionLayout;
 
 
