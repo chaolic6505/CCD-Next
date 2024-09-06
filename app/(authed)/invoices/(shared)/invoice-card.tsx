@@ -55,7 +55,6 @@ const InvoiceCard = ({
             label: customer_email_label,
         }
     ];
-    console.log(invoice, 'invoice invoice');
     return (
         <div>
             <Card

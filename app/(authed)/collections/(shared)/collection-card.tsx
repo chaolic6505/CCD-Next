@@ -1,46 +1,115 @@
-import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
-interface CollectionCardProps {
-    index: number;
-    title: string;
-    icon: string;
-    value: string;
-    change: string;
-}
+import { cn } from "@/lib/utils";
+import { Collection } from "@/types";
+import { CURRENCY } from "@/lib/constants/currency";
 
-export const CollectionCard = ({
-    title,
-    icon,
-    value,
-    change,
-    index,
-}: CollectionCardProps) => {
+import InvoiceStatus from "./status";
+import CardTitleWrapper from "./card-title-wrapper";
+import { ImageCollapsible } from "./image-collapsible";
+
+import { inter } from "@/components/shared/fonts";
+import {
+    Card,
+    CardTitle,
+    CardContent,
+    CardDescription,
+} from "@/components/ui/card";
+
+const CollectionCard = ({
+    collection,
+    invoice_date_label,
+    customer_name_label,
+    customer_email_label,
+}: {
+    collection: Collection;
+    invoice_date_label: string;
+    customer_name_label: string;
+    customer_email_label: string;
+}) => {
+    const {
+        id,
+        status,
+        amount,
+        currency,
+        customer,
+        invoice_date,
+        invoice_name,
+        invoice_image_url,
+    } = collection;
+
+    const collections = [
+        {
+            value: invoice_date,
+            label: invoice_date_label,
+        }
+    ];
+
+    const customers = [
+        {
+            value: customer?.name,
+            label: customer_name_label,
+        },
+        {
+            value: customer?.email,
+            label: customer_email_label,
+        }
+    ];
     return (
-        <Card
-            key={index}
-            className="group rounded-lg border px-5 py-4 transition-colors hover:bg-slate-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-        >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{title}</CardTitle>
-                <svg
-                    fill="none"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-muted-foreground"
-                >
-                    <path d={icon} />
-                </svg>
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">{value}</div>
-                <p className="text-xs text-muted-foreground">{change}</p>
-            </CardContent>
-        </Card>
+        <div>
+            <Card
+                className={cn(
+                    "group rounded-lg border px-1 py-1 hover:shadow-lg w-full flex flex-col"
+                )}
+            >
+                {invoice_image_url ? (
+                    <ImageCollapsible invoice_image_url={invoice_image_url} />
+                ) : null}
+                <Link href={`/invoices/${id}`}>
+                    <CardContent className="mt-1 p-0 flex flex-col justify-between">
+                        {invoice_name ? (
+                            <CardTitleWrapper invoice_name={invoice_name} />
+                        ) : null}
+                                    {collections.map((item, index) => (
+                            <div key={index} className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
+                                <CardDescription className={`${inter.className}`}>
+                                    {item.label}
+                                </CardDescription>
+                                <div className="flex flex-row justify-around">
+                                    <CardTitle className={`${inter.className} `}>
+                                        {item.value}
+                                    </CardTitle>
+                                </div>
+                            </div>
+                        ))}
+                        {
+                            customers.map((item, index) => (
+                                <div key={index} className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1">
+                                    <CardDescription className={`${inter.className}`}>
+                                        {item.label}
+                                    </CardDescription>
+                                    <div className="flex flex-row justify-around">
+                                        <CardTitle className={`${inter.className} `}>
+                                            {item.value}
+                                        </CardTitle>
+                                    </div>
+                                </div>
+                            ))
+
+                        }
+                        <div className="mt-3 flex flex-row items-center whitespace-nowrap justify-between px-1 pb-1">
+                            <CardDescription className={`${inter.className}`}>
+                                {`${amount} ${currency}`}
+                            </CardDescription>
+                            {status ? (
+                                <InvoiceStatus status={status} className={"w-15"} />
+                            ) : null}
+                        </div>
+                    </CardContent>
+                </Link>
+            </Card>
+        </div>
     );
 };
 
-export default CollectionCard;
+CollectionCard;

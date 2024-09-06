@@ -31,7 +31,7 @@ model User {
     invoices Invoice[]
 }
 
-model Customer {
+model Customers {
     id        String   @id @default(cuid())
     name      String?
     email     String?
@@ -44,7 +44,7 @@ model Customer {
 model Invoice {
     id        String   @id @default(cuid())
     amount    Float?
-    customer Customer @relation(fields: [customer_id], references: [id])
+    customer Customers @relation(fields: [customer_id], references: [id])
     customer_id String
     userId String
     user User @relation(fields: [userId], references: [id])
@@ -61,6 +61,7 @@ model Invoice {
     invoice_tags InvoiceTag[]
     shop Shop? @relation(fields: [shopId], references: [id]) // Made shop optional
     shopId String?
+    image_url String?
 }
 
 model InvoiceTag {

@@ -1,3 +1,4 @@
+import { Customer } from '@/types';
 "use server";
 
 import { z } from "zod";
@@ -56,6 +57,26 @@ export async function fetchCardData() {
     }
 }
 
+export async function fetchInvoiceById(id: string) {
+    try {
+        let data = await prisma.invoice.findUnique({
+            where: {
+                id: id
+            }
+        });
+        if (!data) {
+            return null;
+        }
+
+        return {
+            ...data,
+            invoice_date: data.invoice_date ? new Date(data.invoice_date).toISOString().split('T')[0] : null,
+        };
+    } catch (error) {
+        throw new Error("Failed to fetch invoice.");
+    }
+}
+
 export async function fetchRevenue() {
     // try {
     //     const data = await db.select().from(revenue);
@@ -92,8 +113,8 @@ export async function fetchLatestInvoices() {
 
         const latestInvoices = data.map((invoice) => ({
             ...invoice,
-            invoice_date: invoice.invoice_date ? new Date(invoice.invoice_date).toISOString().split('T')[0] : null, // Convert Date to string
             invoice_amount: invoice.amount ? formatCurrency(invoice.amount) : 0,
+            invoice_date: invoice.invoice_date ? new Date(invoice.invoice_date).toISOString().split('T')[0] : null, // Convert Date to string
         }));
 
         return latestInvoices;
@@ -187,28 +208,7 @@ export async function fetchInvoicesPages(query: string) {
     // }
 }
 
-const FormSchema = z.object({
-    id: z.string(),
-    invoice_name: z
-    .string()
-    .min(3, { message: "Invoice name must have at least 3 characters" }),
-    currency: z.string().min(1, { message: "Please select a currency" }),
-    customer_id: z.string({
-        invalid_type_error: "Please select a customer.",
-    }),
-    amount: z.coerce
-        .number()
-        .gt(0, { message: "Please enter an amount greater than $0." }),
-    status: z.enum(["pending", "paid"], {
-        invalid_type_error: "Please select an invoice status.",
-    }),
-    invoice_date: z
-        .string()
-        .refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
-            message: "Invoice date should be in the format YYYY-MM-DD",
-        }),
-    image_url: z.string().optional().nullable(),
-});
+
 
 export type State = {
     errors?: {
@@ -277,6 +277,29 @@ export async function createInvoice(
 
 }
 
+const FormSchema = z.object({
+    id: z.string(),
+    invoice_name: z
+    .string()
+    .min(3, { message: "Invoice name must have at least 3 characters" }),
+    currency: z.string().min(1, { message: "Please select a currency" }),
+    customer_id: z.string({
+        invalid_type_error: "Please select a customer.",
+    }),
+    amount: z.coerce
+        .number()
+        .gt(0, { message: "Please enter an amount greater than $0." }),
+    status: z.enum(["pending", "paid"], {
+        invalid_type_error: "Please select an invoice status.",
+    }),
+    invoice_date: z
+        .string()
+        .refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
+            message: "Invoice date should be in the format YYYY-MM-DD",
+        }),
+    image_url: z.string().optional().nullable(),
+});
+
 const UpdateInvoice = FormSchema.omit({
     id: true,
 });
@@ -296,54 +319,34 @@ export async function updateInvoice(
         invoice_name: formData.get("invoice_name"),
     });
 
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-            message: "Missing Fields. Failed to Update Invoice.",
-        };
+    if (validatedFields.data) {
+        const { invoice_name, invoice_date, image_url, customer_id, currency, amount, status,  } = validatedFields.data;
+        console.log(validatedFields, 'validatedFields.data', id);
+        try {
+            const updatedInvoice = await prisma.invoice.update({
+                where: {
+                    id: id as string
+                },
+                data: {
+                    amount,
+                    status: status,
+                    currency: currency,
+                    customer_id: customer_id,
+                    invoice_name: invoice_name,
+                    image_url: image_url ?? null,
+                    invoice_date:  new Date(invoice_date).toISOString(),
+                }
+            });
+
+            console.log(updatedInvoice, 'updatedInvoice');
+            // revalidatePath("/invoices");
+            // redirect("/invoices");
+        } catch (error) {
+            console.log(error, 'error');
+            return { message: "Database Error: Failed to Update Invoice." };
+        }
     }
 
-    const { invoice_name, invoice_date, image_url, customer_id, currency, amount, status,  } = validatedFields.data;
-    try {
-        // await db
-        //     .update(invoices)
-        //     .set({
-        //         status,
-        //         amount,
-        //         currency,
-        //         customer_id: customer_id,
-        //         invoice_date: invoice_date,
-        //         invoice_name: invoice_name,
-        //         image_url: image_url && image_url?.length > 3  ? image_url : null,
-        //     })
-        //     .where(eq(invoices.id, id))
-        //     .returning();
 
-    } catch (error) {
-        return { message: "Database Error: Failed to Update Invoice." };
-    }
-    revalidatePath("/invoices");
-    redirect("/invoices");
 }
 
-export async function fetchInvoiceById(id: string) {
-    try {
-        // const data = await db
-        //     .select({
-        //         id: invoices.id,
-        //         amount: invoices.amount,
-        //         status: invoices.status,
-        //         currency: invoices.currency,
-        //         customer_id: invoices.customer_id,
-        //         invoice_name: invoices.invoice_name,
-        //         invoice_date: invoices.invoice_date,
-        //         invoice_image_url: invoices.image_url,
-        //     })
-        //     .from(invoices)
-        //     .where(eq(invoices.id, id));
-
-        //return data[0];
-    } catch (error) {
-        throw new Error("Failed to fetch invoice.");
-    }
-}

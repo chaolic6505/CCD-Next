@@ -1,109 +1,65 @@
-"use client";
+import { Metadata } from "next";
+import { Suspense } from "react";
+import { useTranslations } from "next-intl";
+import { redirect } from "next/navigation";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-import { useState, Suspense } from "react";
+import { InvoicesSkeleton } from "@/components/shared/skeletons";
+import { TabsContent } from "@/components/ui/tabs";
 
-import { Card } from "@/components/ui/card";
-import { Heading } from "@/components/ui/heading";
-import { Skeleton } from "@/components/ui/skeleton"; // Assume this component exists
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import InvoiceLayout from "./(shared)/invoice-layout";
+// import InvoicesTable from "./(shared)/invoices-table";
+// import InvoicesSummaryWrapper from "./(shared)/invoices-card-summary";
+import CollectionCardsWrapper from "./(shared)/collection-cards-wrapper";
 
-import CollectionCard from "./(shared)/collection-card";
-import CollectionDialog from "./(shared)/add-collection-dialog";
+import {
+    fetchInvoicesPages,
+    fetchFilteredInvoices,
+} from "@/lib/actions/invoice.actions";
+import { fetchCustomers } from "@/lib/actions/customer.actions";
+import { fetchLatestInvoices } from "@/lib/actions/invoice.actions";
 
-const cards = [
-    {
-        title: "Total Revenue",
-        icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
-        value: "$45,231.89",
-        change: "+20.1% from last month",
-    },
-    {
-        title: "Subscriptions",
-        icon: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75",
-        value: "+2350",
-        change: "+180.1% from last month",
-    },
-    {
-        title: "Sales",
-        icon: "M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5z M2 10h20",
-        value: "+12,234",
-        change: "+19% from last month",
-    },
-    {
-        title: "Active Now",
-        icon: "M22 12h-4l-3 9L9 3l-3 9H2",
-        value: "+573",
-        change: "+201 since last hour",
-    },
-];
-
-const SkeletonCard = () => {
-    return (
-        <div className="flex flex-col space-y-3">
-            <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-            <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-            </div>
-        </div>
-    );
+export const metadata: Metadata = {
+    title: "Collections",
 };
-
-export default function CollectionsPage() {
-    const [isAddingNew, setIsAddingNew] = useState(false);
+import CollectionLayout from "./(shared)/collections-layout";
 
 
+
+export default async function CollectionsPage({
+    searchParams,
+}: {
+    searchParams?: {
+        page?: string;
+        query?: string;
+    };
+}) {
+    const { isAuthenticated } = getKindeServerSession();
+    if (!(await isAuthenticated())) return redirect("/");
+
+    const query = searchParams?.query || "";
+    const currentPage = Number(searchParams?.page) || 1;
+    const customers = await fetchCustomers();
+    const invoices = await fetchLatestInvoices();
+    // const invoices = await fetchFilteredInvoices(query, currentPage);
+    const pagesData = await fetchInvoicesPages(query);
+    const totalPages = 0;
+    const total = 0;
 
     return (
-        <ScrollArea className="h-full">
-            <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-                <div className="flex items-start justify-between">
-                    <Heading
-                        description="Manage your collections"
-                        title={`Collections`}
-                    />
-                    {/* <Button
-                        // onClick={() => loadMore(1)}
-                        className="text-xs md:text-sm"
-                        disabled={status !== "CanLoadMore"}
-                    >
-                        {isAddingNew ? (
-                            <SkeletonCard />
-                        ) : (
-                            <Plus className="mr-2 h-4 w-4" />
-                        )}
-                        Add New
-                    </Button> */}
-                </div>
-                <Separator />
-                <Tabs defaultValue="gallery" className="space-y-4">
-                    <div className="flex items-start justify-between">
-                        <TabsList>
-                            <TabsTrigger value="gallery">Gallery</TabsTrigger>
-                            <TabsTrigger value="table">Table</TabsTrigger>
-                        </TabsList>
-                        <CollectionDialog />
-                    </div>
-
-                    <TabsContent value="gallery" className="space-y-4">
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-5">
-                            {new Array(116).fill("").map((_, i) => (
-                                <Card
-                                    key={i}
-                                    className="h-[200px] p-6 flex flex-col justify-between"
-                                >
-                                    <Skeleton className="h-[20px] rounded" />
-                                    <Skeleton className="h-[20px] rounded" />
-                                    <Skeleton className="h-[20px] rounded" />
-                                    <Skeleton className="h-[20px] rounded" />
-                                </Card>
-                            ))}
-                        </div>
-                    </TabsContent>
-                </Tabs>
-            </div>
-        </ScrollArea>
+        <CollectionLayout
+            total={total}
+            customers={customers || []}
+            totalPages={totalPages || 0}
+        >
+            <TabsContent value="cards" className="space-y-4">
+                <Suspense
+                    key={query + currentPage}
+                    fallback={<InvoicesSkeleton />}
+                >
+                    <CollectionCardsWrapper invoices={invoices || []} />
+                </Suspense>
+            </TabsContent>
+        </CollectionLayout>
     );
 }

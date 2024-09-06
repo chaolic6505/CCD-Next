@@ -10,6 +10,14 @@ export type FormattedCustomersTable = {
     total_paid: string;
 };
 
+export type Collection = {
+    id: string;
+    name: string;
+    description: string;
+    image_url: string;
+    created_at: Date | string | null;
+};
+
 export type CustomerField = {
     id: string;
     name: string | null;
@@ -66,13 +74,20 @@ export type Invoice = {
     currency?: string | null;
     customer_id?: string | null;
     invoice_name?: string| null;
-    invoice_date?: string | null;
-    customer_name?: Date | string| null;
+    invoice_date?: string | null | Date;
+    customer_name?: Date | string | null;
     customer_email?: string| null;
     invoice_status?: string | null;
     created_at?: Date | string | null;
     invoice_image_url?: string | null;
     customer?: CustomerField | null;
+};
+
+export type Customer = {
+    id: string;
+    name: string | null;
+    email: string | null;
+    image_url: string | null;
 };
 
 export type ColumnSort = {

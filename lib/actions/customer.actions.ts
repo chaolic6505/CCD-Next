@@ -20,6 +20,8 @@ export async function fetchCustomers() {
                 select: {
                     id: true,
                     name: true,
+                    email: true,
+                    image_url: true,
                 },
                 orderBy: {
                     name: 'asc'

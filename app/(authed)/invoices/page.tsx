@@ -59,7 +59,6 @@ export default async function InvoicesPage({
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchCustomers();
     const invoices = await fetchLatestInvoices();
-    console.log(invoices, 'invoices');
     // const invoices = await fetchFilteredInvoices(query, currentPage);
     const pagesData = await fetchInvoicesPages(query);
     const totalPages = 0;
